@@ -1,0 +1,19 @@
+{
+  "name": "ops-online-support-node-testing",
+  "private": true,
+  "description": "Isolated Node.js workspace for OPS Online Support testing and diagnostics.",
+  "type": "module",
+  "engines": {
+    "node": ">=18.18.0"
+  },
+  "scripts": {
+    "lint": "eslint ../../pages ../../components ../../lib --ext .ts,.tsx",
+    "test": "echo 'Attach your Node-based test runner (Jest, Playwright, etc.)'",
+    "diagnose": "node diagnose.mjs",
+    "nmp": "node diagnose.mjs"
+  },
+  "devDependencies": {
+    "eslint": "8.57.0",
+    "typescript": "5.4.5"
+  }
+}
