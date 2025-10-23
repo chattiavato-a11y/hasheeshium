@@ -19,17 +19,17 @@ const FabStack = () => {
 
   return (
     <div className="fab-stack" aria-label="Quick actions">
-      <button type="button" className="fab-btn" title={labels.join} onClick={() => openModal('join')}>
+      <button type="button" className="fab-btn" onClick={() => openModal('join')}>
         <i className="fa-solid fa-user-plus" aria-hidden="true" />
-        <span className="visually-hidden">{labels.join}</span>
+        <span className="fab-label">{labels.join}</span>
       </button>
-      <button type="button" className="fab-btn" title={labels.contact} onClick={() => openModal('contact')}>
+      <button type="button" className="fab-btn" onClick={() => openModal('contact')}>
         <i className="fa-solid fa-envelope" aria-hidden="true" />
-        <span className="visually-hidden">{labels.contact}</span>
+        <span className="fab-label">{labels.contact}</span>
       </button>
-      <button type="button" className="fab-btn" title={labels.chat} onClick={() => openModal('chatbot')}>
+      <button type="button" className="fab-btn" onClick={() => openModal('chatbot')}>
         <i className="fa-solid fa-comments" aria-hidden="true" />
-        <span className="visually-hidden">{labels.chat}</span>
+        <span className="fab-label">{labels.chat}</span>
       </button>
     </div>
   );
