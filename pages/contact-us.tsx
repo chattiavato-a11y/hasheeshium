@@ -78,8 +78,8 @@ const ContactUsPage = () => {
             </label>
             <label htmlFor="interest">
               Area of interest
-              <select id="interest" name="interest" defaultValue="Business Operations">
-                <option>Business Operations</option>
+              <select id="interest" name="interest" defaultValue="Operations">
+                <option>Operations</option>
                 <option>Contact Center</option>
                 <option>IT Support</option>
                 <option>Professionals Guild</option>

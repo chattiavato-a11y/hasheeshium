@@ -44,8 +44,8 @@ export const services: ServiceSummary[] = [
       es: 'Pods de automatización Lean con telemetría de cumplimiento'
     },
     title: {
-      en: 'Business Operations',
-      es: 'Operaciones Empresariales'
+      en: 'Operations',
+      es: 'Gestión'
     },
     description: {
       en: 'Streamline processes, maximize efficiency, ensure compliance, and scale with precision.',
@@ -53,14 +53,14 @@ export const services: ServiceSummary[] = [
     },
     modal: {
       title: {
-        en: 'Business Operations',
-        es: 'Sobre Operaciones Empresariales'
+        en: 'Operations',
+        es: 'Gestión'
       },
       image: 'https://placehold.co/96x96?text=OPS',
-      imageAlt: { en: 'Business Operations', es: 'Operaciones Empresariales' },
+      imageAlt: { en: 'Operations', es: 'Gestión' },
       content: {
-        en: 'Detailed content about our Business Operations services. We help optimize processes, boost efficiency, and drive growth through strategic support. Key areas: process optimization, supply chain management, quality assurance.',
-        es: 'Contenido detallado sobre nuestros servicios de Operaciones Empresariales. Optimizamos procesos, mejoramos la eficiencia e impulsamos el crecimiento mediante apoyo estratégico.'
+        en: 'Detailed content about our Operations services. We help optimize processes, boost efficiency, and drive growth through strategic support. Key areas: process optimization, supply chain management, quality assurance.',
+        es: 'Contenido detallado sobre nuestros servicios de Gestión. Optimizamos procesos, mejoramos la eficiencia e impulsamos el crecimiento mediante apoyo estratégico.'
       },
       video: {
         en: 'Video placeholder',

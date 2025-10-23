@@ -2,6 +2,7 @@ import { useExperience } from '../contexts/ExperienceContext';
 import ChatbotModal from './ChatbotModal';
 import ContactModal from './ContactModal';
 import JoinModal from './JoinModal';
+import PolicyModal from './PolicyModal';
 
 const UtilityModals = () => {
   const { activeModal, closeModal, language } = useExperience();
@@ -16,6 +17,10 @@ const UtilityModals = () => {
 
   if (activeModal === 'chatbot') {
     return <ChatbotModal />;
+  }
+
+  if (activeModal === 'terms' || activeModal === 'cookies' || activeModal === 'policy') {
+    return <PolicyModal variant={activeModal} onClose={closeModal} />;
   }
 
   return null;

@@ -4,7 +4,7 @@ import { useExperience } from '../contexts/ExperienceContext';
 import { ServiceKey } from '../lib/services';
 
 const serviceLinks: { key: ServiceKey; labels: { en: string; es: string } }[] = [
-  { key: 'ops', labels: { en: 'Business Operations', es: 'Operaciones Empresariales' } },
+  { key: 'ops', labels: { en: 'Operations', es: 'Gestión' } },
   { key: 'cc', labels: { en: 'Contact Center', es: 'Centro de Contacto' } },
   { key: 'it', labels: { en: 'IT Support', es: 'Soporte IT' } },
   { key: 'pro', labels: { en: 'Professionals', es: 'Profesionales' } }
