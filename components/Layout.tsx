@@ -1,34 +1,37 @@
 import { PropsWithChildren } from 'react';
 import Head from 'next/head';
+import { ExperienceProvider } from '../contexts/ExperienceContext';
+import FabStack from './FabStack';
+import MobileDock from './MobileDock';
 import NavBar from './NavBar';
+import UtilityModals from './UtilityModals';
 
-const Layout = ({ children }: PropsWithChildren) => (
+const LayoutChrome = ({ children }: PropsWithChildren) => (
   <>
     <Head>
-      <title>OPS Online Support | CySec Core Services</title>
+      <title>OPS Unified Portal</title>
       <meta
         name="description"
-        content="OPS Online Support blends Business Operations, Contact Center, IT Support, and Professional services inside a secure CySec Core architecture."
+        content="OPS provides managed services, IT solutions, and remote professionals to scale modern operations."
       />
-      <meta name="keywords" content="Operations Support, Contact Center, IT Support, OPS CySec Core, NIST, PCI DSS" />
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <a href="#main" className="visually-hidden">
+    <a href="#top" className="visually-hidden">
       Skip to main content
     </a>
     <NavBar />
-    <main id="main">{children}</main>
-    <footer>
-      <div className="container footer-grid">
-        <p>
-          OPS CySec Core • Secure. Compliant. Human-centered.
-        </p>
-        <small>
-          Built with guardrails mapped to NIST CSF, CISA Cyber Essentials, and PCI DSS 4.0.
-        </small>
-      </div>
-    </footer>
+    <main id="top">{children}</main>
+    <footer>© 2025 OPS Online Support</footer>
+    <FabStack />
+    <MobileDock />
+    <UtilityModals />
   </>
+);
+
+const Layout = ({ children }: PropsWithChildren) => (
+  <ExperienceProvider>
+    <LayoutChrome>{children}</LayoutChrome>
+  </ExperienceProvider>
 );
 
 export default Layout;

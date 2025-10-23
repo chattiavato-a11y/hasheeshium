@@ -1,57 +1,40 @@
-import Link from 'next/link';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { useExperience } from '../contexts/ExperienceContext';
 import { ServiceSummary } from '../lib/services';
+import useDraggable from '../hooks/useDraggable';
 
 interface ServiceModalProps {
   service: ServiceSummary;
   onClose: () => void;
 }
 
-const focusableSelectors = [
-  'a[href]',
-  'button:not([disabled])',
-  'textarea:not([disabled])',
-  'input:not([disabled])',
-  'select:not([disabled])',
-  '[tabindex]:not([tabindex="-1"])'
-].join(', ');
+const labels = {
+  en: {
+    learn: 'Learn More',
+    ask: 'Ask Chattia',
+    contact: 'Contact Us',
+    cancel: 'Cancel',
+    close: 'Close'
+  },
+  es: {
+    learn: 'Más información',
+    ask: 'Preguntar Chattia',
+    contact: 'Contáctanos',
+    cancel: 'Cancelar',
+    close: 'Cerrar'
+  }
+};
 
 const ServiceModal = ({ service, onClose }: ServiceModalProps) => {
-  const panelRef = useRef<HTMLDivElement>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const previouslyFocusedElement = useRef<HTMLElement | null>(null);
-
-  const highlightListId = useMemo(() => `${service.key}-modal-highlights`, [service.key]);
+  const { language, openModal } = useExperience();
+  const modalRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const copy = labels[language];
 
   useEffect(() => {
-    previouslyFocusedElement.current = document.activeElement as HTMLElement | null;
-    closeButtonRef.current?.focus();
-
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        event.preventDefault();
         onClose();
-        return;
-      }
-
-      if (event.key === 'Tab' && panelRef.current) {
-        const focusable = Array.from(panelRef.current.querySelectorAll<HTMLElement>(focusableSelectors));
-        if (focusable.length === 0) {
-          return;
-        }
-
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-
-        if (event.shiftKey) {
-          if (document.activeElement === first) {
-            event.preventDefault();
-            last.focus();
-          }
-        } else if (document.activeElement === last) {
-          event.preventDefault();
-          first.focus();
-        }
       }
     };
 
@@ -59,52 +42,66 @@ const ServiceModal = ({ service, onClose }: ServiceModalProps) => {
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
-      previouslyFocusedElement.current?.focus();
     };
   }, [onClose]);
+
+  useDraggable(modalRef, headerRef);
 
   return (
     <div className="modal-backdrop" role="presentation" onClick={onClose}>
       <div
-        ref={panelRef}
-        className={`modal-panel theme-${service.theme}`}
+        ref={modalRef}
+        className="ops-modal"
         role="dialog"
         aria-modal="true"
         aria-labelledby={`${service.key}-modal-title`}
-        aria-describedby={highlightListId}
         onClick={(event) => event.stopPropagation()}
       >
-        <button
-          ref={closeButtonRef}
-          type="button"
-          className="modal-close"
-          aria-label="Close"
-          onClick={onClose}
-        >
+        <button type="button" className="modal-x" aria-label={copy.close} onClick={onClose}>
           ×
         </button>
-        <div className="modal-header">
-          <div className="modal-symbol">
-            <span className="modal-icon" aria-hidden="true">
-              {service.icon}
-            </span>
-            <span className="visually-hidden">{service.iconLabel}</span>
-          </div>
+        <div className="modal-header" ref={headerRef}>
+          <img className="modal-img" src={service.modal.image} alt={service.modal.imageAlt[language]} />
           <div>
-            <p className="modal-eyebrow">OPS CySec Core Mission Deck</p>
-            <h2 id={`${service.key}-modal-title`}>{service.modalHeadline}</h2>
+            <div className="modal-title" id={`${service.key}-modal-title`}>
+              {service.modal.title[language]}
+            </div>
           </div>
         </div>
-        <p className="modal-body">{service.modalBody}</p>
-        <ul id={highlightListId} className="modal-highlights">
-          {service.highlights.map((highlight) => (
-            <li key={highlight}>{highlight}</li>
+        <div className="modal-content-body">{service.modal.content[language]}</div>
+        <div className="modal-video">{service.modal.video[language]}</div>
+        <ul className="modal-feature-list">
+          {service.modal.features[language].map((feature) => (
+            <li key={feature}>{feature}</li>
           ))}
         </ul>
         <div className="modal-actions">
-          <Link href={service.learnMoreHref} className="btn-primary">
-            Learn more
-          </Link>
+          <a className="modal-btn" href={service.modal.learnHref} target="_blank" rel="noreferrer">
+            {copy.learn}
+          </a>
+          <button
+            type="button"
+            className="modal-btn"
+            onClick={() => {
+              openModal('chatbot');
+              onClose();
+            }}
+          >
+            {copy.ask}
+          </button>
+          <button
+            type="button"
+            className="modal-btn cta"
+            onClick={() => {
+              openModal('contact');
+              onClose();
+            }}
+          >
+            {copy.contact}
+          </button>
+          <button type="button" className="modal-btn" onClick={onClose}>
+            {copy.cancel}
+          </button>
         </div>
       </div>
     </div>

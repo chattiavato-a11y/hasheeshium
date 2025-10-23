@@ -24,6 +24,17 @@ If these are not configured, submissions are still sanitized locally and a devel
 
 Input is run through `lib/sanitize.ts`, which trims dangerous characters, strips control characters and URLs, and surfaces developer warnings for additional review. The sanitized payload is then forwarded via `lib/cfWorkerClient.ts` using `fetch`.
 
+## Visual preview
+
+Run the development server and open the homepage to explore the live OPS experience:
+
+```bash
+npm install
+npm run dev
+```
+
+Then visit [http://localhost:3000](http://localhost:3000) in your browser to view the navigation shell, hero, service cards, and interactive modals in context.
+
 ## Getting started
 
 ```bash

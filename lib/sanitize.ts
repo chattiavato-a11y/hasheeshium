@@ -5,7 +5,7 @@ export interface SanitizedField<T = string> {
 }
 
 const dangerousPattern = /[<>`"'\\]/g;
-const controlChars = /[\u0000-\u001F\u007F]/g;
+const controlChars = /\p{Cc}/gu;
 const urlPattern = /https?:\/\//gi;
 
 export const sanitizeString = (value: string, maxLength = 500): SanitizedField<string> => {
