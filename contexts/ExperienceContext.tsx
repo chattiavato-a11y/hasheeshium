@@ -2,7 +2,7 @@ import { createContext, PropsWithChildren, useCallback, useContext, useEffect, u
 
 export type Language = 'en' | 'es';
 export type ThemeMode = 'light' | 'dark';
-export type UtilityModal = 'contact' | 'join' | 'chatbot' | null;
+export type UtilityModal = 'contact' | 'join' | 'chatbot' | 'terms' | 'cookies' | 'policy' | null;
 
 interface ExperienceContextValue {
   language: Language;

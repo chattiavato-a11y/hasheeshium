@@ -1,11 +1,11 @@
 # OPS Online Support
 
-A secure, Next.js powered static experience highlighting OPS Online Support services across Business Operations, Contact Center, IT Support, and Professionals guilds. The site embraces OPS CySec Core guardrails mapped to NIST CSF, CISA Cyber Essentials, and PCI DSS principles.
+A secure, Next.js powered static experience highlighting OPS Online Support services across Operations, Contact Center, IT Support, and Professionals guilds. The site embraces OPS CySec Core guardrails mapped to NIST CSF, CISA Cyber Essentials, and PCI DSS principles.
 
 ## Features
 
 - **Landing page** with hero, navigation, and service cards that open contextual modals with learn-more CTAs.
-- **Dedicated service pages** providing detailed content for Business Operations, Contact Center, IT Support, and Professionals offerings.
+- **Dedicated service pages** providing detailed content for Operations, Contact Center, IT Support, and Professionals offerings.
 - **Chattia, Contact Us, and Join Us** forms living on isolated pages; each request is sanitized before being transmitted to Cloudflare Worker endpoints.
 - **Security by default** via strict Content Security Policy, hardened headers, zero-trust messaging, and sanitized payload utilities.
 - **Accessibility and UX** informed by neuro-design heuristics: keyboard-focusable controls, descriptive copy, and responsive layouts.

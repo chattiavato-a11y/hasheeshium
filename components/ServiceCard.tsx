@@ -17,6 +17,9 @@ const ServiceCard = ({ service, onSelect }: ServiceCardProps) => {
     }
   };
 
+  const topHighlights = service.modal.features[language].slice(0, 2);
+  const learnCopy = language === 'en' ? 'View playbook' : 'Ver playbook';
+
   return (
     <article
       id={`service-${service.key}`}
@@ -27,13 +30,26 @@ const ServiceCard = ({ service, onSelect }: ServiceCardProps) => {
       onClick={() => onSelect(service)}
       onKeyDown={handleKeyDown}
     >
-      <div className="title">{service.title[language]}</div>
-      <div className="icon" aria-hidden="true">
-        <i className={service.iconClass} />
-        <span className="visually-hidden">{service.iconLabel[language]}</span>
-      </div>
-      <div className="content">
-        <p>{service.description[language]}</p>
+      <div className="card-shell">
+        <span className="card-badge">{service.badge[language]}</span>
+        <div className="card-heading">
+          <div className="title">{service.title[language]}</div>
+          <div className="icon" aria-hidden="true">
+            <i className={service.iconClass} />
+            <span className="visually-hidden">{service.iconLabel[language]}</span>
+          </div>
+        </div>
+        <p className="card-spotlight">{service.spotlight[language]}</p>
+        <p className="card-summary">{service.description[language]}</p>
+        <ul className="card-tags" aria-label={language === 'en' ? 'Featured capabilities' : 'Capacidades destacadas'}>
+          {topHighlights.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+        <div className="card-footer">
+          <span>{learnCopy}</span>
+          <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+        </div>
       </div>
     </article>
   );

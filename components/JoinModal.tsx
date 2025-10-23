@@ -11,6 +11,11 @@ const copy = {
   en: {
     title: 'Join Us',
     intro: 'Share your details and we will align you with current OPS opportunities.',
+    commitments: [
+      'Mission-ready onboarding kits with background cleared pods',
+      'Hybrid human + AI mentorship for day-one velocity',
+      'Global contracts aligned to GDPR, SOC 2, PCI DSS'
+    ],
     name: 'Name',
     email: 'Email',
     phone: 'Phone',
@@ -23,6 +28,11 @@ const copy = {
   es: {
     title: 'Únete a Nosotros',
     intro: 'Comparte tus datos y te alinearemos con las oportunidades actuales de OPS.',
+    commitments: [
+      'Kits de incorporación listos para la misión con pods acreditados',
+      'Mentoría híbrida humano + IA para lograr velocidad desde el día uno',
+      'Contratos globales alineados a GDPR, SOC 2 y PCI DSS'
+    ],
     name: 'Nombre',
     email: 'Correo electrónico',
     phone: 'Teléfono',
@@ -78,7 +88,10 @@ const JoinModal = ({ language, onClose }: JoinModalProps) => {
           </button>
         </div>
         {submitted ? (
-          <div className="modal-content-body">
+          <div className="modal-success-panel">
+            <div className="modal-success-icon" aria-hidden="true">
+              <i className="fa-solid fa-circle-check" />
+            </div>
             <p className="modal-success">{labels.successTitle}</p>
             <p>{labels.successBody}</p>
             <div className="modal-actions">
@@ -90,18 +103,25 @@ const JoinModal = ({ language, onClose }: JoinModalProps) => {
         ) : (
           <form className="modal-form" onSubmit={handleSubmit}>
             <p className="modal-content-body">{labels.intro}</p>
-            <label className="modal-field">
-              <span>{labels.name}</span>
-              <input type="text" name="name" required />
-            </label>
-            <label className="modal-field">
-              <span>{labels.email}</span>
-              <input type="email" name="email" required />
-            </label>
-            <label className="modal-field">
-              <span>{labels.phone}</span>
-              <input type="tel" name="phone" required />
-            </label>
+            <ul className="modal-checklist">
+              {labels.commitments.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+            <div className="modal-grid">
+              <label className="modal-field">
+                <span>{labels.name}</span>
+                <input type="text" name="name" required />
+              </label>
+              <label className="modal-field">
+                <span>{labels.email}</span>
+                <input type="email" name="email" required />
+              </label>
+              <label className="modal-field">
+                <span>{labels.phone}</span>
+                <input type="tel" name="phone" required />
+              </label>
+            </div>
             <label className="modal-field">
               <span>{labels.about}</span>
               <textarea name="about" rows={4} />

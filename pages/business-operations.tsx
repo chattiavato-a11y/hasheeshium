@@ -1,11 +1,11 @@
 import ServicePage from '../components/ServicePage';
 
-const BusinessOperationsPage = () => (
+const OperationsPage = () => (
   <ServicePage
-    title="Business Operations"
+    title="Operations"
     description="AI-orchestrated, compliance-instrumented operations that protect every workflow across finance, fulfillment, and customer journeys."
-    heroCopy="Transform back-office execution into a predictive, telemetry-rich control tower. Our Business Operations pod activates secure automations across finance, fulfillment, and experience ecosystems."
-    eyebrow="OPS CySec Core | Business Operations"
+    heroCopy="Transform back-office execution into a predictive, telemetry-rich control tower. Our Operations pod activates secure automations across finance, fulfillment, and experience ecosystems."
+    eyebrow="OPS CySec Core | Operations"
     heroHighlights={[
       'Predictive workflows mapped to NIST CSF Identify & Protect',
       'Risk-indexed playbooks with zero-trust approvals',
@@ -43,4 +43,4 @@ const BusinessOperationsPage = () => (
   />
 );
 
-export default BusinessOperationsPage;
+export default OperationsPage;

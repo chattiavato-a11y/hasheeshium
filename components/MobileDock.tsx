@@ -3,7 +3,7 @@ import { useExperience } from '../contexts/ExperienceContext';
 import { ServiceKey } from '../lib/services';
 
 const serviceLinks: { key: ServiceKey; labels: { en: string; es: string } }[] = [
-  { key: 'ops', labels: { en: 'Business Operations', es: 'Operaciones Empresariales' } },
+  { key: 'ops', labels: { en: 'Operations', es: 'Gestión' } },
   { key: 'cc', labels: { en: 'Contact Center', es: 'Centro de Contacto' } },
   { key: 'it', labels: { en: 'IT Support', es: 'Soporte IT' } },
   { key: 'pro', labels: { en: 'Professionals', es: 'Profesionales' } }
@@ -60,32 +60,17 @@ const MobileDock = () => {
 
   return (
     <div className="mobile-accordion-nav" aria-label="Mobile Navigation">
-      <button
-        type="button"
-        className="mobile-accordion-btn"
-        title={language === 'en' ? 'Join Us' : 'Únete a nosotros'}
-        onClick={() => openModal('join')}
-      >
+      <button type="button" className="mobile-accordion-btn" onClick={() => openModal('join')}>
         <i className="fa-solid fa-user-plus" aria-hidden="true" />
-        <span className="visually-hidden">{language === 'en' ? 'Join Us' : 'Únete a nosotros'}</span>
+        <span className="mobile-label">{language === 'en' ? 'Join' : 'Unirse'}</span>
       </button>
-      <button
-        type="button"
-        className="mobile-accordion-btn"
-        title={language === 'en' ? 'Contact Us' : 'Contáctanos'}
-        onClick={() => openModal('contact')}
-      >
+      <button type="button" className="mobile-accordion-btn" onClick={() => openModal('contact')}>
         <i className="fa-solid fa-envelope" aria-hidden="true" />
-        <span className="visually-hidden">{language === 'en' ? 'Contact Us' : 'Contáctanos'}</span>
+        <span className="mobile-label">{language === 'en' ? 'Contact' : 'Contacto'}</span>
       </button>
-      <button
-        type="button"
-        className="mobile-accordion-btn"
-        title={language === 'en' ? 'Chatbot' : 'Chatbot'}
-        onClick={() => openModal('chatbot')}
-      >
+      <button type="button" className="mobile-accordion-btn" onClick={() => openModal('chatbot')}>
         <i className="fa-solid fa-comments" aria-hidden="true" />
-        <span className="visually-hidden">{language === 'en' ? 'Open chatbot' : 'Abrir chatbot'}</span>
+        <span className="mobile-label">Chattia</span>
       </button>
       <button
         type="button"
