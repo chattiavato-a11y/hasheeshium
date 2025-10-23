@@ -6,7 +6,7 @@ import { ServiceSummary, services } from '../lib/services';
 
 const heroCopy = {
   en: {
-    eyebrow: 'OPS CySec Core · Unified Operations',
+    eyebrow: 'OPS Online Support',
     title: (
       <>
         Scale with <span className="hero-gradient">human + AI pods</span>
@@ -27,7 +27,7 @@ const heroCopy = {
     chatbotCta: 'Meet Chattia'
   },
   es: {
-    eyebrow: 'OPS CySec Core · Operaciones Unificadas',
+    eyebrow: 'OPS Soporte en Línea',
     title: (
       <>
         Escala con <span className="hero-gradient">pods humanos + IA</span>
@@ -128,57 +128,18 @@ const HomePage = () => {
 
   return (
     <>
-      <section className="hero-shell" role="banner" aria-label={copy.ariaLabel}>
-        <div className="hero-grid container">
-          <div className="hero-primary">
-            <p className="hero-eyebrow">{copy.eyebrow}</p>
+      <section className="hero-section" role="banner" aria-label={copy.ariaLabel}>
+        <div className="hero-surface">
+          <div className="hero-body">
+            <span className="hero-eyebrow">{copy.eyebrow}</span>
             <h1>{copy.title}</h1>
-            <p className="hero-lead">{copy.lead}</p>
+            <p>{copy.lead}</p>
             <div className="hero-actions">
-              <button className="btn-primary" type="button" onClick={() => openModal('contact')}>
-                {copy.primaryCta}
-              </button>
-              <button className="btn-secondary" type="button" onClick={() => openModal('join')}>
-                {copy.secondaryCta}
-              </button>
-              <button className="btn-ghost" type="button" onClick={() => openModal('chatbot')}>
-                <i className="fa-solid fa-sparkles" aria-hidden="true" /> {copy.chatbotCta}
+              <button className="btn-consultation" type="button" onClick={() => openModal('contact')}>
+                {copy.cta}
               </button>
             </div>
-            <ul className="hero-checklist">
-              {copy.bullets.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-            <dl className="hero-metrics">
-              {metrics.map((metric) => (
-                <div key={metric.label}>
-                  <dt>{metric.value}</dt>
-                  <dd>{metric.label}</dd>
-                </div>
-              ))}
-            </dl>
           </div>
-          <aside className="hero-aside" aria-label={language === 'en' ? 'Engagement highlights' : 'Aspectos destacados de interacción'}>
-            <div className="hero-card">
-              <h2>{language === 'en' ? 'OPS Concierge Desk' : 'Mesa Concierge OPS'}</h2>
-              <p>
-                {language === 'en'
-                  ? 'Secure forms, Chattia co-piloting, and human specialists stand ready to orchestrate onboarding, incidents, or growth.'
-                  : 'Formularios seguros, Chattia como copiloto y especialistas humanos listos para orquestar onboarding, incidentes o crecimiento.'}
-              </p>
-              <ul>
-                <li>{language === 'en' ? 'Contact form triggers AES-256 encrypted workflows' : 'Formulario de contacto activa flujos cifrados AES-256'}</li>
-                <li>{language === 'en' ? 'Join Us routes profiles to OPS guild talent leads' : 'Únete envía perfiles a líderes del gremio OPS'}</li>
-                <li>{language === 'en' ? 'Chattia persistently learns from every exchange' : 'Chattia aprende de cada interacción'}</li>
-              </ul>
-              <div className="hero-card-actions">
-                <button type="button" className="btn-ghost" onClick={() => openModal('contact')}>
-                  {language === 'en' ? 'Start a secure request' : 'Iniciar solicitud segura'}
-                </button>
-              </div>
-            </div>
-          </aside>
         </div>
       </section>
 
