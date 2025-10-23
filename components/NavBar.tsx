@@ -10,7 +10,7 @@ const navItems: { key: ServiceKey; labels: { en: string; es: string } }[] = [
 ];
 
 const NavBar = () => {
-  const { language, toggleLanguage, theme, toggleTheme } = useExperience();
+  const { language, toggleLanguage, theme, toggleTheme, openModal } = useExperience();
 
   const handleNavClick = (key: ServiceKey) => (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -24,29 +24,40 @@ const NavBar = () => {
   };
 
   return (
-    <nav className="ops-nav" aria-label="OPS Navigation">
-      <span className="ops-logo">OPS</span>
-      <div className="nav-links">
-        {navItems.map((item) => (
-          <a
-            key={item.key}
-            className="nav-link"
-            href={`#service-${item.key}`}
-            onClick={handleNavClick(item.key)}
-          >
-            {item.labels[language]}
-          </a>
-        ))}
-      </div>
-      <div className="toggles">
-        <button type="button" className="toggle-btn" onClick={toggleLanguage}>
-          {language === 'en' ? 'ES' : 'EN'}
-        </button>
-        <button type="button" className="toggle-btn" onClick={toggleTheme}>
-          {theme === 'light' ? 'Dark' : 'Light'}
-        </button>
-      </div>
-    </nav>
+    <header className="nav-shell">
+      <nav className="ops-nav" aria-label="OPS Navigation">
+        <div className="nav-brand">
+          <span className="ops-logo">OPS</span>
+          <span className="nav-subtitle">Unified Portal</span>
+        </div>
+        <div className="nav-links">
+          {navItems.map((item) => (
+            <a
+              key={item.key}
+              className="nav-link"
+              href={`#service-${item.key}`}
+              onClick={handleNavClick(item.key)}
+            >
+              {item.labels[language]}
+            </a>
+          ))}
+        </div>
+        <div className="nav-actions">
+          <button type="button" className="toggle-pill" onClick={toggleLanguage}>
+            <i className="fa-solid fa-language" aria-hidden="true" />
+            <span>{language === 'en' ? 'ES' : 'EN'}</span>
+          </button>
+          <button type="button" className="toggle-pill" onClick={toggleTheme}>
+            <i className={theme === 'light' ? 'fa-solid fa-moon' : 'fa-solid fa-sun'} aria-hidden="true" />
+            <span>{theme === 'light' ? 'Dark' : 'Light'}</span>
+          </button>
+          <button type="button" className="nav-cta" onClick={() => openModal('chatbot')}>
+            <i className="fa-solid fa-sparkles" aria-hidden="true" />
+            <span>{language === 'en' ? 'Meet Chattia' : 'Conoce Chattia'}</span>
+          </button>
+        </div>
+      </nav>
+    </header>
   );
 };
 
