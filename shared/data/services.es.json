@@ -1,0 +1,94 @@
+{
+  "hero": {
+    "eyebrow": "OPS CySec Core",
+    "title": "Resiliencia operativa diseñada para soporte centrado en las personas",
+    "subtitle": "Runbooks nativos en la nube, copilotos de IA adaptativos y experiencias multilingües que mantienen cada conversación conforme y memorable.",
+    "primaryCta": "Explorar Gremios"
+  },
+  "services": [
+    {
+      "id": "business-ops",
+      "badge": "Automatización",
+      "title": "Comando de Operaciones",
+      "excerpt": "Orquesta finanzas, logística y atención a socios desde un plano de control resiliente.",
+      "modal": {
+        "title": "Comando de Operaciones",
+        "summary": "Orquestación unificada con telemetría de confianza cero para cadena de suministro y tesorería.",
+        "body": [
+          "Alinea cada flujo al ciclo OPS CyberSec Core para mantener compras y cumplimiento listos para auditoría.",
+          "Instrumenta monitoreo predictivo con analítica que respeta la privacidad y automatizaciones guiadas por políticas.",
+          "Empodera equipos con tableros neuro-diseñados, alertas adaptativas y runbooks multilingües listos para el edge."
+        ],
+        "links": [
+          {
+            "label": "Abrir Playbook Operativo",
+            "url": "#business-ops"
+          }
+        ]
+      }
+    },
+    {
+      "id": "contact-center",
+      "badge": "Inteligencia CX",
+      "title": "Centro de Contacto Elevate",
+      "excerpt": "Pods híbridos humano + IA orquestados para interacciones listas para PCI DSS.",
+      "modal": {
+        "title": "Centro de Contacto Elevate",
+        "summary": "Integra agentes empáticos con tiny-LLM copilotos entrenados para atención omnicanal.",
+        "body": [
+          "Despliega guiones multilingües, retención segura de grabaciones y QA adaptativo para acelerar la resolución.",
+          "Activa micro-interacciones que elevan accesibilidad, confianza y claridad emocional en cada canal.",
+          "Audita continuamente transcripciones y escalamientos usando la línea base de anomalías OPS."
+        ],
+        "links": [
+          {
+            "label": "Descargar Lista CX",
+            "url": "#contact-center"
+          }
+        ]
+      }
+    },
+    {
+      "id": "it-support",
+      "badge": "Nube",
+      "title": "Gremio de Soporte TI",
+      "excerpt": "Servicios administrados seguros en el edge para dispositivos, identidad y observabilidad.",
+      "modal": {
+        "title": "Gremio de Soporte TI",
+        "summary": "Opera un gremio de soporte proactivo y automatizado con ambición de cero interrupciones.",
+        "body": [
+          "Entrega orquestación 24/7 con integraciones SIEM y simulacros de incidentes listos.",
+          "Integra experiencias de autoservicio accesibles con guías contextuales.",
+          "Establece tableros MTTR/MTTD que impulsan rituales de mejora y evidencia de cumplimiento."
+        ],
+        "links": [
+          {
+            "label": "Ver Ruta de Soporte",
+            "url": "#it-support"
+          }
+        ]
+      }
+    },
+    {
+      "id": "professionals",
+      "badge": "Talento",
+      "title": "Gremio de Profesionales OPS",
+      "excerpt": "Desarrolla arquitectos, analistas y diseñadores con dominio seguro de automatización.",
+      "modal": {
+        "title": "Gremio de Profesionales OPS",
+        "summary": "Habilitación centrada en las personas para crear la próxima era del comercio.",
+        "body": [
+          "Lanza aprendizaje por cohortes que fusiona DevSecOps nativo en la nube con neuro-diseño.",
+          "Co-crea sistemas de diseño adaptativos basados en WCAG 2.1 AA y Core Web Vitals.",
+          "Guía escuadrones en cumplimiento regulatorio que cubre GDPR, CCPA y PCI DSS 4.0."
+        ],
+        "links": [
+          {
+            "label": "Ver Tramos de Habilitación",
+            "url": "#professionals"
+          }
+        ]
+      }
+    }
+  ]
+}

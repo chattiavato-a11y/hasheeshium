@@ -1,0 +1,7 @@
+{
+  "id": "ops-formularios",
+  "title": "Flujos de Formularios",
+  "url": "/es/#forms",
+  "text": "Los flujos de Únete y Contacto validan nombre, correo, teléfono y comentarios localmente con caracteres permitidos. Cada CTA incluye un honeypot, el rate limiting aplica un envío cada diez segundos y los payloads se exportan localmente para compartir.",
+  "terms": ["unete", "contacto", "honeypot", "limitador", "payload", "local", "formulario", "validación"]
+}

@@ -1,0 +1,94 @@
+{
+  "hero": {
+    "eyebrow": "OPS CySec Core",
+    "title": "Operational resilience engineered for human-centered support",
+    "subtitle": "Secure cloud-native runbooks, adaptive AI copilots, and multilingual talent experiences that keep every conversation compliant and delightful.",
+    "primaryCta": "Explore Guilds"
+  },
+  "services": [
+    {
+      "id": "business-ops",
+      "badge": "Automation",
+      "title": "Business Operations Command",
+      "excerpt": "Orchestrate finance, logistics, and partner care from a single resilient control plane.",
+      "modal": {
+        "title": "Business Operations Command",
+        "summary": "Unified orchestration across supply, finance, and partner assurance with zero-trust telemetry.",
+        "body": [
+          "Map every workflow to the OPS CyberSec Core lifecycle so that procurement, fulfillment, and treasury stay audit-ready.",
+          "Instrument predictive monitoring using privacy-preserving analytics and policy-driven automations.",
+          "Empower teams with neuro-design dashboards, adaptive alerts, and multilingual runbooks ready for the edge."
+        ],
+        "links": [
+          {
+            "label": "Open Business Playbook",
+            "url": "#business-ops"
+          }
+        ]
+      }
+    },
+    {
+      "id": "contact-center",
+      "badge": "CX Intelligence",
+      "title": "Contact Center Elevate",
+      "excerpt": "Hybrid human + AI care pods orchestrated for PCI DSS ready engagements.",
+      "modal": {
+        "title": "Contact Center Elevate",
+        "summary": "Blend empathetic agents with tiny-LLM copilots tuned for omni-channel care.",
+        "body": [
+          "Deploy multilingual scripts, secure recording retention, and adaptive QA scoring to accelerate resolution.",
+          "Activate micro-interaction libraries that boost accessibility, trust, and emotional clarity across every channel.",
+          "Continuously audit transcripts and escalations using the OPS anomaly baseline framework."
+        ],
+        "links": [
+          {
+            "label": "Download CX Checklist",
+            "url": "#contact-center"
+          }
+        ]
+      }
+    },
+    {
+      "id": "it-support",
+      "badge": "Cloud Native",
+      "title": "IT Support Guild",
+      "excerpt": "Edge-secure managed services spanning devices, identity, and observability.",
+      "modal": {
+        "title": "IT Support Guild",
+        "summary": "Operate a proactive, automation-first support guild with zero downtime ambitions.",
+        "body": [
+          "Deliver 24/7 response orchestration with SIEM integrations and pre-built incident drills.",
+          "Integrate adaptive self-service experiences with accessibility heuristics and context-aware guides.",
+          "Baseline MTTR/MTTD dashboards that empower improvement rituals and compliance evidence."
+        ],
+        "links": [
+          {
+            "label": "View Support Runway",
+            "url": "#it-support"
+          }
+        ]
+      }
+    },
+    {
+      "id": "professionals",
+      "badge": "People Systems",
+      "title": "OPS Professionals Guild",
+      "excerpt": "Upskill architects, analysts, and designers with secure automation mastery.",
+      "modal": {
+        "title": "OPS Professionals Guild",
+        "summary": "Human-centered enablement for builders delivering the next era of commerce.",
+        "body": [
+          "Launch cohort-based learning that fuses cloud-native DevSecOps with neuro-design craft.",
+          "Co-create adaptive design systems grounded in WCAG 2.1 AA and Core Web Vitals.",
+          "Mentor squads on regulatory readiness spanning GDPR, CCPA, and PCI DSS 4.0."
+        ],
+        "links": [
+          {
+            "label": "See Enablement Tracks",
+            "url": "#professionals"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -4,10 +4,10 @@
   "private": true,
   "description": "OPS CySec Core static Next.js experience for Online Support services.",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "next dev ops-next",
+    "build": "next build ops-next",
+    "start": "next start ops-next",
+    "lint": "next lint ops-next"
   },
   "dependencies": {
     "next": "14.2.5",
