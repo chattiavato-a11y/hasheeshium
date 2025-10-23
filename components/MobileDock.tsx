@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useExperience } from '../contexts/ExperienceContext';
 import { ServiceKey } from '../lib/services';
@@ -10,6 +11,7 @@ const serviceLinks: { key: ServiceKey; labels: { en: string; es: string } }[] = 
 ];
 
 const MobileDock = () => {
+  const router = useRouter();
   const { language, toggleLanguage, theme, toggleTheme, openModal } = useExperience();
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -49,13 +51,21 @@ const MobileDock = () => {
     setOpen(false);
   }, [language, theme]);
 
-  const scrollToService = (key: ServiceKey) => {
-    const element = document.getElementById(`service-${key}`);
+  const scrollToService = async (key: ServiceKey) => {
+    const targetId = `service-${key}`;
+    const element = document.getElementById(targetId);
 
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      element.focus({ preventScroll: true });
+
+      if (element instanceof HTMLElement && typeof element.focus === 'function') {
+        element.focus({ preventScroll: true });
+      }
+
+      return;
     }
+
+    await router.push(`/#${targetId}`);
   };
 
   return (
@@ -92,10 +102,10 @@ const MobileDock = () => {
         {serviceLinks.map((item) => (
           <a
             key={item.key}
-            href={`#service-${item.key}`}
-            onClick={(event) => {
+            href={`/#service-${item.key}`}
+            onClick={async (event) => {
               event.preventDefault();
-              scrollToService(item.key);
+              await scrollToService(item.key);
               setOpen(false);
             }}
           >

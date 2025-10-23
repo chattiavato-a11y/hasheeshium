@@ -19,7 +19,7 @@ const FabStack = () => {
   const stackLabel = language === 'en' ? 'Quick actions' : 'Acciones rápidas';
 
   return (
-    <div className="fab-stack" role="region" aria-label={stackLabel} tabIndex={0}>
+    <div className="fab-stack" aria-label="Quick actions">
       <button type="button" className="fab-btn" onClick={() => openModal('join')}>
         <i className="fa-solid fa-user-plus" aria-hidden="true" />
         <span className="fab-label">{labels.join}</span>

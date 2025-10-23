@@ -6,7 +6,7 @@ import { ServiceSummary, services } from '../lib/services';
 
 const heroCopy = {
   en: {
-    eyebrow: 'OPS CySec Core · Online Support',
+    eyebrow: 'OPS Online Support',
     title: (
       <>
         Scale with <span className="hero-gradient">human + AI pods</span>
@@ -27,7 +27,7 @@ const heroCopy = {
     chatbotCta: 'Meet Chattia'
   },
   es: {
-    eyebrow: 'OPS CySec Core · Soporte en Línea',
+    eyebrow: 'OPS Soporte en Línea',
     title: (
       <>
         Escala con <span className="hero-gradient">pods humanos + IA</span>
@@ -62,6 +62,43 @@ const heroMetrics = {
   ]
 };
 
+const experienceInsights = {
+  en: [
+    {
+      title: 'Cyber-resilient by design',
+      body: 'Ops pods ship with encryption, SIEM logging, threat baselining, and documented IR playbooks. Security headers, MFA, and privacy-by-design are non-negotiable.',
+      bullets: ['PCI DSS 4.0 requirements 3–11 embedded', 'Security headers + zero trust posture', 'Automated risk and compliance reporting']
+    },
+    {
+      title: 'Adaptive CX and neurodesign',
+      body: 'We pair behavioral science with real-time analytics to orchestrate device-agnostic experiences. Micro-interactions follow WCAG 2.1 AA and Core Web Vitals best practices.',
+      bullets: ['Responsive grids and motion mindful of accessibility', 'Personalized flows powered by AI copilots', 'Feedback loops tied to Lighthouse CI and Web Vitals']
+    },
+    {
+      title: 'Human + AI orchestration',
+      body: 'Chattia copilots every touchpoint, routing to specialists, summarizing intents, and surfacing knowledge from OPS playbooks.',
+      bullets: ['BM25-style knowledge search across services', 'Context-aware escalations to OPS guild talent', 'Secure data retention with audit-grade controls']
+    }
+  ],
+  es: [
+    {
+      title: 'Ciberresiliencia por diseño',
+      body: 'Los pods OPS incluyen cifrado, registros SIEM, líneas base de amenazas y planes de respuesta documentados. Encabezados de seguridad, MFA y privacidad por diseño son obligatorios.',
+      bullets: ['Requisitos PCI DSS 4.0 (3–11) integrados', 'Encabezados de seguridad y postura zero trust', 'Reportes automatizados de riesgo y cumplimiento']
+    },
+    {
+      title: 'CX adaptativa y neurodiseño',
+      body: 'Combinamos ciencia del comportamiento con analítica en tiempo real para crear experiencias agnósticas de dispositivo. Las microinteracciones siguen WCAG 2.1 AA y Core Web Vitals.',
+      bullets: ['Grillas responsivas y movimiento accesible', 'Flujos personalizados impulsados por copilotos IA', 'Bucles de retroalimentación con Lighthouse CI y Web Vitals']
+    },
+    {
+      title: 'Orquestación Humano + IA',
+      body: 'Chattia copilota cada punto de contacto, enruta a especialistas, resume intenciones y expone conocimiento de los playbooks OPS.',
+      bullets: ['Búsqueda tipo BM25 en servicios', 'Escalaciones contextuales al gremio OPS', 'Retención de datos segura con controles auditables']
+    }
+  ]
+};
+
 const closingCopy = {
   en: {
     title: 'Ready to activate your OPS pod?',
@@ -84,63 +121,25 @@ const HomePage = () => {
   const [selectedService, setSelectedService] = useState<ServiceSummary | null>(null);
   const copy = heroCopy[language];
   const metrics = heroMetrics[language];
+  const insights = experienceInsights[language];
   const finalCopy = closingCopy[language];
 
   const orderedServices = useMemo(() => services, []);
 
   return (
     <>
-      <section className="hero-shell" role="banner" aria-label={copy.ariaLabel}>
-        <div className="hero-grid container">
-          <div className="hero-primary">
-            <p className="hero-eyebrow">{copy.eyebrow}</p>
+      <section className="hero-section" role="banner" aria-label={copy.ariaLabel}>
+        <div className="hero-surface">
+          <div className="hero-body">
+            <span className="hero-eyebrow">{copy.eyebrow}</span>
             <h1>{copy.title}</h1>
-            <p className="hero-lead">{copy.lead}</p>
+            <p>{copy.lead}</p>
             <div className="hero-actions">
-              <button className="btn-primary" type="button" onClick={() => openModal('contact')}>
-                {copy.primaryCta}
-              </button>
-              <button className="btn-secondary" type="button" onClick={() => openModal('join')}>
-                {copy.secondaryCta}
-              </button>
-              <button className="btn-ghost" type="button" onClick={() => openModal('chatbot')}>
-                <i className="fa-solid fa-sparkles" aria-hidden="true" /> {copy.chatbotCta}
+              <button className="btn-consultation" type="button" onClick={() => openModal('contact')}>
+                {copy.cta}
               </button>
             </div>
-            <ul className="hero-checklist">
-              {copy.bullets.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
-            <dl className="hero-metrics">
-              {metrics.map((metric) => (
-                <div key={metric.label}>
-                  <dt>{metric.value}</dt>
-                  <dd>{metric.label}</dd>
-                </div>
-              ))}
-            </dl>
           </div>
-          <aside className="hero-aside" aria-label={language === 'en' ? 'Engagement highlights' : 'Aspectos destacados de interacción'}>
-            <div className="hero-card">
-              <h2>{language === 'en' ? 'OPS Concierge Desk' : 'Mesa Concierge OPS'}</h2>
-              <p>
-                {language === 'en'
-                  ? 'Secure forms, Chattia co-piloting, and human specialists stand ready to orchestrate onboarding, incidents, or growth.'
-                  : 'Formularios seguros, Chattia como copiloto y especialistas humanos listos para orquestar onboarding, incidentes o crecimiento.'}
-              </p>
-              <ul>
-                <li>{language === 'en' ? 'Contact form triggers AES-256 encrypted workflows' : 'Formulario de contacto activa flujos cifrados AES-256'}</li>
-                <li>{language === 'en' ? 'Join Us routes profiles to OPS guild talent leads' : 'Únete envía perfiles a líderes del gremio OPS'}</li>
-                <li>{language === 'en' ? 'Chattia persistently learns from every exchange' : 'Chattia aprende de cada interacción'}</li>
-              </ul>
-              <div className="hero-card-actions">
-                <button type="button" className="btn-ghost" onClick={() => openModal('contact')}>
-                  {language === 'en' ? 'Start a secure request' : 'Iniciar solicitud segura'}
-                </button>
-              </div>
-            </div>
-          </aside>
         </div>
       </section>
 
@@ -157,6 +156,26 @@ const HomePage = () => {
         <div className="service-grid">
           {orderedServices.map((service) => (
             <ServiceCard key={service.key} service={service} onSelect={(item) => setSelectedService(item)} />
+          ))}
+        </div>
+      </section>
+
+      <section className="section container insight-section" aria-labelledby="insights-heading">
+        <div className="section-heading">
+          <p className="section-eyebrow">{language === 'en' ? 'Best-practice orchestration' : 'Orquestación de mejores prácticas'}</p>
+          <h2 id="insights-heading">{language === 'en' ? 'Designing for resilience, delight, and compliance' : 'Diseñando para resiliencia, deleite y cumplimiento'}</h2>
+        </div>
+        <div className="insight-grid">
+          {insights.map((insight) => (
+            <article key={insight.title} className="insight-card">
+              <h3>{insight.title}</h3>
+              <p>{insight.body}</p>
+              <ul>
+                {insight.bullets.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </article>
           ))}
         </div>
       </section>
