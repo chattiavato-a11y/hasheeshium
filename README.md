@@ -26,23 +26,30 @@ Input is run through `lib/sanitize.ts`, which trims dangerous characters, strips
 
 ## Visual preview
 
-Run the development server and open the homepage to explore the live OPS experience:
+Install dependencies and launch the Next.js development preview:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Then visit [http://localhost:3000](http://localhost:3000) in your browser to view the navigation shell, hero, service cards, and interactive modals in context.
+Next.js prints the preview URL in the terminal output. Open that address directly in your browser to explore the navigation shell, hero, service cards, and interactive modals.
+
+## Browser-first static export
+
+```bash
+npm run export
+```
+
+This command builds the application and emits an `out/` directory containing static HTML, CSS, and JavaScript that can be hosted on any standards-compliant CDN or opened directly in a browser. With `output: 'export'` configured in `next.config.js`, running `next build` (surfaced through `npm run export`) fully prepares the static bundle for platforms such as Cloudflare Pages, Netlify, or Vercel. Security headers for static hosts (CSP, HSTS, referrer policy, permissions policy, etc.) live in `public/_headers` so CDN platforms can enforce OPS CySec guardrails without a custom server.
 
 ## Getting started
 
-```bash
-npm install
-npm run dev
-```
+Key npm scripts:
 
-The project is designed for static export (`next build && next export`) or deployment to platforms such as Cloudflare Pages, Netlify, or Vercel.
+- `npm run dev` – launch the browser preview with live reload.
+- `npm run lint` – execute ESLint with the Next.js ruleset.
+- `npm run export` – run the static-focused `next build` pipeline and emit the `out/` directory for distribution.
 
 ## Testing workspace (ephemeral)
 
