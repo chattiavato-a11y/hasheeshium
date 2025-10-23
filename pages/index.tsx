@@ -6,6 +6,7 @@ import { ServiceSummary, services } from '../lib/services';
 
 const heroCopy = {
   en: {
+    eyebrow: 'OPS Online Support',
     title: (
       <>
         Scale your business with
@@ -18,6 +19,7 @@ const heroCopy = {
     ariaLabel: 'Scale your business with 24/7 expert support'
   },
   es: {
+    eyebrow: 'OPS Soporte en Línea',
     title: (
       <>
         Escala tu negocio con
@@ -39,11 +41,18 @@ const HomePage = () => {
   return (
     <>
       <section className="hero-section" role="banner" aria-label={copy.ariaLabel}>
-        <h1>{copy.title}</h1>
-        <p>{copy.lead}</p>
-        <button className="btn-consultation" type="button" onClick={() => openModal('contact')}>
-          {copy.cta}
-        </button>
+        <div className="hero-surface">
+          <div className="hero-body">
+            <span className="hero-eyebrow">{copy.eyebrow}</span>
+            <h1>{copy.title}</h1>
+            <p>{copy.lead}</p>
+            <div className="hero-actions">
+              <button className="btn-consultation" type="button" onClick={() => openModal('contact')}>
+                {copy.cta}
+              </button>
+            </div>
+          </div>
+        </div>
       </section>
       <div className="grid-container" id="services">
         {services.map((service) => (
