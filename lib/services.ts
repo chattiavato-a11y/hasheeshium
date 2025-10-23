@@ -26,6 +26,8 @@ export interface ServiceSummary {
   key: ServiceKey;
   iconClass: string;
   iconLabel: LocalizedText;
+  badge: LocalizedText;
+  spotlight: LocalizedText;
   title: LocalizedText;
   description: LocalizedText;
   modal: ServiceModalContent;
@@ -36,6 +38,11 @@ export const services: ServiceSummary[] = [
     key: 'ops',
     iconClass: 'fa-solid fa-briefcase',
     iconLabel: { en: 'Briefcase icon', es: 'Ícono de portafolio' },
+    badge: { en: 'Ops Control Tower', es: 'Torre OPS' },
+    spotlight: {
+      en: 'Lean automation pods with compliance telemetry',
+      es: 'Pods de automatización Lean con telemetría de cumplimiento'
+    },
     title: {
       en: 'Business Operations',
       es: 'Operaciones Empresariales'
@@ -82,6 +89,11 @@ export const services: ServiceSummary[] = [
     key: 'cc',
     iconClass: 'fa-solid fa-headset',
     iconLabel: { en: 'Headset icon', es: 'Ícono de auriculares' },
+    badge: { en: 'CX Pods', es: 'Pods CX' },
+    spotlight: {
+      en: 'Empathetic omnichannel agents with sentiment radar',
+      es: 'Agentes omnicanal empáticos con radar de sentimiento'
+    },
     title: {
       en: 'Contact Center',
       es: 'Centro de Contacto'
@@ -128,6 +140,11 @@ export const services: ServiceSummary[] = [
     key: 'it',
     iconClass: 'fa-solid fa-laptop-code',
     iconLabel: { en: 'Laptop icon', es: 'Ícono de laptop' },
+    badge: { en: 'Cyber Mesh', es: 'Malla Ciber' },
+    spotlight: {
+      en: '24/7 NIST-hardened engineers orchestrating cloud + edge',
+      es: 'Ingenieros 24/7 endurecidos por NIST orquestando nube + edge'
+    },
     title: {
       en: 'IT Support',
       es: 'Soporte IT'
@@ -174,6 +191,11 @@ export const services: ServiceSummary[] = [
     key: 'pro',
     iconClass: 'fa-solid fa-user-tie',
     iconLabel: { en: 'Professional icon', es: 'Ícono de profesional' },
+    badge: { en: 'OPS Guild', es: 'Gremio OPS' },
+    spotlight: {
+      en: 'Cleared specialists embedded with AI copilots',
+      es: 'Especialistas certificados integrados con copilotos IA'
+    },
     title: {
       en: 'Professionals',
       es: 'Profesionales'
