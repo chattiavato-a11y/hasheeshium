@@ -1,11 +1,14 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const repo = 'hasheeshium';
+const onCI = process.env.GITHUB_ACTIONS === 'true';
+
+module.exports = {
   reactStrictMode: true,
   poweredByHeader: false,
   output: 'export',
-  experimental: {
-    optimizePackageImports: ['@headlessui/react']
-  }
+  // ensure links/assets work at https://<user>.github.io/hasheeshium
+  basePath: onCI ? `/${repo}` : '',
+  assetPrefix: onCI ? `/${repo}/` : undefined,
+  images: { unoptimized: true },
+  experimental: { optimizePackageImports: ['@headlessui/react'] },
 };
-
-module.exports = nextConfig;
