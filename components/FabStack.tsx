@@ -15,8 +15,8 @@ const fabLabels = {
 
 const FabStack = () => {
   const { language, openModal } = useExperience();
-  const labels = fabLabels[language];
-  const _stackLabel = language === 'en' ? 'Quick actions' : 'Acciones rápidas';
+  const labels = fabLabels[language] ?? fabLabels.en;
+  const stackLabel = language === 'en' ? 'Quick actions' : 'Acciones rápidas';
 
   return (
     <div className="fab-stack" aria-label={stackLabel}>
