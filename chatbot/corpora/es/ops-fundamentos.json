@@ -1,0 +1,7 @@
+{
+  "id": "ops-fundamentos",
+  "title": "Fundamentos OPS CyberSec Core",
+  "url": "/es/#ops-cysec-core",
+  "text": "OPS CyberSec Core alinea NIST CSF, CISA Cyber Essentials y PCI DSS 4.0 en Identificar, Proteger, Detectar, Responder y Recuperar. Cada gremio entrega patrones de confianza cero, telemetría cifrada y simulacros continuos para ecosistemas regulados.",
+  "terms": ["ops", "cysec", "nist", "pci", "cisa", "marco", "confianza cero", "seguridad"]
+}
