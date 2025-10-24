@@ -1,3 +1,4 @@
+/// <reference path="../../types/chattia-widget.d.ts" />
 'use client';
 
 export default function ChattiaPage() {

@@ -26,7 +26,12 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "**/*.d.ts",
+    "../types/**/*.d.ts",
+    "../global-types.ts",
+    "../comm-us/**/*.d.ts",
+    "../chatbot/**/*.d.ts"
   ],
   "exclude": [
     "node_modules"
