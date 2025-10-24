@@ -62,43 +62,6 @@ const heroMetrics = {
   ]
 };
 
-const experienceInsights = {
-  en: [
-    {
-      title: 'Cyber-resilient by design',
-      body: 'Ops pods ship with encryption, SIEM logging, threat baselining, and documented IR playbooks. Security headers, MFA, and privacy-by-design are non-negotiable.',
-      bullets: ['PCI DSS 4.0 requirements 3–11 embedded', 'Security headers + zero trust posture', 'Automated risk and compliance reporting']
-    },
-    {
-      title: 'Adaptive CX and neurodesign',
-      body: 'We pair behavioral science with real-time analytics to orchestrate device-agnostic experiences. Micro-interactions follow WCAG 2.1 AA and Core Web Vitals best practices.',
-      bullets: ['Responsive grids and motion mindful of accessibility', 'Personalized flows powered by AI copilots', 'Feedback loops tied to Lighthouse CI and Web Vitals']
-    },
-    {
-      title: 'Human + AI orchestration',
-      body: 'Chattia copilots every touchpoint, routing to specialists, summarizing intents, and surfacing knowledge from OPS playbooks.',
-      bullets: ['BM25-style knowledge search across services', 'Context-aware escalations to OPS guild talent', 'Secure data retention with audit-grade controls']
-    }
-  ],
-  es: [
-    {
-      title: 'Ciberresiliencia por diseño',
-      body: 'Los pods OPS incluyen cifrado, registros SIEM, líneas base de amenazas y planes de respuesta documentados. Encabezados de seguridad, MFA y privacidad por diseño son obligatorios.',
-      bullets: ['Requisitos PCI DSS 4.0 (3–11) integrados', 'Encabezados de seguridad y postura zero trust', 'Reportes automatizados de riesgo y cumplimiento']
-    },
-    {
-      title: 'CX adaptativa y neurodiseño',
-      body: 'Combinamos ciencia del comportamiento con analítica en tiempo real para crear experiencias agnósticas de dispositivo. Las microinteracciones siguen WCAG 2.1 AA y Core Web Vitals.',
-      bullets: ['Grillas responsivas y movimiento accesible', 'Flujos personalizados impulsados por copilotos IA', 'Bucles de retroalimentación con Lighthouse CI y Web Vitals']
-    },
-    {
-      title: 'Orquestación Humano + IA',
-      body: 'Chattia copilota cada punto de contacto, enruta a especialistas, resume intenciones y expone conocimiento de los playbooks OPS.',
-      bullets: ['Búsqueda tipo BM25 en servicios', 'Escalaciones contextuales al gremio OPS', 'Retención de datos segura con controles auditables']
-    }
-  ]
-};
-
 const closingCopy = {
   en: {
     title: 'Ready to activate your OPS pod?',
@@ -121,7 +84,6 @@ const HomePage = () => {
   const [selectedService, setSelectedService] = useState<ServiceSummary | null>(null);
   const copy = heroCopy[language];
   const metrics = heroMetrics[language];
-  const insights = experienceInsights[language];
   const finalCopy = closingCopy[language];
 
   const orderedServices = useMemo(() => services, []);
@@ -177,26 +139,6 @@ const HomePage = () => {
         <div className="service-grid">
           {orderedServices.map((service) => (
             <ServiceCard key={service.key} service={service} onSelect={(item) => setSelectedService(item)} />
-          ))}
-        </div>
-      </section>
-
-      <section className="section container insight-section" aria-labelledby="insights-heading">
-        <div className="section-heading">
-          <p className="section-eyebrow">{language === 'en' ? 'Best-practice orchestration' : 'Orquestación de mejores prácticas'}</p>
-          <h2 id="insights-heading">{language === 'en' ? 'Designing for resilience, delight, and compliance' : 'Diseñando para resiliencia, deleite y cumplimiento'}</h2>
-        </div>
-        <div className="insight-grid">
-          {insights.map((insight) => (
-            <article key={insight.title} className="insight-card">
-              <h3>{insight.title}</h3>
-              <p>{insight.body}</p>
-              <ul>
-                {insight.bullets.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
           ))}
         </div>
       </section>
