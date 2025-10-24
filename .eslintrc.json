@@ -2,6 +2,13 @@
   "extends": ["next/core-web-vitals", "next", "eslint:recommended"],
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "@next/next/no-img-element": "off"
+    "@next/next/no-img-element": "off",
+    "no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ]
   }
 }
