@@ -125,6 +125,8 @@ const HomePage = () => {
   const finalCopy = closingCopy[language];
 
   const orderedServices = useMemo(() => services, []);
+  const metricsLabel =
+    language === 'en' ? 'OPS performance metrics' : 'Métricas de rendimiento OPS';
 
   return (
     <>
@@ -134,11 +136,30 @@ const HomePage = () => {
             <span className="hero-eyebrow">{copy.eyebrow}</span>
             <h1>{copy.title}</h1>
             <p>{copy.lead}</p>
+            <ul className="hero-highlights">
+              {copy.bullets.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
             <div className="hero-actions">
-              <button className="btn-consultation" type="button" onClick={() => openModal('contact')}>
-                {copy.cta}
+              <button className="btn-primary" type="button" onClick={() => openModal('contact')}>
+                {copy.primaryCta}
+              </button>
+              <button className="btn-secondary" type="button" onClick={() => openModal('join')}>
+                {copy.secondaryCta}
+              </button>
+              <button className="btn-ghost" type="button" onClick={() => openModal('chatbot')}>
+                {copy.chatbotCta}
               </button>
             </div>
+            <dl className="hero-metrics" aria-label={metricsLabel}>
+              {metrics.map((metric) => (
+                <div key={metric.label} className="hero-metrics-item">
+                  <dt>{metric.value}</dt>
+                  <dd>{metric.label}</dd>
+                </div>
+              ))}
+            </dl>
           </div>
         </div>
       </section>
