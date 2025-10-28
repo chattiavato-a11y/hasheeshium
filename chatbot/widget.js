@@ -1,7 +1,9 @@
 import { lockBodyScroll, unlockBodyScroll, trapFocus, bindModalLifecycle, makeDraggable } from "../shared/lib/hci.js";
 import { initState, getState, toggleLang, toggleTheme, onStateChange } from "../shared/lib/state.js";
 import { renderIcon } from "../shared/lib/icons/index.js";
-import { enforceSafety } from "./safety.js";
+import { enforceSafety, policyMessage } from "./safety.js";
+import { sanitizeUtterance, describeSanitization } from "./security.js";
+import { hasChattiaEndpoint, invokeChattiaWorker } from "./cloudflare.js";
 
 let modalInstance = null;
 let engineModulePromise = null;
@@ -336,24 +338,56 @@ export async function openChattia() {
   }
 
   async function handleSubmit() {
-    const query = input.value.trim();
+    const rawValue = input.value;
+    const query = rawValue.trim();
     if (!query) return;
     if (honeypot.value.trim().length > 0) {
       appendMessage(messageList, { role: "assistant", content: strings.honeypot });
       input.value = "";
       return;
     }
+
+    const sanitized = sanitizeUtterance(query);
+    const notices = describeSanitization(sanitized.warnings, currentLang);
+
     input.value = "";
-    appendMessage(messageList, { role: "user", content: query });
+
+    if (sanitized.blocked) {
+      appendMessage(messageList, { role: "assistant", content: strings.sanitizedBlocked });
+      if (notices && notices.length > 0) {
+        appendMessage(messageList, {
+          role: "assistant",
+          content: `${strings.sanitizedNotice}\n${notices.map((notice) => `• ${notice}`).join("\n")}`
+        });
+      }
+      return;
+    }
+
+    const safeQuery = sanitized.cleanText;
+    appendMessage(messageList, { role: "user", content: safeQuery });
+
     sendBtn.disabled = true;
     micBtn.disabled = true;
 
-    const safety = enforceSafety(query, currentLang);
+    if (notices && notices.length > 0) {
+      appendMessage(messageList, {
+        role: "assistant",
+        content: `${strings.sanitizedNotice}\n${notices.map((notice) => `• ${notice}`).join("\n")}`
+      });
+    }
+
+    const safety = enforceSafety(safeQuery, currentLang);
     if (!safety.allowed) {
       appendMessage(messageList, { role: "assistant", content: safety.response });
       sendBtn.disabled = false;
       micBtn.disabled = false;
       return;
+    }
+
+    const workerConfigured = hasChattiaEndpoint();
+    if (!workerConfigured && !notifiedMissingWorker) {
+      appendMessage(messageList, { role: "assistant", content: strings.remoteUnavailable });
+      notifiedMissingWorker = true;
     }
 
     try {
@@ -389,6 +423,46 @@ export async function openChattia() {
             answer: result.answer,
             timestamp: Date.now()
           });
+        }
+      }
+
+      if (workerConfigured) {
+        const retrieval = {
+          answer: result.answer,
+          citations: result.citations,
+          highlights: result.hits.map((hit) => ({
+            id: hit.doc.id,
+            title: hit.doc.title,
+            url: hit.doc.url,
+            score: hit.score,
+            highlights: hit.highlights
+          }))
+        };
+        const workerResponse = await invokeChattiaWorker({
+          prompt: safeQuery,
+          lang: currentLang,
+          sanitizedWarnings: sanitized.warnings,
+          retrieval,
+          policyMessage: policyMessage(currentLang)
+        });
+        if (workerResponse.ok && workerResponse.data) {
+          const workerData = workerResponse.data;
+          const workerMessage =
+            workerData.message || workerData.answer || workerData.output || workerData.response;
+          const workerCitations = Array.isArray(workerData.citations) ? workerData.citations : [];
+          if (workerMessage) {
+            appendMessage(messageList, {
+              role: "assistant",
+              content: `${strings.remotePrefix}\n${workerMessage}`,
+              citations: workerCitations
+            });
+            if (speech && speech.speak) {
+              speech.speak(workerMessage, currentLang === "es" ? "es-ES" : "en-US");
+            }
+          }
+        } else if (workerResponse.reason && workerResponse.reason !== "missing-endpoint") {
+          appendMessage(messageList, { role: "assistant", content: strings.remoteError });
+          console.warn("Chattia Cloudflare worker error", workerResponse.reason, workerResponse.error);
         }
       }
     } catch (error) {
