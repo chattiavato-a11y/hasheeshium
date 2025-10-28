@@ -60,7 +60,8 @@ function buildFabCopy(lang) {
   return {
     join: lang === "es" ? "Unirse" : "Join",
     contact: lang === "es" ? "Contactar" : "Contact",
-    chat: lang === "es" ? "Chattia" : "Chattia"
+    chat: lang === "es" ? "Chattia" : "Chattia",
+    stackLabel: lang === "es" ? "Acciones rápidas" : "Quick actions"
   };
 }
 
