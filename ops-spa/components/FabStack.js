@@ -22,7 +22,6 @@ export function createFabStack(copy) {
     const module = await lazyLoadModule("/comm-us/join.js");
     module.openJoinModal();
   });
-  join.insertAdjacentElement("afterend", createHoneypot());
 
   const contact = document.createElement("button");
   contact.type = "button";
@@ -32,7 +31,6 @@ export function createFabStack(copy) {
     const module = await lazyLoadModule("/comm-us/contact.js");
     module.openContactModal();
   });
-  contact.insertAdjacentElement("afterend", createHoneypot());
 
   const chat = document.createElement("button");
   chat.type = "button";
@@ -42,11 +40,10 @@ export function createFabStack(copy) {
     const module = await lazyLoadModule("/chatbot/widget.js");
     module.openChattia();
   });
-  chat.insertAdjacentElement("afterend", createHoneypot());
 
-  container.appendChild(join);
-  container.appendChild(contact);
-  container.appendChild(chat);
+  const fabFragment = document.createDocumentFragment();
+  fabFragment.append(join, createHoneypot(), contact, createHoneypot(), chat, createHoneypot());
+  container.appendChild(fabFragment);
 
   const media = window.matchMedia("(min-width: 901px)");
   function syncVisibility() {
