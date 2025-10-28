@@ -308,6 +308,16 @@ body.dark .navbar {
   box-shadow: 0 10px 20px -12px rgba(37, 99, 235, 0.5);
 }
 
+.fab-button .fab-icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.fab-button .fab-label {
+  display: inline-flex;
+  align-items: center;
+}
+
 .mobile-actions {
   position: fixed;
   bottom: var(--space-4);

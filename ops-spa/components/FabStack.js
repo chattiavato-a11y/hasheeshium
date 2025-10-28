@@ -1,4 +1,4 @@
-import { lazyLoadModule } from "../../shared/lib/lazy.js";
+import { lazyLoadModule, prefetchModule } from "../../shared/lib/lazy.js";
 import { renderIcon } from "../../shared/lib/icons/index.js";
 
 function createHoneypot() {
@@ -7,60 +7,111 @@ function createHoneypot() {
   input.name = "website";
   input.className = "hidden-input";
   input.setAttribute("aria-hidden", "true");
+  input.tabIndex = -1;
+  input.autocomplete = "off";
   return input;
+}
+
+function createFabButton({ icon, label, modulePath, onResolve }) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "fab-button";
+
+  const iconWrap = document.createElement("span");
+  iconWrap.className = "fab-icon";
+  iconWrap.setAttribute("aria-hidden", "true");
+  iconWrap.innerHTML = renderIcon(icon);
+
+  const labelNode = document.createElement("span");
+  labelNode.className = "fab-label";
+  labelNode.textContent = label;
+
+  button.append(iconWrap, labelNode);
+
+  button.addEventListener("click", async () => {
+    const module = await lazyLoadModule(modulePath);
+    onResolve(module);
+  });
+
+  button.addEventListener(
+    "pointerenter",
+    () => {
+      prefetchModule(modulePath);
+    },
+    { once: true }
+  );
+
+  return { button, labelNode };
 }
 
 export function createFabStack(copy) {
   const container = document.createElement("div");
   container.className = "fab-stack";
+  container.setAttribute("role", "complementary");
+  container.setAttribute("aria-label", copy.stackLabel);
 
-  const join = document.createElement("button");
-  join.type = "button";
-  join.className = "fab-button";
-  join.innerHTML = `${renderIcon("join")}<span>${copy.join}</span>`;
-  join.addEventListener("click", async () => {
-    const module = await lazyLoadModule("/comm-us/join.js");
-    module.openJoinModal();
+  const join = createFabButton({
+    icon: "join",
+    label: copy.join,
+    modulePath: "/comm-us/join.js",
+    onResolve(module) {
+      module.openJoinModal();
+    }
   });
-  join.insertAdjacentElement("afterend", createHoneypot());
-
-  const contact = document.createElement("button");
-  contact.type = "button";
-  contact.className = "fab-button";
-  contact.innerHTML = `${renderIcon("contact")}<span>${copy.contact}</span>`;
-  contact.addEventListener("click", async () => {
-    const module = await lazyLoadModule("/comm-us/contact.js");
-    module.openContactModal();
+  const contact = createFabButton({
+    icon: "contact",
+    label: copy.contact,
+    modulePath: "/comm-us/contact.js",
+    onResolve(module) {
+      module.openContactModal();
+    }
   });
-  contact.insertAdjacentElement("afterend", createHoneypot());
-
-  const chat = document.createElement("button");
-  chat.type = "button";
-  chat.className = "fab-button";
-  chat.innerHTML = `${renderIcon("chat")}<span>${copy.chat}</span>`;
-  chat.addEventListener("click", async () => {
-    const module = await lazyLoadModule("/chatbot/widget.js");
-    module.openChattia();
+  const chat = createFabButton({
+    icon: "chat",
+    label: copy.chat,
+    modulePath: "/chatbot/widget.js",
+    onResolve(module) {
+      module.openChattia();
+    }
   });
-  chat.insertAdjacentElement("afterend", createHoneypot());
 
-  container.appendChild(join);
-  container.appendChild(contact);
-  container.appendChild(chat);
+  container.append(join.button, createHoneypot());
+  container.append(contact.button, createHoneypot());
+  container.append(chat.button, createHoneypot());
 
   const media = window.matchMedia("(min-width: 901px)");
-  function syncVisibility() {
-    container.style.display = media.matches ? "flex" : "none";
-  }
+  const syncVisibility = () => {
+    const isDesktop = media.matches;
+    container.style.display = isDesktop ? "flex" : "none";
+    container.toggleAttribute("aria-hidden", !isDesktop);
+    if ("inert" in container) {
+      container.inert = !isDesktop;
+    }
+  };
   syncVisibility();
-  media.addEventListener("change", syncVisibility);
+
+  const useModernListener = typeof media.addEventListener === "function";
+  if (useModernListener) {
+    media.addEventListener("change", syncVisibility);
+  } else if (typeof media.addListener === "function") {
+    media.addListener(syncVisibility);
+  }
 
   return {
     element: container,
     update(nextCopy) {
-      join.querySelector("span").textContent = nextCopy.join;
-      contact.querySelector("span").textContent = nextCopy.contact;
-      chat.querySelector("span").textContent = nextCopy.chat;
+      container.setAttribute("aria-label", nextCopy.stackLabel);
+      join.labelNode.textContent = nextCopy.join;
+      contact.labelNode.textContent = nextCopy.contact;
+      chat.labelNode.textContent = nextCopy.chat;
+    },
+    destroy() {
+      if (useModernListener && typeof media.removeEventListener === "function") {
+        media.removeEventListener("change", syncVisibility);
+      } else if (!useModernListener && typeof media.removeListener === "function") {
+        media.removeListener(syncVisibility);
+      }
+      container.remove();
     }
   };
 }
