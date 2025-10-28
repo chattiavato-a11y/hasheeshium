@@ -4,6 +4,7 @@ import { renderIcon } from "../shared/lib/icons/index.js";
 import { enforceSafety, policyMessage } from "./safety.js";
 import { sanitizeUtterance, describeSanitization } from "./security.js";
 import { hasChattiaEndpoint, invokeChattiaWorker } from "./cloudflare.js";
+import { orchestrateRuntimeLayers } from "../shared/lib/runtime_orchestration.js";
 
 let modalInstance = null;
 let engineModulePromise = null;
@@ -391,17 +392,40 @@ export async function openChattia() {
     }
 
     try {
-      const { ask } = await loadEngine();
-      let result = await ask(query, currentLang);
+      let runtimeMeta = null;
+      let result;
 
-      if ((!result || result.hits.length === 0) && tinyStackModule?.tinyLLM_draft) {
-        const llm = await tinyStackModule.tinyLLM_draft(query, { language: currentLang });
-        if (llm && !llm.error && llm.answer) {
-          result = {
-            answer: llm.answer,
-            citations: llm.citations || [],
-            hits: llm.hits || []
-          };
+      const orchestration = await orchestrateRuntimeLayers(safeQuery, { lang: currentLang });
+
+      if (orchestration?.ok && orchestration.result) {
+        runtimeMeta = orchestration;
+        result = orchestration.result;
+      } else {
+        if (orchestration?.reason === "policy") {
+          appendMessage(messageList, { role: "assistant", content: strings.policyBlocked });
+          sendBtn.disabled = false;
+          micBtn.disabled = false;
+          return;
+        }
+
+        if (orchestration?.reason === "confidence") {
+          appendMessage(messageList, { role: "assistant", content: strings.lowConfidence });
+        } else if (orchestration && orchestration.reason !== "empty" && orchestration.reason !== "unsupported") {
+          appendMessage(messageList, { role: "assistant", content: strings.retrievalError });
+        }
+
+        const { ask } = await loadEngine();
+        result = await ask(query, currentLang);
+
+        if ((!result || result.hits.length === 0) && tinyStackModule?.tinyLLM_draft) {
+          const llm = await tinyStackModule.tinyLLM_draft(query, { language: currentLang });
+          if (llm && !llm.error && llm.answer) {
+            result = {
+              answer: llm.answer,
+              citations: llm.citations || [],
+              hits: llm.hits || []
+            };
+          }
         }
       }
 
@@ -428,15 +452,16 @@ export async function openChattia() {
 
       if (workerConfigured) {
         const retrieval = {
-          answer: result.answer,
-          citations: result.citations,
-          highlights: result.hits.map((hit) => ({
+          answer: result?.answer,
+          citations: result?.citations,
+          highlights: (result?.hits || []).map((hit) => ({
             id: hit.doc.id,
             title: hit.doc.title,
             url: hit.doc.url,
             score: hit.score,
             highlights: hit.highlights
-          }))
+          })),
+          metrics: runtimeMeta?.metrics || null
         };
         const workerResponse = await invokeChattiaWorker({
           prompt: safeQuery,
@@ -522,7 +547,15 @@ function getStrings(lang) {
       honeypot: "Detuvimos el envío automático. Vuelve a intentarlo manualmente.",
       join: "Unirse",
       contact: "Contactar",
-      previous: "Última respuesta guardada"
+      previous: "Última respuesta guardada",
+      sanitizedBlocked: "La solicitud se bloqueó después de sanitizar el contenido.",
+      sanitizedNotice: "Resumen de sanitización:",
+      remoteUnavailable: "El orquestador remoto no está configurado aún. Continuaré con el runbook local.",
+      remoteError: "El Worker remoto no pudo procesar esta solicitud.",
+      remotePrefix: "Worker remoto:",
+      retrievalError: "No se pudo recuperar suficiente contenido remoto; usaré el runbook local.",
+      policyBlocked: "Los filtros de política bloquearon esa solicitud. Prueba otra redacción o contacta a OPS.",
+      lowConfidence: "No encontré suficientes coincidencias de alta confianza todavía. Usaré el runbook local." 
     };
   }
   return {
@@ -539,6 +572,14 @@ function getStrings(lang) {
     honeypot: "Automation detected. Please try again manually.",
     join: "Join",
     contact: "Contact",
-    previous: "Last saved response"
+    previous: "Last saved response",
+    sanitizedBlocked: "The request was blocked after sanitization.",
+    sanitizedNotice: "Sanitization summary:",
+    remoteUnavailable: "The remote orchestrator isn't configured yet. Falling back to the local runbook.",
+    remoteError: "The remote Worker couldn't process that request.",
+    remotePrefix: "Remote Worker:",
+    retrievalError: "Unable to reach enough remote context. I'll rely on the local runbook.",
+    policyBlocked: "Policy filters blocked that request. Try another phrasing or contact OPS.",
+    lowConfidence: "I didn't find enough high-confidence OPS runbook matches yet. I'll lean on the local runbook."
   };
 }
