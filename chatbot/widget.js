@@ -122,6 +122,7 @@ export async function openChattia() {
   const state = getState();
   let currentLang = state.lang;
   let strings = getStrings(currentLang);
+  let notifiedMissingWorker = false;
 
   const backdrop = document.createElement("div");
   backdrop.className = "modal-backdrop";
@@ -415,10 +416,10 @@ export async function openChattia() {
         }
 
         const { ask } = await loadEngine();
-        result = await ask(query, currentLang);
+        result = await ask(safeQuery, currentLang);
 
         if ((!result || result.hits.length === 0) && tinyStackModule?.tinyLLM_draft) {
-          const llm = await tinyStackModule.tinyLLM_draft(query, { language: currentLang });
+          const llm = await tinyStackModule.tinyLLM_draft(safeQuery, { language: currentLang });
           if (llm && !llm.error && llm.answer) {
             result = {
               answer: llm.answer,
@@ -443,7 +444,7 @@ export async function openChattia() {
         }
         if (tinyStackModule?.cachePut) {
           await tinyStackModule.cachePut("chattia:last", {
-            query,
+            query: safeQuery,
             answer: result.answer,
             timestamp: Date.now()
           });
