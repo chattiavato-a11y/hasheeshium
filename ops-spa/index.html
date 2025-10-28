@@ -8,6 +8,15 @@
   </head>
   <body>
     <div id="app"></div>
+    <script>
+      const bm25_min = 0.6; // raise to be stricter
+      const coverageNeeded = 2; // number of strong chunks required
+
+      window.opsSearchConfig = {
+        bm25_min,
+        coverageNeeded
+      };
+    </script>
     <script type="module" src="/ops-spa/js/app.js"></script>
   </body>
 </html>
