@@ -6,6 +6,16 @@ const SQL_SIGNATURE = /(UNION\s+SELECT|SELECT\s+\*|DROP\s+TABLE|INSERT\s+INTO|UP
 const SHELL_SIGNATURE = /(\|\||&&|;\s*rm\b|;\s*curl\b|;\s*wget\b|;\s*cat\b)/i;
 const URL_PATTERN = /(https?:\/\/|www\.)/i;
 
+function resetAndTest(regex, value) {
+  regex.lastIndex = 0;
+  return regex.test(value);
+}
+
+function resetAndReplace(regex, value, replacement) {
+  regex.lastIndex = 0;
+  return value.replace(regex, replacement);
+}
+
 function normalizeWhitespace(value) {
   return value.replace(/\s+/g, " ").trim();
 }
@@ -20,23 +30,23 @@ export function sanitizeUtterance(value, { maxLength = 600 } = {}) {
     return { original, cleanText: "", warnings: [], blocked: false };
   }
 
-  if (CONTROL_CHARS.test(sanitized)) {
-    sanitized = sanitized.replace(CONTROL_CHARS, " ");
+  if (resetAndTest(CONTROL_CHARS, sanitized)) {
+    sanitized = resetAndReplace(CONTROL_CHARS, sanitized, " ");
     warnings.push("control-characters-stripped");
   }
 
-  if (HTML_TAGS.test(sanitized)) {
-    sanitized = sanitized.replace(HTML_TAGS, " ");
+  if (resetAndTest(HTML_TAGS, sanitized)) {
+    sanitized = resetAndReplace(HTML_TAGS, sanitized, " ");
     warnings.push("html-tags-removed");
   }
 
-  if (ENCODED_PAYLOAD.test(sanitized)) {
-    sanitized = sanitized.replace(ENCODED_PAYLOAD, " ");
+  if (resetAndTest(ENCODED_PAYLOAD, sanitized)) {
+    sanitized = resetAndReplace(ENCODED_PAYLOAD, sanitized, " ");
     warnings.push("encoded-payload-removed");
   }
 
-  if (URL_PATTERN.test(sanitized)) {
-    sanitized = sanitized.replace(URL_PATTERN, " ");
+  if (resetAndTest(URL_PATTERN, sanitized)) {
+    sanitized = resetAndReplace(URL_PATTERN, sanitized, " ");
     warnings.push("url-removed");
   }
 
