@@ -7,9 +7,8 @@ import { hasChattiaEndpoint, invokeChattiaWorker } from "./cloudflare.js";
 
 let modalInstance = null;
 let engineModulePromise = null;
-let sttModulePromise = null;
-let speechModule = null;
-let notifiedMissingWorker = false;
+let stackModulePromise = null;
+let tinyStackModule = null;
 
 function loadEngine() {
   if (!engineModulePromise) {
@@ -18,11 +17,11 @@ function loadEngine() {
   return engineModulePromise;
 }
 
-function loadSpeechModule() {
-  if (!sttModulePromise) {
-    sttModulePromise = import("./stt.js");
+function loadTinyStackModule() {
+  if (!stackModulePromise) {
+    stackModulePromise = import("../shared/lib/tiny_stack.js");
   }
-  return sttModulePromise;
+  return stackModulePromise;
 }
 
 function createToggleButton(label, pressed) {
@@ -227,34 +226,105 @@ export async function openChattia() {
   closeBtn.addEventListener("click", () => close());
 
   let speech;
-  loadSpeechModule().then((module) => {
-    speechModule = module;
-    const { createSpeechController, speak } = module;
-    speech = {
-      controller: createSpeechController({
-        lang: currentLang === "es" ? "es-ES" : "en-US",
-        onResult: (transcript) => {
-          input.value = transcript;
-          handleSubmit();
-        },
-        onError: () => micBtn.classList.remove("active"),
-        onEnd: () => micBtn.classList.remove("active")
-      }),
-      speak
-    };
-    if (!speech.controller.supported) {
+  loadTinyStackModule().then(async (module) => {
+    tinyStackModule = module;
+    const { startSTT, speak, hasNativeSTT, cacheGet } = module;
+    const hasBrowserSTT =
+      typeof window !== "undefined" && ("SpeechRecognition" in window || "webkitSpeechRecognition" in window);
+    const supportsSTT = typeof hasNativeSTT === "function" ? hasNativeSTT() : hasBrowserSTT;
+    if (typeof startSTT !== "function") {
       micBtn.style.display = "none";
+      return;
+    }
+    let session = null;
+    let active = false;
+
+    const resetSession = () => {
+      active = false;
+      session = null;
+      micBtn.classList.remove("active");
+    };
+
+    speech = {
+      supported: supportsSTT,
+      isActive: () => active,
+      start: () => {
+        if (!supportsSTT || active) return;
+        micBtn.classList.add("active");
+        active = true;
+        session = startSTT(
+          (transcript, meta = {}) => {
+            if (!transcript) return;
+            input.value = transcript;
+            if (meta.isFinal) {
+              speech.stop();
+              handleSubmit();
+            }
+          },
+          {
+            lang: currentLang === "es" ? "es-ES" : "en-US",
+            onError: () => resetSession(),
+            onEnd: () => resetSession()
+          }
+        );
+        if (!session || session.supported === false) {
+          resetSession();
+          speech.supported = false;
+          micBtn.style.display = "none";
+        }
+      },
+      stop: () => {
+        if (!session) return;
+        try {
+          session.stop && session.stop();
+        } catch (error) {
+          console.warn("Chattia STT stop error", error);
+        }
+        resetSession();
+      },
+      speak: (text, language) => {
+        if (typeof speak === "function") {
+          speak(text, language);
+        }
+      }
+    };
+
+    if (!supportsSTT) {
+      micBtn.style.display = "none";
+    }
+
+    if (typeof cacheGet === "function") {
+      try {
+        const cached = await cacheGet("chattia:last");
+        if (cached && cached.answer && !messageList.querySelector(".chat-history")) {
+          const history = document.createElement("div");
+          history.className = "chat-msg chat-assistant chat-history";
+          const bubble = document.createElement("div");
+          bubble.className = "chat-bubble";
+          const title = document.createElement("p");
+          title.className = "hint";
+          title.textContent = strings.previous ||
+            (currentLang === "es" ? "Última respuesta guardada" : "Last saved response");
+          const body = document.createElement("p");
+          body.textContent = cached.answer;
+          bubble.appendChild(title);
+          bubble.appendChild(body);
+          history.appendChild(bubble);
+          messageList.appendChild(history);
+          messageList.scrollTop = messageList.scrollHeight;
+        }
+      } catch (error) {
+        console.warn("Unable to hydrate cached Chattia history", error);
+      }
     }
   });
 
   micBtn.addEventListener("click", () => {
-    if (!speech || !speech.controller || !speech.controller.supported) return;
-    if (speech.controller.isActive()) {
-      speech.controller.stop();
-      micBtn.classList.remove("active");
+    if (!speech || !speech.supported) return;
+    if (speech.isActive()) {
+      speech.stop();
     } else {
-      speech.controller.start();
-      micBtn.classList.add("active");
+      speech.start();
     }
   });
 
@@ -322,15 +392,38 @@ export async function openChattia() {
 
     try {
       const { ask } = await loadEngine();
-      const result = await ask(safeQuery, currentLang);
-      appendMessage(messageList, {
-        role: "assistant",
-        content: result.answer,
-        citations: result.citations,
-        highlights: result.hits.flatMap((hit) => hit.highlights)
-      });
-      if (speech && speech.speak) {
-        speech.speak(result.answer, currentLang === "es" ? "es-ES" : "en-US");
+      let result = await ask(query, currentLang);
+
+      if ((!result || result.hits.length === 0) && tinyStackModule?.tinyLLM_draft) {
+        const llm = await tinyStackModule.tinyLLM_draft(query, { language: currentLang });
+        if (llm && !llm.error && llm.answer) {
+          result = {
+            answer: llm.answer,
+            citations: llm.citations || [],
+            hits: llm.hits || []
+          };
+        }
+      }
+
+      if (!result || !result.answer) {
+        appendMessage(messageList, { role: "assistant", content: strings.error });
+      } else {
+        appendMessage(messageList, {
+          role: "assistant",
+          content: result.answer,
+          citations: result.citations,
+          highlights: (result.hits || []).flatMap((hit) => hit.highlights || [])
+        });
+        if (speech && speech.speak) {
+          speech.speak(result.answer, currentLang === "es" ? "es-ES" : "en-US");
+        }
+        if (tinyStackModule?.cachePut) {
+          await tinyStackModule.cachePut("chattia:last", {
+            query,
+            answer: result.answer,
+            timestamp: Date.now()
+          });
+        }
       }
 
       if (workerConfigured) {
@@ -405,24 +498,8 @@ export async function openChattia() {
     micBtn.setAttribute("aria-label", strings.mic);
     toolbelt.joinBtn.textContent = strings.join;
     toolbelt.contactBtn.textContent = strings.contact;
-    if (speech && speech.controller && speech.controller.supported) {
-      speech.controller.stop();
-      if (speechModule) {
-        speech.controller = speechModule.createSpeechController({
-          lang: currentLang === "es" ? "es-ES" : "en-US",
-          onResult: (transcript) => {
-            input.value = transcript;
-            handleSubmit();
-          },
-          onError: () => micBtn.classList.remove("active"),
-          onEnd: () => micBtn.classList.remove("active")
-        });
-        if (!speech.controller.supported) {
-          micBtn.style.display = "none";
-        } else {
-          micBtn.style.display = "";
-        }
-      }
+    if (speech && speech.supported) {
+      speech.stop();
     }
   });
 
@@ -445,11 +522,7 @@ function getStrings(lang) {
       honeypot: "Detuvimos el envío automático. Vuelve a intentarlo manualmente.",
       join: "Unirse",
       contact: "Contactar",
-      sanitizedBlocked: "Detectamos contenido similar a código. Reescribe la solicitud sin scripts ni comandos.",
-      sanitizedNotice: "Antes de conectar con los modelos limpiamos tu mensaje:",
-      remoteUnavailable: "Sin endpoint de Cloudflare configurado; la experiencia seguirá 100% local.",
-      remoteError: "No pudimos enlazar con el orquestador TinyLLM en Cloudflare. Continuamos con la respuesta local.",
-      remotePrefix: "Augmentación Cloudflare TinyLLM:"
+      previous: "Última respuesta guardada"
     };
   }
   return {
@@ -466,10 +539,6 @@ function getStrings(lang) {
     honeypot: "Automation detected. Please try again manually.",
     join: "Join",
     contact: "Contact",
-    sanitizedBlocked: "We detected code-like content. Please rephrase without scripts or commands.",
-    sanitizedNotice: "We sanitized your message before reaching any models:",
-    remoteUnavailable: "No Cloudflare Worker endpoint configured; staying fully on-device.",
-    remoteError: "Cloudflare TinyLLM orchestrator could not be reached. Keeping the local answer.",
-    remotePrefix: "Cloudflare TinyLLM augmentation:"
+    previous: "Last saved response"
   };
 }
