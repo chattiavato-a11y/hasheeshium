@@ -218,6 +218,71 @@
     </section>
   </main>
 
+  <div class="fab-cluster" data-expanded="false">
+    <button
+      class="fab-main"
+      type="button"
+      aria-label="Open quick actions"
+      aria-controls="fab-actions"
+      aria-expanded="false"
+    >
+      <i class="fa-solid fa-plus" aria-hidden="true"></i>
+    </button>
+    <div class="fab-actions" id="fab-actions" aria-hidden="true">
+      <a class="fab-action" href="contact.html">
+        <span class="fab-icon" aria-hidden="true"><i class="fa-solid fa-handshake"></i></span>
+        <span class="fab-label">Contact OPS</span>
+      </a>
+      <a class="fab-action" href="apply.html">
+        <span class="fab-icon" aria-hidden="true"><i class="fa-solid fa-user-plus"></i></span>
+        <span class="fab-label">Join Us</span>
+      </a>
+      <button class="fab-action" type="button" data-chat-toggle>
+        <span class="fab-icon" aria-hidden="true"><i class="fa-solid fa-comments"></i></span>
+        <span class="fab-label">Chatbot</span>
+      </button>
+    </div>
+  </div>
+
+  <section
+    class="chatbot-panel"
+    id="chatbot-panel"
+    role="dialog"
+    aria-modal="true"
+    aria-label="OPS Virtual Assistant"
+    aria-live="polite"
+    hidden
+  >
+    <div class="chatbot-header">
+      <h2>OPS Virtual Assistant</h2>
+      <button class="chatbot-close" type="button" data-chat-toggle aria-label="Close chatbot">
+        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="chatbot-body" role="log">
+      <div class="chatbot-message bot">
+        <p>
+          Hi there! I can help you connect with OPS teams, share our capabilities, or
+          point you to the right specialist. Ask away.
+        </p>
+      </div>
+    </div>
+    <form class="chatbot-form" id="chatbot-form" novalidate>
+      <label class="visually-hidden" for="chatbot-input">Message</label>
+      <input
+        id="chatbot-input"
+        name="message"
+        type="text"
+        placeholder="Type your question..."
+        autocomplete="off"
+        required
+      />
+      <button type="submit" class="chatbot-send" aria-label="Send message">
+        <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+      </button>
+    </form>
+  </section>
+
   <footer class="ops-footer" role="contentinfo">
     <div class="footer-info">
       <span>© 2025 OPS Online Support. All rights reserved.</span>
