@@ -1,7 +1,0 @@
-{
-  "id": "ops-forms",
-  "title": "Join & Contact Workflows",
-  "url": "/#forms",
-  "text": "Join and Contact workflows validate name, email, phone, and comments locally with allow-listed characters. Honeypot traps guard every CTA, rate limiting enforces one submit per ten seconds, and payloads are exported locally for secure sharing.",
-  "terms": ["join", "contact", "honeypot", "rate limit", "payload", "local", "form", "validation"]
-}
