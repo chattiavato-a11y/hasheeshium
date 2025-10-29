@@ -1,7 +1,0 @@
-{
-  "id": "ops-foundations",
-  "title": "OPS CyberSec Core Foundations",
-  "url": "/#ops-cysec-core",
-  "text": "OPS CyberSec Core aligns NIST CSF, CISA Cyber Essentials, and PCI DSS 4.0 across Identify, Protect, Detect, Respond, and Recover. Each guild ships zero-trust patterns, encrypted telemetry, and continuous readiness drills for regulated commerce ecosystems.",
-  "terms": ["ops", "cysec", "nist", "pci", "cisa", "framework", "zero trust", "commerce", "security"]
-}

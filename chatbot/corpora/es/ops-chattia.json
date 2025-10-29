@@ -1,7 +1,0 @@
-{
-  "id": "ops-chattia",
-  "title": "Chattia Copiloto en el Edge",
-  "url": "/es/chattia",
-  "text": "Chattia opera totalmente en el dispositivo con recuperación BM25 sobre corpora curados en inglés y español. Usa Web Speech API para voz a texto y texto a voz, ofrece accesos a servicios y puede alternar modo oscuro o claro sin llamadas externas.",
-  "terms": ["chattia", "bm25", "voz", "corpora", "oscuro", "claro", "recuperación", "edge", "local"]
-}

@@ -1,7 +1,0 @@
-{
-  "id": "ops-chattia",
-  "title": "Chattia Edge Copilot",
-  "url": "/chattia",
-  "text": "Chattia operates fully on-device with BM25 retrieval over curated English and Spanish corpora. It uses the Web Speech API for speech-to-text and text-to-speech, offers service page deep links, and can toggle dark or light themes without external calls.",
-  "terms": ["chattia", "bm25", "speech", "corpora", "dark mode", "light mode", "retrieval", "edge", "on-device"]
-}
