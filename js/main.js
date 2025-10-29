@@ -69,4 +69,130 @@
       });
     });
   }
+
+  let collapseFab = null;
+  const fabCluster = document.querySelector('.fab-cluster');
+  if (fabCluster) {
+    const fabMainButton = fabCluster.querySelector('.fab-main');
+    const fabActions = fabCluster.querySelector('.fab-actions');
+
+    const setFabExpanded = (expanded) => {
+      fabCluster.dataset.expanded = expanded ? 'true' : 'false';
+      if (fabMainButton) {
+        fabMainButton.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      }
+      if (fabActions) {
+        fabActions.setAttribute('aria-hidden', expanded ? 'false' : 'true');
+      }
+    };
+
+    setFabExpanded(false);
+    collapseFab = () => setFabExpanded(false);
+
+    const toggleFab = () => {
+      const isExpanded = fabCluster.dataset.expanded === 'true';
+      setFabExpanded(!isExpanded);
+    };
+
+    if (fabMainButton) {
+      fabMainButton.addEventListener('click', toggleFab);
+    }
+
+    document.addEventListener('click', (event) => {
+      if (!fabCluster.contains(event.target)) {
+        setFabExpanded(false);
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        setFabExpanded(false);
+      }
+    });
+  }
+
+  const chatPanel = document.getElementById('chatbot-panel');
+  const chatForm = document.getElementById('chatbot-form');
+  const chatInput = document.getElementById('chatbot-input');
+  const chatBody = chatPanel ? chatPanel.querySelector('.chatbot-body') : null;
+  const chatToggles = Array.from(document.querySelectorAll('[data-chat-toggle]'));
+
+  const setChatOpen = (isOpen) => {
+    if (!chatPanel) {
+      return;
+    }
+
+    if (isOpen) {
+      chatPanel.removeAttribute('hidden');
+      if (chatInput) {
+        window.requestAnimationFrame(() => chatInput.focus());
+      }
+    } else {
+      chatPanel.setAttribute('hidden', '');
+    }
+  };
+
+  if (chatToggles.length) {
+    chatToggles.forEach((toggle) => {
+      toggle.addEventListener('click', () => {
+        const isOpen = chatPanel && !chatPanel.hasAttribute('hidden');
+        setChatOpen(!isOpen);
+        if (typeof collapseFab === 'function') {
+          collapseFab();
+        }
+      });
+    });
+  }
+
+  if (chatPanel) {
+    document.addEventListener('click', (event) => {
+      const clickedToggle = chatToggles.some((toggle) => toggle.contains(event.target));
+      if (clickedToggle) {
+        return;
+      }
+
+      if (!chatPanel.contains(event.target) && !chatPanel.hasAttribute('hidden')) {
+        setChatOpen(false);
+      }
+    });
+  }
+
+  const appendChatMessage = (text, role) => {
+    if (!chatBody) {
+      return;
+    }
+    const bubble = document.createElement('div');
+    bubble.className = `chatbot-message ${role}`;
+    const paragraph = document.createElement('p');
+    paragraph.textContent = text;
+    bubble.appendChild(paragraph);
+    chatBody.appendChild(bubble);
+    chatBody.scrollTop = chatBody.scrollHeight;
+  };
+
+  if (chatForm && chatInput) {
+    chatForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const message = chatInput.value.trim();
+      if (!message) {
+        return;
+      }
+
+      appendChatMessage(message, 'user');
+      chatInput.value = '';
+
+      window.setTimeout(() => {
+        appendChatMessage(
+          'Thanks for your note! The OPS team will follow up shortly. You can also book a discovery call or hire remote professionals via the quick actions.',
+          'bot'
+        );
+      }, 400);
+    });
+  }
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && chatPanel && !chatPanel.hasAttribute('hidden')) {
+      setChatOpen(false);
+    }
+  });
 })();

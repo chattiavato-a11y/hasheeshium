@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apply as a Professional | OPS Remote Talent</title>
+  <meta
+    name="description"
+    content="Join OPS as a remote professional across business operations, contact center, IT support, and on-demand strategic roles."
+  />
+  <meta name="theme-color" content="#0d1b2a" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/utility.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-giVk3SmwZ0pQh4x0Jd5JUPaFblY1Gj86dg7Dr0MjGIfXnqKX7jE6V+X5KTIJQp2fUDV5P8GtY6Xn2R4p9g=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+</head>
+<body class="form-page">
+  <main>
+    <article class="form-shell" aria-labelledby="apply-heading">
+      <a class="form-back" href="index.html">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        Back to OPS overview
+      </a>
+      <header>
+        <p class="form-lede">Join OPS</p>
+        <h1 id="apply-heading">Apply as a Remote Professional</h1>
+        <p class="form-lede">
+          Tell us about your craft, the industries you thrive in, and how you love to work. We review every application within
+          5–7 business days.
+        </p>
+      </header>
+      <form class="apply-form" action="#" method="post">
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="apply-name">Full name</label>
+            <input id="apply-name" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="form-field">
+            <label for="apply-email">Email</label>
+            <input id="apply-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="form-field">
+            <label for="apply-location">Location</label>
+            <input id="apply-location" name="location" type="text" autocomplete="country-name" required />
+          </div>
+          <div class="form-field">
+            <label for="apply-linkedin">LinkedIn or portfolio</label>
+            <input id="apply-linkedin" name="profile" type="url" placeholder="https://" />
+          </div>
+          <div class="form-field">
+            <label for="apply-experience">Years of experience</label>
+            <select id="apply-experience" name="experience" required>
+              <option value="" selected disabled>Select your range</option>
+              <option value="1-2">1-2 years</option>
+              <option value="3-5">3-5 years</option>
+              <option value="6-8">6-8 years</option>
+              <option value="9-12">9-12 years</option>
+              <option value="12+">12+ years</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="apply-specialty">Primary specialty</label>
+            <select id="apply-specialty" name="specialty" required>
+              <option value="" selected disabled>Choose your focus area</option>
+              <option value="business-operations">Business Operations</option>
+              <option value="contact-center">Contact Center</option>
+              <option value="it-support">IT Support</option>
+              <option value="professionals-on-demand">Professionals On Demand</option>
+              <option value="analytics">Analytics &amp; Insights</option>
+            </select>
+          </div>
+          <div class="form-field full">
+            <label for="apply-tools">Tools or platforms you master</label>
+            <input
+              id="apply-tools"
+              name="tools"
+              type="text"
+              placeholder="Zendesk, HubSpot, Notion, Salesforce, Figma, SQL, ..."
+              required
+            />
+          </div>
+        </div>
+
+        <fieldset class="option-group">
+          <legend>What engagements fit you best?</legend>
+          <div class="option-list">
+            <div class="option-item">
+              <input id="availability-full" type="checkbox" name="engagements[]" value="full-time" />
+              <label for="availability-full">
+                <strong>Full-time pods</strong>
+                <span class="form-note">40 hours per week as a dedicated member of a client squad.</span>
+              </label>
+            </div>
+            <div class="option-item">
+              <input id="availability-part" type="checkbox" name="engagements[]" value="part-time" />
+              <label for="availability-part">
+                <strong>Part-time retainers</strong>
+                <span class="form-note">20 hours per week anchored to specific workflows or OKRs.</span>
+              </label>
+            </div>
+            <div class="option-item">
+              <input id="availability-project" type="checkbox" name="engagements[]" value="project" />
+              <label for="availability-project">
+                <strong>Project-based sprints</strong>
+                <span class="form-note">Fixed-scope deliverables, implementations, and special projects.</span>
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="form-field full">
+          <label for="apply-story">Share a recent win</label>
+          <textarea
+            id="apply-story"
+            name="story"
+            placeholder="Tell us about a challenge you solved, the stakeholders involved, and the metrics you moved."
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-field full">
+          <label for="apply-availability">Availability</label>
+          <input id="apply-availability" name="availability" type="text" placeholder="Immediately available, 2 weeks, etc." required />
+        </div>
+
+        <div class="form-actions">
+          <p class="form-note">OPS maintains an inclusive, remote-first talent community. We&apos;ll keep you updated on next steps.</p>
+          <button class="cta-button" type="submit">Submit application</button>
+        </div>
+      </form>
+    </article>
+  </main>
+</body>
+</html>

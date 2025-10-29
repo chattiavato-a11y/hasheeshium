@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact OPS | Discovery Calls & Remote Professionals</title>
+  <meta
+    name="description"
+    content="Connect with OPS to book a discovery call, talk to operations, or hire remote professionals tuned to your growth goals."
+  />
+  <meta name="theme-color" content="#0d1b2a" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/utility.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-giVk3SmwZ0pQh4x0Jd5JUPaFblY1Gj86dg7Dr0MjGIfXnqKX7jE6V+X5KTIJQp2fUDV5P8GtY6Xn2R4p9g=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+</head>
+<body class="form-page">
+  <main>
+    <article class="form-shell" aria-labelledby="contact-heading">
+      <a class="form-back" href="index.html">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        Back to OPS overview
+      </a>
+      <header>
+        <p class="form-lede">Contact OPS</p>
+        <h1 id="contact-heading">Book a Discovery Call or Hire Remote Professionals</h1>
+        <p class="form-lede">
+          Share your goals, preferred engagement, and timeline. Our operations leads will respond within one business day.
+        </p>
+      </header>
+      <form class="contact-form" action="#" method="post">
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="contact-name">Full name</label>
+            <input id="contact-name" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="form-field">
+            <label for="contact-email">Work email</label>
+            <input id="contact-email" name="email" type="email" autocomplete="email" required />
+          </div>
+          <div class="form-field">
+            <label for="contact-company">Company</label>
+            <input id="contact-company" name="company" type="text" autocomplete="organization" />
+          </div>
+          <div class="form-field">
+            <label for="contact-role">Role</label>
+            <input id="contact-role" name="role" type="text" autocomplete="organization-title" />
+          </div>
+          <div class="form-field full">
+            <label for="contact-timeline">Ideal start window</label>
+            <select id="contact-timeline" name="timeline" required>
+              <option value="" selected disabled>Choose a timeline</option>
+              <option value="immediate">Immediate (this week)</option>
+              <option value="2weeks">Within 2 weeks</option>
+              <option value="30days">Within 30 days</option>
+              <option value="quarter">This quarter</option>
+              <option value="planning">Exploring options</option>
+            </select>
+          </div>
+        </div>
+
+        <fieldset class="option-group">
+          <legend>How can we help?</legend>
+          <div class="option-list">
+            <div class="option-item">
+              <input id="option-discovery" type="radio" name="intent" value="discovery" required />
+              <label for="option-discovery">
+                <strong>Book a Discovery Call</strong>
+                <span class="form-note">Collaborate with OPS strategists on your priorities, metrics, and roadmap.</span>
+              </label>
+            </div>
+            <div class="option-item">
+              <input id="option-ops" type="radio" name="intent" value="ops" />
+              <label for="option-ops">
+                <strong>Talk to OPS</strong>
+                <span class="form-note">Get answers about ongoing operations, integrations, and compliance coverage.</span>
+              </label>
+            </div>
+            <div class="option-item">
+              <input id="option-hire" type="radio" name="intent" value="hire" />
+              <label for="option-hire">
+                <strong>Hire Remote Professionals</strong>
+                <span class="form-note">Match with vetted specialists for operations, CX, IT support, or professionals on demand.</span>
+              </label>
+            </div>
+          </div>
+        </fieldset>
+
+        <div class="form-field full">
+          <label for="contact-message">Context &amp; objectives</label>
+          <textarea
+            id="contact-message"
+            name="message"
+            placeholder="Share the outcomes you want to achieve, existing tools, or specific support needs"
+            required
+          ></textarea>
+        </div>
+
+        <div class="form-actions">
+          <p class="form-note">We keep your information confidential and respond within one business day.</p>
+          <button class="cta-button" type="submit">Submit request</button>
+        </div>
+      </form>
+    </article>
+  </main>
+</body>
+</html>
