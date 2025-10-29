@@ -601,8 +601,7 @@ body {
 }
 
 .fab-cluster[data-expanded="true"] .fab-main i {
-  transform: rotate(45deg);
-  transition: transform 0.25s ease;
+  transform: none;
 }
 
 .fab-actions {

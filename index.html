@@ -8,7 +8,13 @@
   <meta name="theme-color" content="#0d1b2a" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/utility.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-giVgk3SmwZ0pQh4x0Jd5JUPaFblY1Gj86dg7Dr0MjGIfXnqKX7jE6V+X5KTIJQp2fUDV5P8GtY6Xn2R4p9g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-4oVGPzuB1bRnwZ0w8AV/QXpVZl8vLwawx2UY8ailqXF/w3vGN9VOGBev5nYeD1yfknhk+aoCA8Dmijk9ltki4g=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
 </head>
 <body class="ops-support-page">
   <nav class="ops-nav" aria-label="Primary">
@@ -226,21 +232,21 @@
       aria-controls="fab-actions"
       aria-expanded="false"
     >
-      <i class="fa-solid fa-plus" aria-hidden="true"></i>
+      <i class="fa-solid fa-bars" aria-hidden="true"></i>
     </button>
     <div class="fab-actions" id="fab-actions" aria-hidden="true">
-      <a class="fab-action" href="contact.html">
-        <span class="fab-icon" aria-hidden="true"><i class="fa-solid fa-handshake"></i></span>
-        <span class="fab-label">Contact OPS</span>
-      </a>
+      <button class="fab-action" type="button" data-chat-toggle>
+        <span class="fab-icon" aria-hidden="true"><i class="fa-solid fa-robot"></i></span>
+        <span class="fab-label">Chatbot</span>
+      </button>
       <a class="fab-action" href="apply.html">
         <span class="fab-icon" aria-hidden="true"><i class="fa-solid fa-user-plus"></i></span>
         <span class="fab-label">Join Us</span>
       </a>
-      <button class="fab-action" type="button" data-chat-toggle>
-        <span class="fab-icon" aria-hidden="true"><i class="fa-solid fa-comments"></i></span>
-        <span class="fab-label">Chatbot</span>
-      </button>
+      <a class="fab-action" href="contact.html">
+        <span class="fab-icon" aria-hidden="true"><i class="fa-solid fa-envelope"></i></span>
+        <span class="fab-label">Contact OPS</span>
+      </a>
     </div>
   </div>
 
@@ -249,12 +255,12 @@
     id="chatbot-panel"
     role="dialog"
     aria-modal="true"
-    aria-label="OPS Virtual Assistant"
+    aria-label="Chattia Virtual Assistant"
     aria-live="polite"
     hidden
   >
     <div class="chatbot-header">
-      <h2>OPS Virtual Assistant</h2>
+      <h2>Chattia</h2>
       <button class="chatbot-close" type="button" data-chat-toggle aria-label="Close chatbot">
         <i class="fa-solid fa-xmark" aria-hidden="true"></i>
       </button>
