@@ -11,6 +11,7 @@
   <meta name="theme-color" content="#0d1b2a" />
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/utility.css" />
+  <link rel="stylesheet" href="css/join-form.css" />
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -35,6 +36,7 @@
         </p>
       </header>
       <form class="apply-form" action="#" method="post">
+        <p class="form-status" data-form-status aria-live="polite"></p>
         <div class="form-grid">
           <div class="form-field">
             <label for="apply-name">Full name</label>
@@ -86,6 +88,153 @@
           </div>
         </div>
 
+        <section class="join-dynamic" aria-labelledby="profile-sections-heading">
+          <div class="join-dynamic__intro">
+            <h2 id="profile-sections-heading">Showcase your OPS story</h2>
+            <p>
+              Build modular cards that highlight your skills, learning journey, and lived interests. Use the plus and minus
+              icons to curate each list, then accept a section to lock it in before submitting.
+            </p>
+          </div>
+
+          <div class="join-dynamic__grid">
+            <div
+              class="form-section"
+              data-section="Skills"
+              data-field="skills"
+              data-placeholder="Highlight a core skill or toolkit"
+              data-requires-accept
+            >
+              <div class="section-header">
+                <h3 class="section-title">Skills</h3>
+                <div class="section-controls">
+                  <button type="button" class="circle-btn add" aria-label="Add a skill">+</button>
+                  <button type="button" class="circle-btn remove" aria-label="Remove last skill" disabled>−</button>
+                </div>
+              </div>
+              <p class="section-hint">List the platforms, methodologies, or toolkits where you lead with confidence.</p>
+              <div class="inputs" data-inputs></div>
+              <div class="section-footer">
+                <button type="button" class="accept-btn">Accept</button>
+                <button type="button" class="edit-btn" hidden>Edit</button>
+              </div>
+            </div>
+
+            <div
+              class="form-section"
+              data-section="Education"
+              data-field="education"
+              data-placeholder="Name the program or institution"
+              data-requires-accept
+            >
+              <div class="section-header">
+                <h3 class="section-title">Education</h3>
+                <div class="section-controls">
+                  <button type="button" class="circle-btn add" aria-label="Add an education entry">+</button>
+                  <button type="button" class="circle-btn remove" aria-label="Remove last education entry" disabled>−</button>
+                </div>
+              </div>
+              <p class="section-hint">Capture degrees, fellowships, and relevant training that shaped your craft.</p>
+              <div class="inputs" data-inputs></div>
+              <div class="section-footer">
+                <button type="button" class="accept-btn">Accept</button>
+                <button type="button" class="edit-btn" hidden>Edit</button>
+              </div>
+            </div>
+
+            <div
+              class="form-section"
+              data-section="Certification"
+              data-field="certifications"
+              data-placeholder="Add a certification or credential"
+              data-requires-accept
+            >
+              <div class="section-header">
+                <h3 class="section-title">Certification</h3>
+                <div class="section-controls">
+                  <button type="button" class="circle-btn add" aria-label="Add a certification">+</button>
+                  <button type="button" class="circle-btn remove" aria-label="Remove last certification" disabled>−</button>
+                </div>
+              </div>
+              <p class="section-hint">Share verifiable credentials, standards, or badges that keep you audit-ready.</p>
+              <div class="inputs" data-inputs></div>
+              <div class="section-footer">
+                <button type="button" class="accept-btn">Accept</button>
+                <button type="button" class="edit-btn" hidden>Edit</button>
+              </div>
+            </div>
+
+            <div
+              class="form-section"
+              data-section="Hobbies"
+              data-field="hobbies"
+              data-placeholder="Add a hobby or passion project"
+              data-requires-accept
+            >
+              <div class="section-header">
+                <h3 class="section-title">Hobbies</h3>
+                <div class="section-controls">
+                  <button type="button" class="circle-btn add" aria-label="Add a hobby">+</button>
+                  <button type="button" class="circle-btn remove" aria-label="Remove last hobby" disabled>−</button>
+                </div>
+              </div>
+              <p class="section-hint">Human-first interests that fuel your creativity and balance.</p>
+              <div class="inputs" data-inputs></div>
+              <div class="section-footer">
+                <button type="button" class="accept-btn">Accept</button>
+                <button type="button" class="edit-btn" hidden>Edit</button>
+              </div>
+            </div>
+
+            <div
+              class="form-section"
+              data-section="Continued Education"
+              data-field="continued_education"
+              data-placeholder="Add continued education highlights"
+            >
+              <div class="section-header">
+                <h3 class="section-title">Continued Education</h3>
+                <div class="section-controls">
+                  <button type="button" class="circle-btn add" aria-label="Add continued education">+</button>
+                  <button type="button" class="circle-btn remove" aria-label="Remove last continued education" disabled>−</button>
+                </div>
+              </div>
+              <p class="section-hint">Workshops, nano-degrees, and communities that keep you future-ready.</p>
+              <div class="inputs" data-inputs></div>
+            </div>
+
+            <div
+              class="form-section"
+              data-section="Experience"
+              data-field="experience"
+              data-placeholder="Add a highlight from your experience"
+            >
+              <div class="section-header">
+                <h3 class="section-title">Experience</h3>
+                <div class="section-controls">
+                  <button type="button" class="circle-btn add" aria-label="Add experience">+</button>
+                  <button type="button" class="circle-btn remove" aria-label="Remove last experience" disabled>−</button>
+                </div>
+              </div>
+              <p class="section-hint">Concise snapshots of roles, missions, or impact statements.</p>
+              <div class="inputs" data-inputs></div>
+            </div>
+          </div>
+
+          <div class="form-section form-section--select">
+            <h3 class="section-title">What are you interested about?</h3>
+            <p class="section-hint">Let OPS know which guild or practice you want to amplify.</p>
+            <label class="visually-hidden" for="join-interest">Interest</label>
+            <select id="join-interest" name="interest" required>
+              <option value="" disabled selected>Select an option</option>
+              <option value="business-operations">Business Operations</option>
+              <option value="contact-center">Contact Center</option>
+              <option value="it-support">IT Support</option>
+              <option value="professionals">Professionals</option>
+            </select>
+          </div>
+        </section>
+
         <fieldset class="option-group">
           <legend>What engagements fit you best?</legend>
           <div class="option-list">
@@ -128,6 +277,16 @@
           <input id="apply-availability" name="availability" type="text" placeholder="Immediately available, 2 weeks, etc." required />
         </div>
 
+        <div class="form-field full">
+          <label for="apply-about">Tell us about yourself</label>
+          <textarea
+            id="apply-about"
+            name="about"
+            placeholder="Share the values, rituals, or community impact that energize you."
+            rows="4"
+          ></textarea>
+        </div>
+
         <div class="form-actions">
           <p class="form-note">OPS maintains an inclusive, remote-first talent community. We&apos;ll keep you updated on next steps.</p>
           <button class="cta-button" type="submit">Submit application</button>
@@ -135,5 +294,6 @@
       </form>
     </article>
   </main>
+  <script src="js/apply.js" defer></script>
 </body>
 </html>
