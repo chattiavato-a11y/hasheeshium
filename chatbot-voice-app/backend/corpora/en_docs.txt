@@ -1,0 +1,3 @@
+TinyLLM Voice Chatbot is a lightweight demo that blends retrieval, rule-based reasoning, and playful audio feedback.
+To send a voice message, press and hold the microphone icon, then release it to trigger transcription.
+The assistant can answer onboarding questions about the demo architecture and bilingual capabilities.
