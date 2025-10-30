@@ -10,25 +10,10 @@ export interface Env {
          */
         AI: Ai;
 
-        /**
-         * Binding for static assets.
-         */
-        ASSETS: { fetch: (request: Request) => Promise<Response> };
-
-        /**
-         * Secret for calling Google Gemini.
-         */
-        GEMINI_API_KEY?: string;
-
-        /**
-         * Optional override for the Gemini model identifier.
-         */
-        GEMINI_MODEL?: string;
-
-        /**
-         * Optional override for the Gemini endpoint base URL.
-         */
-        GEMINI_API_URL?: string;
+	/**
+	 * Binding for static assets.
+	 */
+	ASSETS: { fetch: (request: Request) => Promise<Response> };
 }
 
 /**
@@ -44,9 +29,6 @@ export interface ClientCapabilities {
         webnn?: boolean;
         webml?: boolean;
         webllm?: boolean;
-        tinyllm?: boolean;
-        tinyml?: boolean;
-        tinyai?: boolean;
 }
 
 export interface ChatRequestPayload {

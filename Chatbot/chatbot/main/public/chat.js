@@ -225,21 +225,11 @@ function detectCapabilities() {
         const webgpu = typeof navigator !== "undefined" && "gpu" in navigator;
         const hasML = typeof navigator !== "undefined" && "ml" in navigator;
         const webllm = typeof window !== "undefined" && Boolean(window.WebLLM);
-        const tinyllm = typeof window !== "undefined" && Boolean(window.TinyLLM || window.tinyllm);
-        const navigatorTiny =
-                typeof navigator !== "undefined" && navigator && "tinyml" in navigator
-                        ? navigator.tinyml
-                        : undefined;
-        const tinyml = typeof window !== "undefined" && Boolean(window.TinyML || window.tinyml || navigatorTiny);
-        const tinyai = typeof window !== "undefined" && Boolean(window.TinyAI || window.tinyAI);
         return {
                 webgpu,
                 webnn: hasML,
                 webml: hasML,
                 webllm,
-                tinyllm,
-                tinyml,
-                tinyai,
         };
 }
 
@@ -252,12 +242,9 @@ function updateCapabilityBadge(capabilities) {
                         capabilities.webnn ? "WebNN" : null,
                         capabilities.webml && !capabilities.webnn ? "WebML" : null,
                         capabilities.webllm ? "WebLLM" : null,
-                        capabilities.tinyllm ? "TinyLLM" : null,
-                        capabilities.tinyml ? "TinyML" : null,
-                        capabilities.tinyai ? "TinyAI" : null,
                 ].filter(Boolean);
-                capabilityLabel.textContent = `On-device acceleration detected: ${enabled.join(", ")}. Gemini fallback engages when retrieval confidence dips.`;
+                capabilityLabel.textContent = `On-device acceleration detected: ${enabled.join(", ")}`;
         } else {
-                capabilityLabel.textContent = "Routing to Cloudflare Workers AI with Gemini/TinyLLM fallback guidance";
+                capabilityLabel.textContent = "Routing to Cloudflare Workers AI";
         }
 }
