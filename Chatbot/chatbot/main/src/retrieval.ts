@@ -22,148 +22,85 @@ export interface RetrievalResult {
 
 const DOCUMENTS: KnowledgeDocument[] = [
         {
-                id: "ops-overview-en",
+                id: "ops-overview-hero",
                 language: "en",
-                title: "OPS Overview",
-                service: "OPS Website Hero",
+                title: "OPS Online Support Overview",
+                service: "Homepage",
                 audience: "Prospective Clients",
                 content:
-                        "OPS Online Support delivers remote professionals across Business Operations, Contact Center, IT Support, and Professionals On Demand. The hero promise emphasizes momentum, follow-the-sun coverage, and assembling the right team within 72 hours when you book a discovery call.",
+                        "OPS Online Support provides experienced remote professionals across Business Operations, Contact Center, IT Support, and Professionals On Demand. The homepage promises 24/7 coverage with follow-the-sun expertise so daily tasks are completed, objectives are met, projects hit their deadlines, and goals are accomplished.",
         },
         {
-                id: "ops-pillars-en",
+                id: "ops-service-pillars",
                 language: "en",
                 title: "Service Pillars",
-                service: "Service Pillars",
+                service: "Homepage",
                 audience: "Operations Leaders",
                 content:
-                        "Four service pillars anchor the program: Business Operations keeps billing accuracy, procurement visibility, and executive dashboards; Contact Center agents combine omni-channel routing with sentiment cues; IT Support pods maintain documented incident response and telemetry; Professionals focus on predictive analytics and feedback frameworks for growth.",
+                        "The Service Pillars section states that OPS delivers business continuity, customer loyalty, and operational clarity through dedicated pods. Business Operations keeps financial hygiene, stakeholder updates, and executive dashboards on track with billing accuracy and procurement visibility. Contact Center pods focus on omni-channel routing with sentiment cues and refreshed knowledge to nurture loyalty. IT Support teams align security, IT, and continuity with documented triage, resolution pathways, and integrated telemetry. Professionals pod provides insight teams for predictive analytics, sprint-ready insights, and feedback frameworks that prioritize user delight.",
         },
         {
-                id: "ops-solutions-en",
+                id: "ops-solutions",
                 language: "en",
-                title: "Solutions Catalog",
-                service: "Solutions",
-                audience: "Prospective Clients",
-                content:
-                        "Solutions align to each pillar. Business Operations manages payables, receivables, vendor coordination, and marketing support. Contact Center covers multi-channel, relationship-first conversations. IT Support spans Tier I-II help desk, ticketing, and incident handling. Professionals On Demand provide short and long-term specialists you can plug into projects quickly.",
-        },
-        {
-                id: "ops-metrics-en",
-                language: "en",
-                title: "Impact Metrics",
-                service: "Metrics",
+                title: "Solutions",
+                service: "Homepage",
                 audience: "Decision Makers",
                 content:
-                        "Key impact metrics include 24/7/365 follow-the-sun pods with mirrored playbooks, 40% faster resolution time thanks to AI copilots, 99.95% availability commitments, and a 12x security posture improvement aligned to the OPS CyberSec Core framework.",
+                        "Solutions tailored to operations let organizations choose remote professionals that plug into managed workflows. Business Operations coverage handles accurate billing, clean payables and receivables, vendor coordination, and admin support plus marketing. Contact Center specialists provide relationship-driven, rapid-resolution support across channels. IT Support covers help desk tiers I and II, ticketing, incident handling, and complex fixes. Professionals On Demand supply skilled assistants and specialists for temporary or long-term projects and consultants.",
         },
         {
-                id: "ops-journey-en",
+                id: "ops-metrics",
                 language: "en",
-                title: "Client Journey",
-                service: "Engagement Workflow",
+                title: "Metrics",
+                service: "Homepage",
+                audience: "Stakeholders",
+                content:
+                        "The metrics section summarizes OPS impact: 24/7/365 follow-the-sun support pods with leads in LATAM and APAC; 40% faster resolution time by combining AI copilots with human focus; 99.95% availability guarantees backed by high-availability infrastructure; and 12x security posture improvement aligned to OPS CyberSec Core for audit readiness.",
+        },
+        {
+                id: "ops-journey",
+                language: "en",
+                title: "Engagement Journey",
+                service: "Homepage",
                 audience: "Prospective Clients",
                 content:
-                        "Every engagement follows a transparent journey: Discover and instrument priorities, Launch with confidence using shared telemetry, and Continuously optimize. Calls to action invite booking a discovery call or contacting OPS for tailored remote professionals.",
+                        "OPS describes a journey that moves from Discover and instrument, to Launch with confidence, and then Continuously optimize. A call-to-action invites visitors to book a discovery call, promising that once OPS understands the ecosystem it will assemble a talented team within 72 hours.",
         },
         {
-                id: "ops-contact-en",
+                id: "ops-contact-overview",
                 language: "en",
-                title: "Contact Options",
-                service: "Contact Form",
-                audience: "Operations Leads",
+                title: "Contact OPS",
+                service: "Contact Page",
+                audience: "Leads",
                 content:
-                        "The contact form captures name, work email, company, role, preferred start timeline, and objectives. Visitors can book a discovery call, talk to OPS about ongoing operations, or request remote professionals. OPS commits to keeping information confidential and replying within one business day.",
+                        "The contact page headline says Book a Discovery Call or Hire Remote Professionals. Visitors are asked to share goals, preferred engagement, and timeline, and operations leads respond within one business day. Options include booking a discovery call, talking to OPS about ongoing operations, integrations, and compliance coverage, or hiring remote professionals matched to operations, CX, IT support, or professionals on demand.",
         },
         {
-                id: "ops-apply-en",
+                id: "ops-contact-form",
                 language: "en",
-                title: "Apply as Professional",
-                service: "Talent Applications",
-                audience: "Remote Professionals",
+                title: "Contact Form Details",
+                service: "Contact Page",
+                audience: "Site Visitors",
                 content:
-                        "Professionals can apply by sharing name, email, location, profile link, experience, specialty, and mastered tools. Dynamic sections let applicants showcase skills, education, certifications, hobbies, and continued learning. OPS reviews applications within 5–7 business days and highlights remote-first opportunities.",
+                        "The contact form collects full name, work email, company, role, and an ideal start window with choices ranging from immediate to exploring options. It requires selecting an intent and providing context and objectives, with OPS noting that information is kept confidential and replies arrive within one business day.",
         },
         {
-                id: "ops-assurances-en",
+                id: "ops-apply-overview",
                 language: "en",
-                title: "Assurances & Highlights",
-                service: "Trust Strip",
-                audience: "Prospective Clients",
+                title: "Apply as a Remote Professional",
+                service: "Apply Page",
+                audience: "Applicants",
                 content:
-                        "OPS reassures clients with clear scopes, reliable coverage, plain communication, and flexible engagement. The hero section reiterates that daily tasks stay on track, CSAT reaches 98%, and business operations benefit from follow-the-sun expertise and remote specialists ready to onboard quickly.",
+                        "The apply page invites professionals to tell OPS about their craft, industries, and preferred ways of working. OPS reviews every application within 5 to 7 business days. Applicants supply name, email, location, an optional LinkedIn or portfolio link, years of experience, a specialty such as business operations, contact center, IT support, professionals on demand, or analytics and insights, plus the tools and platforms they master.",
         },
         {
-                id: "ops-overview-es",
-                language: "es",
-                title: "Resumen OPS",
-                service: "Portal OPS",
-                audience: "Clientes Potenciales",
+                id: "ops-apply-showcase",
+                language: "en",
+                title: "Showcase Your OPS Story",
+                service: "Apply Page",
+                audience: "Applicants",
                 content:
-                        "OPS Online Support ofrece profesionales remotos para Operaciones de Negocio, Contact Center, Soporte TI y Profesionales On Demand. La promesa central es mantener el impulso de tu empresa con cobertura 24/7 y conformar el equipo correcto en 72 horas después de agendar una llamada de descubrimiento.",
-        },
-        {
-                id: "ops-pillars-es",
-                language: "es",
-                title: "Pilares de Servicio",
-                service: "Pilares",
-                audience: "Líderes de Operaciones",
-                content:
-                        "Cuatro pilares sostienen la oferta: Operaciones de Negocio garantiza facturación precisa, visibilidad de proveedores y tableros ejecutivos; Contact Center combina enrutamiento multicanal con señales de sentimiento; Soporte TI mantiene rutas documentadas de incidentes y telemetría; Profesionales impulsan analítica predictiva y marcos de retroalimentación.",
-        },
-        {
-                id: "ops-solutions-es",
-                language: "es",
-                title: "Catálogo de Soluciones",
-                service: "Soluciones",
-                audience: "Clientes Potenciales",
-                content:
-                        "Cada solución corresponde a un pilar. Operaciones de Negocio gestiona cuentas por pagar y cobrar, coordinación con proveedores y soporte administrativo y de marketing. Contact Center ofrece conversaciones multicanal centradas en la relación. Soporte TI cubre mesa de ayuda niveles I-II, ticketing e incidentes. Profesionales On Demand aportan especialistas temporales o de largo plazo para proyectos.",
-        },
-        {
-                id: "ops-metrics-es",
-                language: "es",
-                title: "Métricas Clave",
-                service: "Impacto",
-                audience: "Tomadores de Decisiones",
-                content:
-                        "Las métricas destacadas incluyen pods 24/7/365 con playbooks espejados, 40% más rapidez en resoluciones gracias a copilotos de IA, 99.95% de disponibilidad y una mejora de 12x en postura de seguridad alineada con OPS CyberSec Core.",
-        },
-        {
-                id: "ops-journey-es",
-                language: "es",
-                title: "Recorrido del Cliente",
-                service: "Flujo de Compromiso",
-                audience: "Clientes Potenciales",
-                content:
-                        "El recorrido incluye Descubrir e instrumentar prioridades, Lanzar con confianza usando telemetría compartida y Optimizar continuamente. Las llamadas a la acción invitan a agendar una llamada de descubrimiento o contactar a OPS para profesionales remotos.",
-        },
-        {
-                id: "ops-contact-es",
-                language: "es",
-                title: "Opciones de Contacto",
-                service: "Formulario de Contacto",
-                audience: "Líderes de Operaciones",
-                content:
-                        "El formulario solicita nombre, correo laboral, empresa, rol, ventana de inicio preferida y objetivos. Puedes reservar una llamada de descubrimiento, hablar con OPS sobre operaciones en curso o solicitar profesionales remotos. OPS promete confidencialidad y respuesta en un día hábil.",
-        },
-        {
-                id: "ops-apply-es",
-                language: "es",
-                title: "Postularse como Profesional",
-                service: "Talento",
-                audience: "Profesionales Remotos",
-                content:
-                        "Las personas candidatas comparten datos básicos, experiencia, especialidad y herramientas dominadas. Se incluyen secciones dinámicas para detallar habilidades, educación, certificaciones, hobbies y aprendizaje continuo. OPS revisa cada aplicación en 5 a 7 días hábiles y ofrece oportunidades remotas.",
-        },
-        {
-                id: "ops-assurances-es",
-                language: "es",
-                title: "Garantías y Destacados",
-                service: "Confianza",
-                audience: "Clientes Potenciales",
-                content:
-                        "OPS ofrece scopes claros, cobertura confiable, comunicación simple y modelos flexibles. Se recalca que las tareas diarias se cumplen, el CSAT llega a 98% y las operaciones aprovechan experiencia global con especialistas listos para integrarse rápidamente.",
+                        "Applicants can build modular cards under sections like Skills, Education, Certification, Hobbies, and Continued Education. Instructions encourage listing toolkits, degrees, credentials, and interests, using plus and minus controls to curate entries and accepting a section to lock it before submitting the application.",
         },
 ];
 
@@ -311,7 +248,14 @@ export function retrieveDocuments(
         }
 
         scored.sort((a, b) => b.score - a.score);
-        return scored.slice(0, options.limit ?? 3);
+        const limit = options.limit ?? 3;
+        const results = scored.slice(0, limit);
+
+        if (!results.length && language !== "en") {
+                return retrieveDocuments(query, { ...options, language: "en", limit });
+        }
+
+        return results;
 }
 
 function buildIndex(): Index {

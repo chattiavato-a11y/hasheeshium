@@ -21,8 +21,7 @@ import { detectLanguage, retrieveDocuments } from "./retrieval";
 const MODEL_ID = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 
 // Default system prompt
-const BASE_SYSTEM_PROMPT =
-        "You are Chattia, the OPS website assistant. Use only information grounded in the indexed OPS website content to answer questions, highlight relevant sections by name, and guide visitors to book discovery calls, contact OPS, or apply as professionals when appropriate.";
+const BASE_SYSTEM_PROMPT = `You are Chattia, the OPS Online Support website assistant. Answer only with information that appears in the supplied OPS website excerpts. If the snippets do not contain the requested details, say that the site does not cover that yet and invite the user to ask about OPS services, contact options, or application steps. Never invent policies, metrics, timelines, or advice that are not present in the provided OPS website text.`;
 
 const LANGUAGE_TONES: Record<SupportedLanguage, string> = {
         en: "Respond in clear, operations-focused US English. Reference OPS website sections (Service Pillars, Solutions, Journey, Contact, Apply) and suggest the most relevant next step.",
@@ -113,7 +112,11 @@ async function handleChatRequest(
                 }
                 if (knowledgeContext) {
                         systemPromptSections.push(
-                                `Consult the curated OPS knowledge base snippets below before answering. Reference the snippet number and section title when you respond, and only answer if the excerpts provide enough context; otherwise request clarification.\n\n${knowledgeContext}`,
+                                `OPS website excerpts:\n\n${knowledgeContext}\n\nUse only these excerpts while responding. If information is missing, explain that the site has not published it yet.`,
+                        );
+                } else {
+                        systemPromptSections.push(
+                                "No OPS website excerpts matched the latest question. Respond by letting the user know that the site does not cover that topic yet and encourage questions about the published OPS services, contact options, or application process.",
                         );
                 }
 
