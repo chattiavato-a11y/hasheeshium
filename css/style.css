@@ -720,6 +720,12 @@ button.fab-action {
   cursor: pointer;
 }
 
+.chatbot-close-label {
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
 .chatbot-close:hover,
 .chatbot-close:focus-visible {
   background: rgba(255, 255, 255, 0.28);
