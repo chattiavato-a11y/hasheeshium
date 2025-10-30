@@ -124,13 +124,17 @@
 
     if (isOpen) {
       chatPanel.removeAttribute('hidden');
+      chatPanel.setAttribute('aria-hidden', 'false');
       if (chatInput) {
         window.requestAnimationFrame(() => chatInput.focus());
       }
     } else {
       chatPanel.setAttribute('hidden', '');
+      chatPanel.setAttribute('aria-hidden', 'true');
     }
   };
+
+  setChatOpen(false);
 
   if (chatToggles.length) {
     chatToggles.forEach((toggle) => {

@@ -601,8 +601,7 @@ body {
 }
 
 .fab-cluster[data-expanded="true"] .fab-main i {
-  transform: rotate(45deg);
-  transition: transform 0.25s ease;
+  transform: none;
 }
 
 .fab-actions {
@@ -682,6 +681,10 @@ button.fab-action {
   flex-direction: column;
   overflow: hidden;
   z-index: 23;
+}
+
+.chatbot-panel[hidden] {
+  display: none !important;
 }
 
 .chatbot-header {
