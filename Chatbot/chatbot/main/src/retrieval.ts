@@ -22,76 +22,85 @@ export interface RetrievalResult {
 
 const DOCUMENTS: KnowledgeDocument[] = [
         {
-                id: "ops-discover-en",
+                id: "ops-overview-hero",
                 language: "en",
-                title: "Discover: Operational Intelligence Intake",
-                service: "Business Operations Pods",
-                audience: "Strategy Leads",
+                title: "OPS Online Support Overview",
+                service: "Homepage",
+                audience: "Prospective Clients",
                 content:
-                        "Our Discover phase blends rapid telemetry triage with bilingual intake interviews. We baseline customer journeys, compliance controls, and legacy tooling to expose modernization priorities that deliver measurable ROI in 30 days.",
+                        "OPS Online Support provides experienced remote professionals across Business Operations, Contact Center, IT Support, and Professionals On Demand. The homepage promises 24/7 coverage with follow-the-sun expertise so daily tasks are completed, objectives are met, projects hit their deadlines, and goals are accomplished.",
         },
         {
-                id: "ops-cc-en",
+                id: "ops-service-pillars",
                 language: "en",
-                title: "Contact Center Modernization",
-                service: "Contact Center & CX Pods",
-                audience: "CX Directors",
+                title: "Service Pillars",
+                service: "Homepage",
+                audience: "Operations Leaders",
                 content:
-                        "The contact center pod unifies IVR, chat, and workforce automation. BM25-indexed playbooks align AI routing, PCI-secure payment flows, and sentiment telemetry to lift CSAT while compressing handle time.",
+                        "The Service Pillars section states that OPS delivers business continuity, customer loyalty, and operational clarity through dedicated pods. Business Operations keeps financial hygiene, stakeholder updates, and executive dashboards on track with billing accuracy and procurement visibility. Contact Center pods focus on omni-channel routing with sentiment cues and refreshed knowledge to nurture loyalty. IT Support teams align security, IT, and continuity with documented triage, resolution pathways, and integrated telemetry. Professionals pod provides insight teams for predictive analytics, sprint-ready insights, and feedback frameworks that prioritize user delight.",
         },
         {
-                id: "ops-it-en",
+                id: "ops-solutions",
                 language: "en",
-                title: "IT Support Automation",
-                service: "IT Service Desk Pods",
-                audience: "IT Operations",
+                title: "Solutions",
+                service: "Homepage",
+                audience: "Decision Makers",
                 content:
-                        "IT support pods orchestrate zero-touch provisioning, CMDB drift detection, and Just-In-Time access. Workers AI copilots surface resolution snippets in English and Spanish to uphold NIST CSF and CISA Essentials baselines.",
+                        "Solutions tailored to operations let organizations choose remote professionals that plug into managed workflows. Business Operations coverage handles accurate billing, clean payables and receivables, vendor coordination, and admin support plus marketing. Contact Center specialists provide relationship-driven, rapid-resolution support across channels. IT Support covers help desk tiers I and II, ticketing, incident handling, and complex fixes. Professionals On Demand supply skilled assistants and specialists for temporary or long-term projects and consultants.",
         },
         {
-                id: "ops-discover-es",
-                language: "es",
-                title: "Descubrir: Ingreso de Inteligencia Operativa",
-                service: "Células de Operaciones Empresariales",
-                audience: "Líderes de Estrategia",
-                content:
-                        "La fase Descubrir combina triage de telemetría con entrevistas bilingües. Establecemos la línea base de viajes de cliente, controles de cumplimiento y herramientas heredadas para priorizar modernizaciones con retorno comprobable en 30 días.",
-        },
-        {
-                id: "ops-cc-es",
-                language: "es",
-                title: "Modernización del Contact Center",
-                service: "Células de Contact Center y Experiencia",
-                audience: "Directores de CX",
-                content:
-                        "La célula de contact center unifica IVR, chat y automatización de personal. Los playbooks BM25 alinean enrutamiento con IA, pagos seguros PCI y telemetría de sentimiento para elevar el CSAT y reducir el tiempo de atención.",
-        },
-        {
-                id: "ops-it-es",
-                language: "es",
-                title: "Automatización de Soporte de TI",
-                service: "Células de Mesa de Servicio TI",
-                audience: "Operaciones de TI",
-                content:
-                        "Las células de soporte TI orquestan aprovisionamiento sin intervención, detección de desviaciones CMDB y acceso Just-In-Time. Los copilotos de Workers AI muestran fragmentos de resolución en inglés y español para mantener los marcos NIST CSF y CISA Essentials.",
-        },
-        {
-                id: "ops-secure-en",
+                id: "ops-metrics",
                 language: "en",
-                title: "Secure by Design Guardrails",
-                service: "OPS CyberSec Core",
-                audience: "Security Officers",
+                title: "Metrics",
+                service: "Homepage",
+                audience: "Stakeholders",
                 content:
-                        "OPS CyberSec Core fuses NIST CSF, PCI DSS 4.0, and CISA Cyber Essentials. Every pod enforces MFA, encrypted audit logs, and documented incident workflows to compress MTTR while satisfying regulatory evidence requirements.",
+                        "The metrics section summarizes OPS impact: 24/7/365 follow-the-sun support pods with leads in LATAM and APAC; 40% faster resolution time by combining AI copilots with human focus; 99.95% availability guarantees backed by high-availability infrastructure; and 12x security posture improvement aligned to OPS CyberSec Core for audit readiness.",
         },
         {
-                id: "ops-secure-es",
-                language: "es",
-                title: "Barandillas Secure by Design",
-                service: "OPS CyberSec Core",
-                audience: "Oficiales de Seguridad",
+                id: "ops-journey",
+                language: "en",
+                title: "Engagement Journey",
+                service: "Homepage",
+                audience: "Prospective Clients",
                 content:
-                        "OPS CyberSec Core integra NIST CSF, PCI DSS 4.0 y CISA Cyber Essentials. Cada célula aplica MFA, bitácoras cifradas y flujos de incidentes documentados para reducir el MTTR y cumplir con la evidencia regulatoria.",
+                        "OPS describes a journey that moves from Discover and instrument, to Launch with confidence, and then Continuously optimize. A call-to-action invites visitors to book a discovery call, promising that once OPS understands the ecosystem it will assemble a talented team within 72 hours.",
+        },
+        {
+                id: "ops-contact-overview",
+                language: "en",
+                title: "Contact OPS",
+                service: "Contact Page",
+                audience: "Leads",
+                content:
+                        "The contact page headline says Book a Discovery Call or Hire Remote Professionals. Visitors are asked to share goals, preferred engagement, and timeline, and operations leads respond within one business day. Options include booking a discovery call, talking to OPS about ongoing operations, integrations, and compliance coverage, or hiring remote professionals matched to operations, CX, IT support, or professionals on demand.",
+        },
+        {
+                id: "ops-contact-form",
+                language: "en",
+                title: "Contact Form Details",
+                service: "Contact Page",
+                audience: "Site Visitors",
+                content:
+                        "The contact form collects full name, work email, company, role, and an ideal start window with choices ranging from immediate to exploring options. It requires selecting an intent and providing context and objectives, with OPS noting that information is kept confidential and replies arrive within one business day.",
+        },
+        {
+                id: "ops-apply-overview",
+                language: "en",
+                title: "Apply as a Remote Professional",
+                service: "Apply Page",
+                audience: "Applicants",
+                content:
+                        "The apply page invites professionals to tell OPS about their craft, industries, and preferred ways of working. OPS reviews every application within 5 to 7 business days. Applicants supply name, email, location, an optional LinkedIn or portfolio link, years of experience, a specialty such as business operations, contact center, IT support, professionals on demand, or analytics and insights, plus the tools and platforms they master.",
+        },
+        {
+                id: "ops-apply-showcase",
+                language: "en",
+                title: "Showcase Your OPS Story",
+                service: "Apply Page",
+                audience: "Applicants",
+                content:
+                        "Applicants can build modular cards under sections like Skills, Education, Certification, Hobbies, and Continued Education. Instructions encourage listing toolkits, degrees, credentials, and interests, using plus and minus controls to curate entries and accepting a section to lock it before submitting the application.",
         },
 ];
 
@@ -239,7 +248,14 @@ export function retrieveDocuments(
         }
 
         scored.sort((a, b) => b.score - a.score);
-        return scored.slice(0, options.limit ?? 3);
+        const limit = options.limit ?? 3;
+        const results = scored.slice(0, limit);
+
+        if (!results.length && language !== "en") {
+                return retrieveDocuments(query, { ...options, language: "en", limit });
+        }
+
+        return results;
 }
 
 function buildIndex(): Index {
