@@ -21,8 +21,7 @@ import { detectLanguage, retrieveDocuments } from "./retrieval";
 const MODEL_ID = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 
 // Default system prompt
-const BASE_SYSTEM_PROMPT =
-        "You are a helpful, friendly assistant. Provide concise and accurate responses that stay aligned with OPS service pillars, cybersecurity guardrails, and bilingual experience commitments.";
+const BASE_SYSTEM_PROMPT = `You are Chattia, the OPS Online Support website assistant. Answer only with information that appears in the supplied OPS website excerpts. If the snippets do not contain the requested details, say that the site does not cover that yet and invite the user to ask about OPS services, contact options, or application steps. Never invent policies, metrics, timelines, or advice that are not present in the provided OPS website text.`;
 
 const LANGUAGE_TONES: Record<SupportedLanguage, string> = {
         en: "Respond in clear, operations-focused US English. Reference relevant OPS pods (Business Ops, Contact Center, IT Support, OPS CyberSec Core) and invite next-step actions.",
@@ -113,7 +112,11 @@ async function handleChatRequest(
                 }
                 if (knowledgeContext) {
                         systemPromptSections.push(
-                                `Consult the curated OPS knowledge base snippets below before answering. Only answer if the excerpts provide enough context; otherwise request clarification.\n\n${knowledgeContext}`,
+                                `OPS website excerpts:\n\n${knowledgeContext}\n\nUse only these excerpts while responding. If information is missing, explain that the site has not published it yet.`,
+                        );
+                } else {
+                        systemPromptSections.push(
+                                "No OPS website excerpts matched the latest question. Respond by letting the user know that the site does not cover that topic yet and encourage questions about the published OPS services, contact options, or application process.",
                         );
                 }
 
