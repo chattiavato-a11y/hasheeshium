@@ -1,0 +1,3 @@
+El chatbot TinyLLM con voz es una demostración ligera que combina recuperación, razonamiento basado en reglas y audio lúdico.
+Para enviar un mensaje de voz, mantén presionado el ícono del micrófono y suéltalo para activar la transcripción.
+El asistente responde preguntas básicas sobre la arquitectura de la demo y sus capacidades bilingües.

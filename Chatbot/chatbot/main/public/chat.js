@@ -9,24 +9,24 @@ const chatMessages = document.getElementById("chat-messages");
 const userInput = document.getElementById("user-input");
 const sendButton = document.getElementById("send-button");
 const typingIndicator = document.getElementById("typing-indicator");
-const langEnButton = document.getElementById("lang-en");
-const langEsButton = document.getElementById("lang-es");
+const languageToggleButton = document.getElementById("language-toggle");
 const capabilityDot = document.getElementById("capability-dot");
 const capabilityLabel = document.getElementById("capability-label");
+const samplePromptButtons = document.querySelectorAll(".sample-prompts__chip");
 
 const LANGUAGE_CONFIG = {
         en: {
                 greeting:
-                        "Hello! I'm your OPS Edge Intelligence copilot. Ask about Business Ops pods, CX modernization, or OPS CyberSec Core safeguards and I'll respond in English.",
-                switchNotice: "Switched to English. I'll keep responses aligned to OPS service pillars.",
-                placeholder: "Type your message here...",
+                        "Hello! I'm Chattia, the OPS website assistant. Ask about our service pillars, solutions, metrics, contact options, or how to apply and I'll reply in English with details from the site.",
+                switchNotice: "Switched to English. I'll pull answers from the OPS website sections.",
+                placeholder: "Ask about OPS services, metrics, or contact options...",
         },
         es: {
                 greeting:
-                        "¡Hola! Soy tu copiloto OPS Edge Intelligence. Pregunta sobre células de Operaciones, Contact Center o guardas OPS CyberSec Core y responderé en español.",
+                        "¡Hola! Soy Chattia, la asistente del sitio OPS. Pregunta sobre los pilares, soluciones, métricas, opciones de contacto o cómo postularte y responderé en español usando la información oficial.",
                 switchNotice:
-                        "Cambio a español. Mantendré las respuestas alineadas a los pilares de servicio OPS.",
-                placeholder: "Escribe tu mensaje aquí...",
+                        "Cambio a español. Compartiré respuestas basadas en las secciones del sitio OPS.",
+                placeholder: "Pregunta sobre servicios OPS, métricas o contacto...",
         },
 };
 
@@ -64,10 +64,27 @@ userInput.addEventListener("keydown", function (e) {
 // Send button click handler
 sendButton.addEventListener("click", sendMessage);
 
-langEnButton.addEventListener("click", () => setLanguage("en"));
-langEsButton.addEventListener("click", () => setLanguage("es"));
+if (languageToggleButton) {
+        languageToggleButton.addEventListener("click", () => {
+                const nextLanguage = activeLanguage === "en" ? "es" : "en";
+                setLanguage(nextLanguage);
+        });
+}
 
 userInput.placeholder = LANGUAGE_CONFIG[activeLanguage].placeholder;
+updateSamplePromptsForLanguage(activeLanguage);
+updateLanguageToggleButton(activeLanguage);
+samplePromptButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+                const prompt = activeLanguage === "es" ? button.dataset.promptEs : button.dataset.promptEn;
+                const safePrompt = prompt || button.textContent || "";
+                if (!safePrompt || isProcessing) return;
+                userInput.disabled = false;
+                userInput.value = safePrompt;
+                userInput.dispatchEvent(new Event("input"));
+                userInput.focus();
+        });
+});
 
 /**
  * Sends a message to the chat API and processes the response
@@ -206,15 +223,14 @@ function addMessageToChat(role, content) {
 }
 
 function setLanguage(language) {
-        if (language === activeLanguage) return;
+        if (language === activeLanguage) {
+                return;
+        }
 
         activeLanguage = language;
-        langEnButton.classList.toggle("active", language === "en");
-        langEsButton.classList.toggle("active", language === "es");
-        langEnButton.setAttribute("aria-checked", language === "en" ? "true" : "false");
-        langEsButton.setAttribute("aria-checked", language === "es" ? "true" : "false");
-
         userInput.placeholder = LANGUAGE_CONFIG[language].placeholder;
+        updateSamplePromptsForLanguage(language);
+        updateLanguageToggleButton(language);
 
         const notice = LANGUAGE_CONFIG[language].switchNotice;
         addMessageToChat("assistant", notice);
@@ -247,4 +263,30 @@ function updateCapabilityBadge(capabilities) {
         } else {
                 capabilityLabel.textContent = "Routing to Cloudflare Workers AI";
         }
+}
+
+function updateSamplePromptsForLanguage(language) {
+        samplePromptButtons.forEach((button) => {
+                const label = language === "es" ? button.dataset.labelEs : button.dataset.labelEn;
+                if (label) {
+                        button.textContent = label;
+                }
+                const prompt = language === "es" ? button.dataset.promptEs : button.dataset.promptEn;
+                if (prompt) {
+                        button.setAttribute("aria-label", prompt);
+                }
+        });
+}
+
+function updateLanguageToggleButton(language) {
+        if (!languageToggleButton) return;
+
+        const isEnglish = language === "en";
+        const currentLabel = isEnglish ? "English" : "Spanish";
+        languageToggleButton.textContent = isEnglish ? "EN" : "ES";
+        languageToggleButton.dataset.language = language;
+        languageToggleButton.setAttribute(
+                "aria-label",
+                `Toggle language. Currently ${currentLabel}. Click to switch to ${isEnglish ? "Spanish" : "English"}.`,
+        );
 }

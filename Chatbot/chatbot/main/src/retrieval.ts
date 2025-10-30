@@ -22,76 +22,148 @@ export interface RetrievalResult {
 
 const DOCUMENTS: KnowledgeDocument[] = [
         {
-                id: "ops-discover-en",
+                id: "ops-overview-en",
                 language: "en",
-                title: "Discover: Operational Intelligence Intake",
-                service: "Business Operations Pods",
-                audience: "Strategy Leads",
+                title: "OPS Overview",
+                service: "OPS Website Hero",
+                audience: "Prospective Clients",
                 content:
-                        "Our Discover phase blends rapid telemetry triage with bilingual intake interviews. We baseline customer journeys, compliance controls, and legacy tooling to expose modernization priorities that deliver measurable ROI in 30 days.",
+                        "OPS Online Support delivers remote professionals across Business Operations, Contact Center, IT Support, and Professionals On Demand. The hero promise emphasizes momentum, follow-the-sun coverage, and assembling the right team within 72 hours when you book a discovery call.",
         },
         {
-                id: "ops-cc-en",
+                id: "ops-pillars-en",
                 language: "en",
-                title: "Contact Center Modernization",
-                service: "Contact Center & CX Pods",
-                audience: "CX Directors",
+                title: "Service Pillars",
+                service: "Service Pillars",
+                audience: "Operations Leaders",
                 content:
-                        "The contact center pod unifies IVR, chat, and workforce automation. BM25-indexed playbooks align AI routing, PCI-secure payment flows, and sentiment telemetry to lift CSAT while compressing handle time.",
+                        "Four service pillars anchor the program: Business Operations keeps billing accuracy, procurement visibility, and executive dashboards; Contact Center agents combine omni-channel routing with sentiment cues; IT Support pods maintain documented incident response and telemetry; Professionals focus on predictive analytics and feedback frameworks for growth.",
         },
         {
-                id: "ops-it-en",
+                id: "ops-solutions-en",
                 language: "en",
-                title: "IT Support Automation",
-                service: "IT Service Desk Pods",
-                audience: "IT Operations",
+                title: "Solutions Catalog",
+                service: "Solutions",
+                audience: "Prospective Clients",
                 content:
-                        "IT support pods orchestrate zero-touch provisioning, CMDB drift detection, and Just-In-Time access. Workers AI copilots surface resolution snippets in English and Spanish to uphold NIST CSF and CISA Essentials baselines.",
+                        "Solutions align to each pillar. Business Operations manages payables, receivables, vendor coordination, and marketing support. Contact Center covers multi-channel, relationship-first conversations. IT Support spans Tier I-II help desk, ticketing, and incident handling. Professionals On Demand provide short and long-term specialists you can plug into projects quickly.",
         },
         {
-                id: "ops-discover-es",
-                language: "es",
-                title: "Descubrir: Ingreso de Inteligencia Operativa",
-                service: "Células de Operaciones Empresariales",
-                audience: "Líderes de Estrategia",
-                content:
-                        "La fase Descubrir combina triage de telemetría con entrevistas bilingües. Establecemos la línea base de viajes de cliente, controles de cumplimiento y herramientas heredadas para priorizar modernizaciones con retorno comprobable en 30 días.",
-        },
-        {
-                id: "ops-cc-es",
-                language: "es",
-                title: "Modernización del Contact Center",
-                service: "Células de Contact Center y Experiencia",
-                audience: "Directores de CX",
-                content:
-                        "La célula de contact center unifica IVR, chat y automatización de personal. Los playbooks BM25 alinean enrutamiento con IA, pagos seguros PCI y telemetría de sentimiento para elevar el CSAT y reducir el tiempo de atención.",
-        },
-        {
-                id: "ops-it-es",
-                language: "es",
-                title: "Automatización de Soporte de TI",
-                service: "Células de Mesa de Servicio TI",
-                audience: "Operaciones de TI",
-                content:
-                        "Las células de soporte TI orquestan aprovisionamiento sin intervención, detección de desviaciones CMDB y acceso Just-In-Time. Los copilotos de Workers AI muestran fragmentos de resolución en inglés y español para mantener los marcos NIST CSF y CISA Essentials.",
-        },
-        {
-                id: "ops-secure-en",
+                id: "ops-metrics-en",
                 language: "en",
-                title: "Secure by Design Guardrails",
-                service: "OPS CyberSec Core",
-                audience: "Security Officers",
+                title: "Impact Metrics",
+                service: "Metrics",
+                audience: "Decision Makers",
                 content:
-                        "OPS CyberSec Core fuses NIST CSF, PCI DSS 4.0, and CISA Cyber Essentials. Every pod enforces MFA, encrypted audit logs, and documented incident workflows to compress MTTR while satisfying regulatory evidence requirements.",
+                        "Key impact metrics include 24/7/365 follow-the-sun pods with mirrored playbooks, 40% faster resolution time thanks to AI copilots, 99.95% availability commitments, and a 12x security posture improvement aligned to the OPS CyberSec Core framework.",
         },
         {
-                id: "ops-secure-es",
-                language: "es",
-                title: "Barandillas Secure by Design",
-                service: "OPS CyberSec Core",
-                audience: "Oficiales de Seguridad",
+                id: "ops-journey-en",
+                language: "en",
+                title: "Client Journey",
+                service: "Engagement Workflow",
+                audience: "Prospective Clients",
                 content:
-                        "OPS CyberSec Core integra NIST CSF, PCI DSS 4.0 y CISA Cyber Essentials. Cada célula aplica MFA, bitácoras cifradas y flujos de incidentes documentados para reducir el MTTR y cumplir con la evidencia regulatoria.",
+                        "Every engagement follows a transparent journey: Discover and instrument priorities, Launch with confidence using shared telemetry, and Continuously optimize. Calls to action invite booking a discovery call or contacting OPS for tailored remote professionals.",
+        },
+        {
+                id: "ops-contact-en",
+                language: "en",
+                title: "Contact Options",
+                service: "Contact Form",
+                audience: "Operations Leads",
+                content:
+                        "The contact form captures name, work email, company, role, preferred start timeline, and objectives. Visitors can book a discovery call, talk to OPS about ongoing operations, or request remote professionals. OPS commits to keeping information confidential and replying within one business day.",
+        },
+        {
+                id: "ops-apply-en",
+                language: "en",
+                title: "Apply as Professional",
+                service: "Talent Applications",
+                audience: "Remote Professionals",
+                content:
+                        "Professionals can apply by sharing name, email, location, profile link, experience, specialty, and mastered tools. Dynamic sections let applicants showcase skills, education, certifications, hobbies, and continued learning. OPS reviews applications within 5–7 business days and highlights remote-first opportunities.",
+        },
+        {
+                id: "ops-assurances-en",
+                language: "en",
+                title: "Assurances & Highlights",
+                service: "Trust Strip",
+                audience: "Prospective Clients",
+                content:
+                        "OPS reassures clients with clear scopes, reliable coverage, plain communication, and flexible engagement. The hero section reiterates that daily tasks stay on track, CSAT reaches 98%, and business operations benefit from follow-the-sun expertise and remote specialists ready to onboard quickly.",
+        },
+        {
+                id: "ops-overview-es",
+                language: "es",
+                title: "Resumen OPS",
+                service: "Portal OPS",
+                audience: "Clientes Potenciales",
+                content:
+                        "OPS Online Support ofrece profesionales remotos para Operaciones de Negocio, Contact Center, Soporte TI y Profesionales On Demand. La promesa central es mantener el impulso de tu empresa con cobertura 24/7 y conformar el equipo correcto en 72 horas después de agendar una llamada de descubrimiento.",
+        },
+        {
+                id: "ops-pillars-es",
+                language: "es",
+                title: "Pilares de Servicio",
+                service: "Pilares",
+                audience: "Líderes de Operaciones",
+                content:
+                        "Cuatro pilares sostienen la oferta: Operaciones de Negocio garantiza facturación precisa, visibilidad de proveedores y tableros ejecutivos; Contact Center combina enrutamiento multicanal con señales de sentimiento; Soporte TI mantiene rutas documentadas de incidentes y telemetría; Profesionales impulsan analítica predictiva y marcos de retroalimentación.",
+        },
+        {
+                id: "ops-solutions-es",
+                language: "es",
+                title: "Catálogo de Soluciones",
+                service: "Soluciones",
+                audience: "Clientes Potenciales",
+                content:
+                        "Cada solución corresponde a un pilar. Operaciones de Negocio gestiona cuentas por pagar y cobrar, coordinación con proveedores y soporte administrativo y de marketing. Contact Center ofrece conversaciones multicanal centradas en la relación. Soporte TI cubre mesa de ayuda niveles I-II, ticketing e incidentes. Profesionales On Demand aportan especialistas temporales o de largo plazo para proyectos.",
+        },
+        {
+                id: "ops-metrics-es",
+                language: "es",
+                title: "Métricas Clave",
+                service: "Impacto",
+                audience: "Tomadores de Decisiones",
+                content:
+                        "Las métricas destacadas incluyen pods 24/7/365 con playbooks espejados, 40% más rapidez en resoluciones gracias a copilotos de IA, 99.95% de disponibilidad y una mejora de 12x en postura de seguridad alineada con OPS CyberSec Core.",
+        },
+        {
+                id: "ops-journey-es",
+                language: "es",
+                title: "Recorrido del Cliente",
+                service: "Flujo de Compromiso",
+                audience: "Clientes Potenciales",
+                content:
+                        "El recorrido incluye Descubrir e instrumentar prioridades, Lanzar con confianza usando telemetría compartida y Optimizar continuamente. Las llamadas a la acción invitan a agendar una llamada de descubrimiento o contactar a OPS para profesionales remotos.",
+        },
+        {
+                id: "ops-contact-es",
+                language: "es",
+                title: "Opciones de Contacto",
+                service: "Formulario de Contacto",
+                audience: "Líderes de Operaciones",
+                content:
+                        "El formulario solicita nombre, correo laboral, empresa, rol, ventana de inicio preferida y objetivos. Puedes reservar una llamada de descubrimiento, hablar con OPS sobre operaciones en curso o solicitar profesionales remotos. OPS promete confidencialidad y respuesta en un día hábil.",
+        },
+        {
+                id: "ops-apply-es",
+                language: "es",
+                title: "Postularse como Profesional",
+                service: "Talento",
+                audience: "Profesionales Remotos",
+                content:
+                        "Las personas candidatas comparten datos básicos, experiencia, especialidad y herramientas dominadas. Se incluyen secciones dinámicas para detallar habilidades, educación, certificaciones, hobbies y aprendizaje continuo. OPS revisa cada aplicación en 5 a 7 días hábiles y ofrece oportunidades remotas.",
+        },
+        {
+                id: "ops-assurances-es",
+                language: "es",
+                title: "Garantías y Destacados",
+                service: "Confianza",
+                audience: "Clientes Potenciales",
+                content:
+                        "OPS ofrece scopes claros, cobertura confiable, comunicación simple y modelos flexibles. Se recalca que las tareas diarias se cumplen, el CSAT llega a 98% y las operaciones aprovechan experiencia global con especialistas listos para integrarse rápidamente.",
         },
 ];
 
