@@ -153,6 +153,7 @@
       if (chatInput) {
         window.requestAnimationFrame(() => chatInput.focus());
       }
+      chatPanel.dispatchEvent(new Event('chatpanelopen'));
     } else {
       chatPanel.setAttribute('hidden', '');
       chatPanel.setAttribute('aria-hidden', 'true');
@@ -184,6 +185,149 @@
         setChatOpen(false);
       }
     });
+
+    const chatHeader = chatPanel.querySelector('.chatbot-header');
+    const clampValue = (value, min, max) => {
+      if (min > max) {
+        return (min + max) / 2;
+      }
+      return Math.min(Math.max(value, min), max);
+    };
+
+    const resolveBounds = (max, margin) => {
+      if (max >= margin) {
+        return { min: margin, max };
+      }
+      const fallback = Math.max(0, max);
+      return { min: fallback, max: fallback };
+    };
+
+    const ensurePixelPosition = () => {
+      if (chatPanel.style.left && chatPanel.style.top) {
+        return;
+      }
+      const rect = chatPanel.getBoundingClientRect();
+      chatPanel.style.left = `${rect.left}px`;
+      chatPanel.style.top = `${rect.top}px`;
+      chatPanel.style.right = 'auto';
+      chatPanel.style.bottom = 'auto';
+      chatPanel.style.insetInlineEnd = 'auto';
+      chatPanel.style.insetBlockEnd = 'auto';
+    };
+
+    const keepPanelInView = () => {
+      if (!chatPanel.style.left || !chatPanel.style.top) {
+        return;
+      }
+
+      const margin = 12;
+      const panelWidth = chatPanel.offsetWidth;
+      const panelHeight = chatPanel.offsetHeight;
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+
+      const maxLeft = viewportWidth - panelWidth - margin;
+      const maxTop = viewportHeight - panelHeight - margin;
+      const horizontal = resolveBounds(maxLeft, margin);
+      const vertical = resolveBounds(maxTop, margin);
+      const currentLeft = parseFloat(chatPanel.style.left);
+      const currentTop = parseFloat(chatPanel.style.top);
+
+      const nextLeft = clampValue(currentLeft, horizontal.min, horizontal.max);
+      const nextTop = clampValue(currentTop, vertical.min, vertical.max);
+
+      chatPanel.style.left = `${nextLeft}px`;
+      chatPanel.style.top = `${nextTop}px`;
+    };
+
+    window.addEventListener('resize', keepPanelInView);
+    chatPanel.addEventListener('chatpanelopen', keepPanelInView);
+
+    if (chatHeader && 'PointerEvent' in window) {
+      const dragState = {
+        pointerId: null,
+        offsetX: 0,
+        offsetY: 0,
+        dragging: false,
+      };
+
+      const endDrag = () => {
+        if (!dragState.dragging) {
+          return;
+        }
+
+        dragState.dragging = false;
+        if (dragState.pointerId !== null) {
+          try {
+            chatHeader.releasePointerCapture(dragState.pointerId);
+          } catch (error) {
+            /* noop */
+          }
+        }
+        dragState.pointerId = null;
+        chatPanel.classList.remove('is-dragging');
+        keepPanelInView();
+      };
+
+      const handlePointerMove = (event) => {
+        if (!dragState.dragging || event.pointerId !== dragState.pointerId) {
+          return;
+        }
+
+        event.preventDefault();
+
+        const margin = 12;
+        const panelWidth = chatPanel.offsetWidth;
+        const panelHeight = chatPanel.offsetHeight;
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+
+        const maxLeft = viewportWidth - panelWidth - margin;
+        const maxTop = viewportHeight - panelHeight - margin;
+        const horizontal = resolveBounds(maxLeft, margin);
+        const vertical = resolveBounds(maxTop, margin);
+        const desiredLeft = event.clientX - dragState.offsetX;
+        const desiredTop = event.clientY - dragState.offsetY;
+
+        const nextLeft = clampValue(desiredLeft, horizontal.min, horizontal.max);
+        const nextTop = clampValue(desiredTop, vertical.min, vertical.max);
+
+        chatPanel.style.left = `${nextLeft}px`;
+        chatPanel.style.top = `${nextTop}px`;
+      };
+
+      const handlePointerDown = (event) => {
+        if (event.button !== undefined && event.button !== 0 && event.pointerType !== 'touch') {
+          return;
+        }
+
+        if (event.target.closest('button, a, input, textarea, select')) {
+          return;
+        }
+
+        ensurePixelPosition();
+
+        dragState.dragging = true;
+        dragState.pointerId = event.pointerId;
+        const rect = chatPanel.getBoundingClientRect();
+        dragState.offsetX = event.clientX - rect.left;
+        dragState.offsetY = event.clientY - rect.top;
+
+        try {
+          chatHeader.setPointerCapture(event.pointerId);
+        } catch (error) {
+          /* noop */
+        }
+
+        chatPanel.classList.add('is-dragging');
+      };
+
+      chatHeader.addEventListener('pointerdown', handlePointerDown);
+      chatHeader.addEventListener('pointermove', handlePointerMove);
+      chatHeader.addEventListener('pointerup', endDrag);
+      chatHeader.addEventListener('pointercancel', endDrag);
+      chatHeader.addEventListener('lostpointercapture', endDrag);
+    }
   }
 
   const appendChatMessage = (text, role) => {

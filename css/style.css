@@ -694,11 +694,18 @@ button.fab-action {
   padding: 1rem 1.25rem;
   background: linear-gradient(135deg, rgba(51, 102, 255, 0.95), rgba(0, 209, 199, 0.9));
   color: #fff;
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
 }
 
 .chatbot-header h2 {
   font-size: 1rem;
   margin: 0;
+}
+
+.chatbot-panel.is-dragging .chatbot-header {
+  cursor: grabbing;
 }
 
 .chatbot-close {
