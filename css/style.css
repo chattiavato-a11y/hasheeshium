@@ -683,6 +683,10 @@ button.fab-action {
   z-index: 23;
 }
 
+.chatbot-panel[hidden] {
+  display: none !important;
+}
+
 .chatbot-header {
   display: flex;
   align-items: center;
