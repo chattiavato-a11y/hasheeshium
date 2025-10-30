@@ -93,6 +93,78 @@ const DOCUMENTS: KnowledgeDocument[] = [
                 content:
                         "OPS CyberSec Core integra NIST CSF, PCI DSS 4.0 y CISA Cyber Essentials. Cada célula aplica MFA, bitácoras cifradas y flujos de incidentes documentados para reducir el MTTR y cumplir con la evidencia regulatoria.",
         },
+        {
+                id: "ops-services-ops-en",
+                language: "en",
+                title: "OPS Business Operations Pod Mix",
+                service: "Business Operations Pods",
+                audience: "COO & Logistics Leaders",
+                content:
+                        "The Business Operations pod blends executive assistants, administrative specialists, and multimodal logistics aides across air, ocean, land, dispatch, import/export, and logistics account management. Each assistant is OPS-vetted for SLA tracking, KPI visibility, and process governance to scale resilient supply chains.",
+        },
+        {
+                id: "ops-services-ops-es",
+                language: "es",
+                title: "Mezcla de Célula de Operaciones Empresariales",
+                service: "Células de Operaciones Empresariales",
+                audience: "Líderes de Operaciones y Logística",
+                content:
+                        "La célula de Operaciones Empresariales combina asistentes ejecutivos, especialistas administrativos y auxiliares logísticos multimodales en aéreo, marítimo, terrestre, despacho, importación/exportación y gestión de cuentas. Cada asistente está validado por OPS para seguimiento de SLA, visibilidad de KPI y gobernanza de procesos que escalan cadenas resilientes.",
+        },
+        {
+                id: "ops-services-cc-en",
+                language: "en",
+                title: "OPS Contact Center Experience Grid",
+                service: "Contact Center & CX Pods",
+                audience: "Customer Experience Directors",
+                content:
+                        "OPS Contact Center programs deliver 24/7 inbound and outbound orchestration, multilingual chat and email, CRM integrations across Salesforce and HubSpot, and social sentiment telemetry. Quality monitoring loops pair BM25-playbooks with human QA to keep CSAT five-star while reducing handle time.",
+        },
+        {
+                id: "ops-services-cc-es",
+                language: "es",
+                title: "Rejilla de Experiencia del Centro de Contacto OPS",
+                service: "Células de Contact Center y Experiencia",
+                audience: "Directores de Experiencia del Cliente",
+                content:
+                        "Los programas del Centro de Contacto OPS ofrecen orquestación 24/7 de llamadas entrantes y salientes, chat y correo multilingüe, integraciones CRM con Salesforce y HubSpot, y telemetría de sentimiento social. Los bucles de monitoreo de calidad combinan playbooks BM25 con QA humana para mantener un CSAT de cinco estrellas reduciendo el tiempo de atención.",
+        },
+        {
+                id: "ops-services-it-en",
+                language: "en",
+                title: "OPS IT Support Talent Lattice",
+                service: "IT Service Desk Pods",
+                audience: "IT Operations",
+                content:
+                        "OPS IT Support provides tiered help desk, DevOps assistants, and front-end/back-end/full-stack coverage. Pods automate provisioning, CI/CD deployments, and infrastructure scripting with audit-ready observability across PCI and NIST guardrails.",
+        },
+        {
+                id: "ops-services-it-es",
+                language: "es",
+                title: "Trama de Talento de Soporte TI OPS",
+                service: "Células de Mesa de Servicio TI",
+                audience: "Operaciones de TI",
+                content:
+                        "El soporte TI de OPS entrega mesa de ayuda por niveles, asistentes DevOps y cobertura front-end/back-end/full-stack. Las células automatizan el aprovisionamiento, despliegues CI/CD y scripting de infraestructura con observabilidad lista para auditorías bajo los resguardos PCI y NIST.",
+        },
+        {
+                id: "ops-services-pro-en",
+                language: "en",
+                title: "OPS Professionals Network",
+                service: "OPS Talent Guild",
+                audience: "People Operations",
+                content:
+                        "OPS Professionals connect businesses with remote sysadmins, DevOps strategists, finance controllers, HR specialists, and logistics program managers. Each professional is NDA-backed, compliance trained, and ready for project or retained engagements.",
+        },
+        {
+                id: "ops-services-pro-es",
+                language: "es",
+                title: "Red de Profesionales OPS",
+                service: "Gremio de Talento OPS",
+                audience: "Operaciones de Personas",
+                content:
+                        "Los Profesionales OPS conectan a las empresas con administradores de sistemas remotos, estrategas DevOps, controladores financieros, especialistas de RR. HH. y gerentes de programas logísticos. Cada profesional cuenta con NDA, formación en cumplimiento y disponibilidad para compromisos por proyecto o retención.",
+        },
 ];
 
 type TermFrequency = Map<string, number>;

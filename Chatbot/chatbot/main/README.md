@@ -14,14 +14,16 @@ This template demonstrates how to build an AI-powered chat interface using Cloud
 - Easy customization of models and system prompts
 - Support for AI Gateway integration
 - Clean, responsive UI that works on mobile and desktop
-- 🔁 BM25 retrieval layer for bilingual OPS knowledge snippets
-- 🌐 English/Spanish UX toggle with client capability detection (WebGPU/WebNN/WebML/WebLLM)
+- 🔁 BM25 retrieval layer for bilingual OPS knowledge snippets enriched with the OPS HCI 2025 service catalog
+- 🌐 English/Spanish UX toggle with client capability detection (WebGPU/WebNN/WebML/WebLLM/TinyLLM)
+- 🔄 Hybrid orchestration that streams from Cloudflare Workers AI and activates Google Gemini cross-checking when confidence drops
 
 ## Features
 
 - 💬 Simple and responsive chat interface
 - ⚡ Server-Sent Events (SSE) for streaming responses
 - 🧠 Powered by Cloudflare Workers AI LLMs
+- 🤝 Optional Google Gemini synthesis when BM25 retrieval confidence is low
 - 🛠️ Built with TypeScript and Cloudflare Workers
 - 📱 Mobile-friendly design
 - 🔄 Maintains chat history on the client
@@ -76,6 +78,14 @@ Deploy to Cloudflare Workers:
 npm run deploy
 ```
 
+Before deploying, register your Google Gemini key so the Worker can perform cross-provider validation when confidence is low:
+
+```bash
+wrangler secret put GEMINI_API_KEY
+```
+
+If you need to target a different Gemini model or private endpoint, update the `vars` section in `wrangler.jsonc`.
+
 ### Monitor
 
 View real-time logs associated with any deployed Worker:
@@ -108,9 +118,10 @@ npm wrangler tail
 The backend is built with Cloudflare Workers and uses the Workers AI platform to generate responses. The main components are:
 
 1. **API Endpoint** (`/api/chat`): Accepts POST requests with chat messages and streams responses.
-2. **BM25 Retrieval**: `src/retrieval.ts` scores bilingual OPS corpora (English + Spanish) and injects the highest ranking snippets into the system prompt.
-3. **Adaptive System Prompting**: `src/index.ts` tailors instructions based on the detected/preferred language and optional WebLLM/WebGPU capabilities sent by the browser.
-4. **Workers AI Binding**: Connects to Cloudflare's AI service via the Workers AI binding.
+2. **BM25 Retrieval**: `src/retrieval.ts` scores bilingual OPS corpora (English + Spanish), now expanded with the 2025 OPS service lattice extracted from the archive bundle, and injects the highest ranking snippets into the system prompt.
+3. **Adaptive System Prompting**: `src/index.ts` tailors instructions based on the detected/preferred language and optional WebLLM/WebGPU/TinyLLM capabilities sent by the browser.
+4. **Multi-Model Orchestrator**: Cloudflare Workers AI provides the primary stream; when BM25 confidence dips below the threshold, the Worker invokes Google Gemini for cross-checking and appends TinyLLM/TinyML guidance to the SSE stream.
+5. **Workers AI Binding**: Connects to Cloudflare's AI service via the Workers AI binding.
 
 ### Frontend
 
@@ -144,9 +155,9 @@ Learn more about [AI Gateway](https://developers.cloudflare.com/ai-gateway/).
 
 ### Modifying Retrieval or System Prompts
 
-- **Curated Knowledge Base**: Update or expand the `DOCUMENTS` array in `src/retrieval.ts` with additional OPS-aligned content. The helper automatically recalculates BM25 statistics on Worker boot.
+- **Curated Knowledge Base**: Update or expand the `DOCUMENTS` array in `src/retrieval.ts` with additional OPS-aligned content. The helper automatically recalculates BM25 statistics on Worker boot. The current corpus fuses bilingual guardrails with the OPS HCI 2025 service catalog extracted from the archived zip bundle.
 - **Language Behaviour**: Adjust `LANGUAGE_TONES` in `src/index.ts` to fine-tune bilingual tone or add new locales (remember to extend the `SupportedLanguage` union in `src/types.ts`).
-- **System Voice**: The base prompt lives in `BASE_SYSTEM_PROMPT` inside `src/index.ts`. Update it to reflect branding, compliance, or persona changes.
+- **System Voice**: The base prompt lives in `BASE_SYSTEM_PROMPT` inside `src/index.ts`. Update it to reflect branding, compliance, or persona changes—the orchestrator automatically weaves Cloudflare Workers AI, Google Gemini, and TinyLLM/TinyML recommendations based on confidence.
 
 ### Styling
 
