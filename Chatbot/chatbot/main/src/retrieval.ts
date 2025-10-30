@@ -1,13 +1,5 @@
-import type { SupportedLanguage } from "./types";
-
-export interface KnowledgeDocument {
-        id: string;
-        language: SupportedLanguage;
-        title: string;
-        service: string;
-        audience: string;
-        content: string;
-}
+import type { KnowledgeDocument, SupportedLanguage } from "./types";
+import { KNOWLEDGE_DOCUMENTS } from "./documents";
 
 export interface RetrievalOptions {
         language?: SupportedLanguage;
@@ -20,80 +12,7 @@ export interface RetrievalResult {
         snippet: string;
 }
 
-const DOCUMENTS: KnowledgeDocument[] = [
-        {
-                id: "ops-discover-en",
-                language: "en",
-                title: "Discover: Operational Intelligence Intake",
-                service: "Business Operations Pods",
-                audience: "Strategy Leads",
-                content:
-                        "Our Discover phase blends rapid telemetry triage with bilingual intake interviews. We baseline customer journeys, compliance controls, and legacy tooling to expose modernization priorities that deliver measurable ROI in 30 days.",
-        },
-        {
-                id: "ops-cc-en",
-                language: "en",
-                title: "Contact Center Modernization",
-                service: "Contact Center & CX Pods",
-                audience: "CX Directors",
-                content:
-                        "The contact center pod unifies IVR, chat, and workforce automation. BM25-indexed playbooks align AI routing, PCI-secure payment flows, and sentiment telemetry to lift CSAT while compressing handle time.",
-        },
-        {
-                id: "ops-it-en",
-                language: "en",
-                title: "IT Support Automation",
-                service: "IT Service Desk Pods",
-                audience: "IT Operations",
-                content:
-                        "IT support pods orchestrate zero-touch provisioning, CMDB drift detection, and Just-In-Time access. Workers AI copilots surface resolution snippets in English and Spanish to uphold NIST CSF and CISA Essentials baselines.",
-        },
-        {
-                id: "ops-discover-es",
-                language: "es",
-                title: "Descubrir: Ingreso de Inteligencia Operativa",
-                service: "Células de Operaciones Empresariales",
-                audience: "Líderes de Estrategia",
-                content:
-                        "La fase Descubrir combina triage de telemetría con entrevistas bilingües. Establecemos la línea base de viajes de cliente, controles de cumplimiento y herramientas heredadas para priorizar modernizaciones con retorno comprobable en 30 días.",
-        },
-        {
-                id: "ops-cc-es",
-                language: "es",
-                title: "Modernización del Contact Center",
-                service: "Células de Contact Center y Experiencia",
-                audience: "Directores de CX",
-                content:
-                        "La célula de contact center unifica IVR, chat y automatización de personal. Los playbooks BM25 alinean enrutamiento con IA, pagos seguros PCI y telemetría de sentimiento para elevar el CSAT y reducir el tiempo de atención.",
-        },
-        {
-                id: "ops-it-es",
-                language: "es",
-                title: "Automatización de Soporte de TI",
-                service: "Células de Mesa de Servicio TI",
-                audience: "Operaciones de TI",
-                content:
-                        "Las células de soporte TI orquestan aprovisionamiento sin intervención, detección de desviaciones CMDB y acceso Just-In-Time. Los copilotos de Workers AI muestran fragmentos de resolución en inglés y español para mantener los marcos NIST CSF y CISA Essentials.",
-        },
-        {
-                id: "ops-secure-en",
-                language: "en",
-                title: "Secure by Design Guardrails",
-                service: "OPS CyberSec Core",
-                audience: "Security Officers",
-                content:
-                        "OPS CyberSec Core fuses NIST CSF, PCI DSS 4.0, and CISA Cyber Essentials. Every pod enforces MFA, encrypted audit logs, and documented incident workflows to compress MTTR while satisfying regulatory evidence requirements.",
-        },
-        {
-                id: "ops-secure-es",
-                language: "es",
-                title: "Barandillas Secure by Design",
-                service: "OPS CyberSec Core",
-                audience: "Oficiales de Seguridad",
-                content:
-                        "OPS CyberSec Core integra NIST CSF, PCI DSS 4.0 y CISA Cyber Essentials. Cada célula aplica MFA, bitácoras cifradas y flujos de incidentes documentados para reducir el MTTR y cumplir con la evidencia regulatoria.",
-        },
-];
+const DOCUMENTS: KnowledgeDocument[] = KNOWLEDGE_DOCUMENTS;
 
 type TermFrequency = Map<string, number>;
 

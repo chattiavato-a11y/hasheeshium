@@ -22,11 +22,11 @@ const MODEL_ID = "@cf/meta/llama-3.3-70b-instruct-fp8-fast";
 
 // Default system prompt
 const BASE_SYSTEM_PROMPT =
-        "You are a helpful, friendly assistant. Provide concise and accurate responses that stay aligned with OPS service pillars, cybersecurity guardrails, and bilingual experience commitments.";
+        "You are Chattia, the OPS website assistant. Use only information grounded in the indexed OPS website content to answer questions, highlight relevant sections by name, and guide visitors to book discovery calls, contact OPS, or apply as professionals when appropriate.";
 
 const LANGUAGE_TONES: Record<SupportedLanguage, string> = {
-        en: "Respond in clear, operations-focused US English. Reference relevant OPS pods (Business Ops, Contact Center, IT Support, OPS CyberSec Core) and invite next-step actions.",
-        es: "Responde en español neutro orientado a operaciones. Menciona las células OPS relevantes (Operaciones, Contact Center, Soporte TI, OPS CyberSec Core) e invita a pasos siguientes.",
+        en: "Respond in clear, operations-focused US English. Reference OPS website sections (Service Pillars, Solutions, Journey, Contact, Apply) and suggest the most relevant next step.",
+        es: "Responde en español neutro orientado a operaciones. Menciona las secciones del sitio OPS (Pilares, Soluciones, Recorrido, Contacto, Postúlate) e invita a la siguiente acción adecuada.",
 };
 
 export default {
@@ -113,7 +113,7 @@ async function handleChatRequest(
                 }
                 if (knowledgeContext) {
                         systemPromptSections.push(
-                                `Consult the curated OPS knowledge base snippets below before answering. Only answer if the excerpts provide enough context; otherwise request clarification.\n\n${knowledgeContext}`,
+                                `Consult the curated OPS knowledge base snippets below before answering. Reference the snippet number and section title when you respond, and only answer if the excerpts provide enough context; otherwise request clarification.\n\n${knowledgeContext}`,
                         );
                 }
 

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>LLM Chat App</title>
+		<title>Chattia | OPS Website Assistant</title>
 		<style>
 			:root {
 				--primary-color: #f6821f;
@@ -16,11 +16,23 @@
 				--assistant-msg-bg: #f3f4f6;
 			}
 
-			* {
-				box-sizing: border-box;
-				margin: 0;
-				padding: 0;
-			}
+                        * {
+                                box-sizing: border-box;
+                                margin: 0;
+                                padding: 0;
+                        }
+
+                        .sr-only {
+                                position: absolute;
+                                width: 1px;
+                                height: 1px;
+                                padding: 0;
+                                margin: -1px;
+                                overflow: hidden;
+                                clip: rect(0, 0, 0, 0);
+                                white-space: nowrap;
+                                border: 0;
+                        }
 
 			body {
 				font-family:
@@ -58,39 +70,34 @@
                                 display: flex;
                                 flex-wrap: wrap;
                                 align-items: center;
-                                justify-content: space-between;
+                                justify-content: flex-end;
                                 gap: 0.75rem;
                         }
 
-                        .language-toggle {
-                                display: inline-flex;
-                                padding: 0.25rem;
-                                background-color: white;
+                        .language-toggle-btn {
+                                position: fixed;
+                                top: 20px;
+                                right: 20px;
+                                padding: 0.45rem 0.95rem;
+                                border-radius: 999px;
                                 border: 1px solid var(--border-color);
-                                border-radius: 999px;
-                                gap: 0.25rem;
-                        }
-
-                        .language-toggle button {
-                                border: none;
-                                background: transparent;
-                                padding: 0.4rem 0.9rem;
-                                border-radius: 999px;
+                                background-color: white;
                                 font-weight: 600;
-                                color: var(--text-light);
+                                letter-spacing: 0.05em;
+                                color: var(--text-color);
                                 cursor: pointer;
-                                transition: all 0.2s ease;
+                                transition: background-color 0.2s ease, color 0.2s ease,
+                                        box-shadow 0.2s ease;
+                                box-shadow: 0 4px 12px rgba(31, 41, 55, 0.08);
+                                z-index: 10;
                         }
 
-                        .language-toggle button.active {
+                        .language-toggle-btn:hover,
+                        .language-toggle-btn:focus-visible {
                                 background-color: var(--primary-color);
                                 color: white;
-                                box-shadow: 0 4px 10px rgba(246, 130, 31, 0.18);
-                        }
-
-                        .language-toggle button:focus-visible {
-                                outline: 2px solid var(--primary-color);
-                                outline-offset: 2px;
+                                box-shadow: 0 8px 20px rgba(246, 130, 31, 0.25);
+                                outline: none;
                         }
 
                         .capability-badge {
@@ -114,6 +121,39 @@
 
                         .capability-dot.ready {
                                 background-color: #22c55e;
+                        }
+
+                        .sample-prompts {
+                                margin-top: 0.75rem;
+                                display: grid;
+                                gap: 0.5rem;
+                                color: var(--text-light);
+                                font-size: 0.95rem;
+                        }
+
+                        .sample-prompts__label {
+                                font-weight: 600;
+                                color: var(--text-color);
+                        }
+
+                        .sample-prompts__chips {
+                                display: flex;
+                                flex-wrap: wrap;
+                                gap: 0.5rem;
+                        }
+
+                        .sample-prompts__chip {
+                                background-color: white;
+                                border: 1px solid var(--border-color);
+                                border-radius: 999px;
+                                padding: 0.35rem 0.75rem;
+                                cursor: pointer;
+                                transition: border-color 0.2s ease, box-shadow 0.2s ease;
+                        }
+
+                        .sample-prompts__chip:hover {
+                                border-color: var(--primary-color);
+                                box-shadow: 0 4px 12px rgba(246, 130, 31, 0.15);
                         }
 
 			.chat-container {
@@ -209,26 +249,30 @@
 	</head>
 	<body>
                 <header>
-                        <h1>OPS Edge Intelligence Chat</h1>
+                        <h1>Chattia · OPS Website Assistant</h1>
                         <p class="subtitle">
-                                Cloudflare Workers AI copilots infused with OPS bilingual knowledge, CyberSec Core guardrails,
-                                and continuous optimization insights.
+                                Ask about OPS Online Support service pillars, solutions, metrics, contact pathways, or how to apply. Chattia responds using verified website content.
                         </p>
                         <div class="control-bar" role="toolbar" aria-label="Chat controls">
-                                <div class="language-toggle" role="radiogroup" aria-label="Language selector">
-                                        <button id="lang-en" class="active" role="radio" aria-checked="true">
-                                                English
-                                        </button>
-                                        <button id="lang-es" role="radio" aria-checked="false">Español</button>
-                                </div>
                                 <div class="capability-badge" id="capability-badge">
                                         <span class="capability-dot" id="capability-dot"></span>
                                         <span id="capability-label">Evaluating device acceleration…</span>
                                 </div>
                         </div>
+                        <div class="sample-prompts" aria-label="Suggested questions">
+                                <span class="sample-prompts__label">Try asking:</span>
+                                <div class="sample-prompts__chips">
+                                        <button type="button" class="sample-prompts__chip" data-prompt-en="What are the OPS service pillars?" data-prompt-es="¿Cuáles son los pilares de servicio de OPS?" data-label-en="OPS service pillars" data-label-es="Pilares de servicio">OPS service pillars</button>
+                                        <button type="button" class="sample-prompts__chip" data-prompt-en="How fast can OPS assemble a team?" data-prompt-es="¿Qué tan rápido OPS arma un equipo?" data-label-en="Team activation speed" data-label-es="Velocidad de activación">Team activation speed</button>
+                                        <button type="button" class="sample-prompts__chip" data-prompt-en="How do I contact OPS?" data-prompt-es="¿Cómo puedo contactar a OPS?" data-label-en="Contact options" data-label-es="Opciones de contacto">Contact options</button>
+                                        <button type="button" class="sample-prompts__chip" data-prompt-en="How do professionals apply to OPS?" data-prompt-es="¿Cómo puedo postularme como profesional en OPS?" data-label-en="Apply as a professional" data-label-es="Postularse como profesional">Apply as a professional</button>
+                                </div>
+                        </div>
                 </header>
 
-		<div class="chat-container">
+                <div id="language-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+                <div class="chat-container">
                         <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
 
 			<div class="typing-indicator" id="typing-indicator">
@@ -238,7 +282,7 @@
 			<div class="message-input">
                                 <textarea
                                         id="user-input"
-                                        placeholder="Type your message here..."
+                                        placeholder="Ask about OPS services, metrics, or contact options..."
                                         rows="1"
                                         autofocus
                                         aria-label="Chat message input"
@@ -247,11 +291,21 @@
 			</div>
 		</div>
 
-		<footer>
-			<p>Cloudflare Workers AI Chat Template &copy; 2025</p>
-		</footer>
+                <footer>
+                        <p>OPS Website Assistant powered by Cloudflare Workers AI &copy; 2025 OPS Online Support</p>
+                </footer>
 
-		<!-- Chat app script -->
-		<script src="chat.js"></script>
-	</body>
+                <!-- Chat app script -->
+                <script src="chat.js"></script>
+                <button
+                        id="language-toggle"
+                        class="language-toggle-btn"
+                        type="button"
+                        aria-label="Toggle language. Currently English."
+                        data-language="en"
+                        aria-pressed="true"
+                >
+                        EN
+                </button>
+        </body>
 </html>

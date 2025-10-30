@@ -9,43 +9,49 @@ const chatMessages = document.getElementById("chat-messages");
 const userInput = document.getElementById("user-input");
 const sendButton = document.getElementById("send-button");
 const typingIndicator = document.getElementById("typing-indicator");
-const langEnButton = document.getElementById("lang-en");
-const langEsButton = document.getElementById("lang-es");
+const languageToggleButton = document.getElementById("language-toggle");
+const languageAnnouncement = document.getElementById("language-status");
 const capabilityDot = document.getElementById("capability-dot");
 const capabilityLabel = document.getElementById("capability-label");
+const samplePromptButtons = document.querySelectorAll(".sample-prompts__chip");
 
 const LANGUAGE_CONFIG = {
         en: {
                 greeting:
-                        "Hello! I'm your OPS Edge Intelligence copilot. Ask about Business Ops pods, CX modernization, or OPS CyberSec Core safeguards and I'll respond in English.",
-                switchNotice: "Switched to English. I'll keep responses aligned to OPS service pillars.",
-                placeholder: "Type your message here...",
+                        "Hello! I'm Chattia, the OPS website assistant. Ask about our service pillars, solutions, metrics, contact options, or how to apply and I'll reply in English with details from the site.",
+                switchNotice: "Switched to English. I'll pull answers from the OPS website sections.",
+                placeholder: "Ask about OPS services, metrics, or contact options...",
         },
         es: {
                 greeting:
-                        "¡Hola! Soy tu copiloto OPS Edge Intelligence. Pregunta sobre células de Operaciones, Contact Center o guardas OPS CyberSec Core y responderé en español.",
+                        "¡Hola! Soy Chattia, la asistente del sitio OPS. Pregunta sobre los pilares, soluciones, métricas, opciones de contacto o cómo postularte y responderé en español usando la información oficial.",
                 switchNotice:
-                        "Cambio a español. Mantendré las respuestas alineadas a los pilares de servicio OPS.",
-                placeholder: "Escribe tu mensaje aquí...",
+                        "Cambio a español. Compartiré respuestas basadas en las secciones del sitio OPS.",
+                placeholder: "Pregunta sobre servicios OPS, métricas o contacto...",
         },
 };
+
+const LANGUAGE_STORAGE_KEY = "opsPreferredLanguage";
 
 const clientCapabilities = detectCapabilities();
 updateCapabilityBadge(clientCapabilities);
 
-let activeLanguage = "en";
+const storedLanguage = getStoredLanguage();
+let activeLanguage = storedLanguage;
+document.documentElement.setAttribute("lang", activeLanguage);
 
 // Chat state
 let chatHistory = [
         {
                 role: "assistant",
-                content: LANGUAGE_CONFIG.en.greeting,
+                content: LANGUAGE_CONFIG[activeLanguage].greeting,
         },
 ];
 let isProcessing = false;
 
 // Seed the UI with the initial greeting
-addMessageToChat("assistant", LANGUAGE_CONFIG.en.greeting);
+addMessageToChat("assistant", LANGUAGE_CONFIG[activeLanguage].greeting);
+announceLanguageChange(LANGUAGE_CONFIG[activeLanguage].greeting, activeLanguage);
 
 // Auto-resize textarea as user types
 userInput.addEventListener("input", function () {
@@ -64,10 +70,28 @@ userInput.addEventListener("keydown", function (e) {
 // Send button click handler
 sendButton.addEventListener("click", sendMessage);
 
-langEnButton.addEventListener("click", () => setLanguage("en"));
-langEsButton.addEventListener("click", () => setLanguage("es"));
+if (languageToggleButton) {
+        languageToggleButton.addEventListener("click", () => {
+                const nextLanguage = activeLanguage === "en" ? "es" : "en";
+                setLanguage(nextLanguage);
+        });
+}
 
 userInput.placeholder = LANGUAGE_CONFIG[activeLanguage].placeholder;
+userInput.setAttribute("lang", activeLanguage);
+updateSamplePromptsForLanguage(activeLanguage);
+updateLanguageToggleButton(activeLanguage);
+samplePromptButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+                const prompt = activeLanguage === "es" ? button.dataset.promptEs : button.dataset.promptEn;
+                const safePrompt = prompt || button.textContent || "";
+                if (!safePrompt || isProcessing) return;
+                userInput.disabled = false;
+                userInput.value = safePrompt;
+                userInput.dispatchEvent(new Event("input"));
+                userInput.focus();
+        });
+});
 
 /**
  * Sends a message to the chat API and processes the response
@@ -206,19 +230,22 @@ function addMessageToChat(role, content) {
 }
 
 function setLanguage(language) {
-        if (language === activeLanguage) return;
+        if (language === activeLanguage) {
+                return;
+        }
 
         activeLanguage = language;
-        langEnButton.classList.toggle("active", language === "en");
-        langEsButton.classList.toggle("active", language === "es");
-        langEnButton.setAttribute("aria-checked", language === "en" ? "true" : "false");
-        langEsButton.setAttribute("aria-checked", language === "es" ? "true" : "false");
-
+        document.documentElement.setAttribute("lang", language);
         userInput.placeholder = LANGUAGE_CONFIG[language].placeholder;
+        userInput.setAttribute("lang", language);
+        updateSamplePromptsForLanguage(language);
+        updateLanguageToggleButton(language);
+        storeLanguage(language);
 
         const notice = LANGUAGE_CONFIG[language].switchNotice;
         addMessageToChat("assistant", notice);
         chatHistory.push({ role: "assistant", content: notice });
+        announceLanguageChange(notice, language);
 }
 
 function detectCapabilities() {
@@ -246,5 +273,60 @@ function updateCapabilityBadge(capabilities) {
                 capabilityLabel.textContent = `On-device acceleration detected: ${enabled.join(", ")}`;
         } else {
                 capabilityLabel.textContent = "Routing to Cloudflare Workers AI";
+        }
+}
+
+function updateSamplePromptsForLanguage(language) {
+        samplePromptButtons.forEach((button) => {
+                const label = language === "es" ? button.dataset.labelEs : button.dataset.labelEn;
+                if (label) {
+                        button.textContent = label;
+                }
+                const prompt = language === "es" ? button.dataset.promptEs : button.dataset.promptEn;
+                if (prompt) {
+                        button.setAttribute("aria-label", prompt);
+                }
+        });
+}
+
+function updateLanguageToggleButton(language) {
+        if (!languageToggleButton) return;
+
+        const isEnglish = language === "en";
+        const currentLabel = isEnglish ? "English" : "Spanish";
+        languageToggleButton.textContent = isEnglish ? "EN" : "ES";
+        languageToggleButton.dataset.language = language;
+        languageToggleButton.setAttribute(
+                "aria-label",
+                `Toggle language. Currently ${currentLabel}. Click to switch to ${isEnglish ? "Spanish" : "English"}.`,
+        );
+        languageToggleButton.setAttribute("aria-pressed", String(isEnglish));
+}
+
+function announceLanguageChange(message, language) {
+        if (!languageAnnouncement) return;
+        languageAnnouncement.textContent = message;
+        languageAnnouncement.setAttribute("lang", language);
+}
+
+function storeLanguage(language) {
+        try {
+                window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+        } catch (error) {
+                console.warn("Unable to persist preferred language", error);
+        }
+}
+
+function getStoredLanguage() {
+        if (typeof window === "undefined") {
+                return "en";
+        }
+
+        try {
+                const saved = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+                return saved === "es" ? "es" : "en";
+        } catch (error) {
+                console.warn("Unable to read preferred language", error);
+                return "en";
         }
 }

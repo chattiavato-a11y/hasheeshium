@@ -1,6 +1,6 @@
-# LLM Chat Application Template
+# OPS Website Chatbot
 
-A simple, ready-to-deploy chat application template powered by Cloudflare Workers AI. This template provides a clean starting point for building AI chat applications with streaming responses.
+A bilingual chat experience that runs on Cloudflare Workers and answers questions using curated content from the OPS website. The Worker streams responses from Workers AI while grounding each answer in the same OPS sections visitors see online.
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/cloudflare/templates/tree/main/llm-chat-app-template)
 
@@ -8,11 +8,11 @@ A simple, ready-to-deploy chat application template powered by Cloudflare Worker
 
 ## Demo
 
-This template demonstrates how to build an AI-powered chat interface using Cloudflare Workers AI with streaming responses. It features:
+This Worker application powers the production-ready OPS website assistant. It features:
 
 - Real-time streaming of AI responses using Server-Sent Events (SSE)
-- Easy customization of models and system prompts
-- Support for AI Gateway integration
+- Retrieval-augmented generation that keeps every reply grounded in OPS copy
+- Optional AI Gateway integration for rate limiting, analytics, and caching
 - Clean, responsive UI that works on mobile and desktop
 - 🔁 BM25 retrieval layer for bilingual OPS knowledge snippets
 - 🌐 English/Spanish UX toggle with client capability detection (WebGPU/WebNN/WebML/WebLLM)
@@ -34,54 +34,57 @@ This template demonstrates how to build an AI-powered chat interface using Cloud
 
 - [Node.js](https://nodejs.org/) (v18 or newer)
 - [Wrangler CLI](https://developers.cloudflare.com/workers/wrangler/install-and-update/)
-- A Cloudflare account with Workers AI access
+- A Cloudflare account with Workers AI access (required for both local and production execution)
 
 ### Installation
 
-1. Clone this repository:
+```bash
+cd Chatbot/chatbot/main
+npm install
+```
 
-   ```bash
-   git clone https://github.com/cloudflare/templates.git
-   cd templates/llm-chat-app
-   ```
+### Configure Cloudflare access
 
-2. Install dependencies:
+Authenticate Wrangler so the Worker can invoke Workers AI during development:
 
-   ```bash
-   npm install
-   ```
+```bash
+npx wrangler login
+```
 
-3. Generate Worker type definitions:
-   ```bash
-   npm run cf-typegen
-   ```
+Wrangler stores credentials locally. No additional environment variables are required because the Worker reads the `AI` binding defined in `wrangler.jsonc`.
 
-### Development
-
-Start a local development server:
+### Run the chatbot locally
 
 ```bash
 npm run dev
 ```
 
-This will start a local server at http://localhost:8787.
+Wrangler serves the UI at [http://localhost:8787](http://localhost:8787) and proxies chat requests to Cloudflare. Open the page and:
 
-Note: Using Workers AI accesses your Cloudflare account even during local development, which will incur usage charges.
+1. Choose English or Spanish with the language toggle.
+2. Ask a question such as "What are the OPS service pillars?".
+3. Watch the assistant stream an answer that cites the relevant OPS section.
 
-### Deployment
+Because the Worker executes on Cloudflare during `wrangler dev`, responses are identical to production. Charges apply according to your Workers AI plan.
 
-Deploy to Cloudflare Workers:
+### Deploy
 
 ```bash
 npm run deploy
 ```
 
-### Monitor
-
-View real-time logs associated with any deployed Worker:
+### Monitor production traffic
 
 ```bash
 npm wrangler tail
+```
+
+### Validate retrieval behaviour locally
+
+Run the Vitest suite to confirm that bilingual detection and retrieval are wired correctly:
+
+```bash
+npm run test
 ```
 
 ## Project Structure
@@ -101,20 +104,34 @@ npm wrangler tail
 └── README.md           # This documentation
 ```
 
+## Key application components
+
+- **Frontend UI (`public/index.html` + `public/chat.js`)** – Renders the OPS-branded chat surface, manages the floating EN/ES toggle (persisted in `localStorage`), and streams responses while keeping the page accessible with live region announcements and language-aware placeholders.
+- **Worker backend (`src/index.ts`)** – Hosts the Cloudflare Worker that proxies `/api/chat`, enriches prompts with persona guidance, and streams Workers AI completions back to the browser.
+- **Retrieval layer (`src/retrieval.ts` + `src/documents.ts`)** – Maintains the curated bilingual OPS knowledge base, builds the BM25 index, and returns the highest-scoring snippets for the active language.
+- **Type definitions (`src/types.ts`)** – Centralises shared types (chat payloads, knowledge documents, and supported languages) for both Worker logic and tests.
+- **Quality gates (`test/retrieval.test.ts`)** – Vitest coverage that validates language detection, bilingual retrieval, and knowledge base integrity so answers stay grounded in official OPS copy.
+
+## Additional items to address
+
+- **Curate the knowledge base** – Update `src/documents.ts` whenever OPS web content changes and extend the Vitest expectations if you add new locales or services.
+- **Monitor Workers AI usage** – `wrangler dev` executes against Cloudflare’s managed models, so ensure request volume aligns with your plan and governance requirements before deploying.
+- **Audit accessibility & localization** – Review toggle labels, announcements, and prompt translations when you introduce new UI variants. Confirm that `public/chat.js` continues to set `lang` attributes, aria labels, and live region messages appropriately for each locale.
+
 ## How It Works
 
 ### Backend
 
-The backend is built with Cloudflare Workers and uses the Workers AI platform to generate responses. The main components are:
+The backend runs entirely inside a Cloudflare Worker:
 
 1. **API Endpoint** (`/api/chat`): Accepts POST requests with chat messages and streams responses.
 2. **BM25 Retrieval**: `src/retrieval.ts` scores bilingual OPS corpora (English + Spanish) and injects the highest ranking snippets into the system prompt.
 3. **Adaptive System Prompting**: `src/index.ts` tailors instructions based on the detected/preferred language and optional WebLLM/WebGPU capabilities sent by the browser.
-4. **Workers AI Binding**: Connects to Cloudflare's AI service via the Workers AI binding.
+4. **Workers AI Binding**: The `AI` binding in `wrangler.jsonc` connects to Cloudflare's managed Llama-3.3 70B Instruct model.
 
 ### Frontend
 
-The frontend is a simple HTML/CSS/JavaScript application that:
+The static UI in `public/` ships alongside the Worker and:
 
 1. Presents a chat interface with an OPS-styled bilingual toggle and acceleration badge.
 2. Sends user messages plus language preference and detected capabilities to the API.
@@ -144,7 +161,7 @@ Learn more about [AI Gateway](https://developers.cloudflare.com/ai-gateway/).
 
 ### Modifying Retrieval or System Prompts
 
-- **Curated Knowledge Base**: Update or expand the `DOCUMENTS` array in `src/retrieval.ts` with additional OPS-aligned content. The helper automatically recalculates BM25 statistics on Worker boot.
+- **Curated Knowledge Base**: Update or expand the `KNOWLEDGE_DOCUMENTS` array in `src/documents.ts` with additional OPS-aligned content. The helper automatically recalculates BM25 statistics on Worker boot.
 - **Language Behaviour**: Adjust `LANGUAGE_TONES` in `src/index.ts` to fine-tune bilingual tone or add new locales (remember to extend the `SupportedLanguage` union in `src/types.ts`).
 - **System Voice**: The base prompt lives in `BASE_SYSTEM_PROMPT` inside `src/index.ts`. Update it to reflect branding, compliance, or persona changes.
 
