@@ -59,6 +59,18 @@ This Worker application powers the production-ready OPS website assistant. It fe
 - Once the runtime is available the Worker metadata already includes the capability flags, so downstream chains can branch or
   fan out to local generation without further API updates.
 
+### Marketing site integration
+
+- The public marketing site (`index.html` with behavior in [`js/main.js`](../../../js/main.js)) now posts chat turns to this Worker
+  when the `/api/chat` endpoint is reachable. The front-end streams Server-Sent Event chunks the same way as the bundled
+  `public/chat.js` client, so visitors get live responses from the shared BM25 grounding pipeline.
+- To point the marketing site at a remote deployment, set `window.OPS_CHATBOT_CONFIG.endpoint` before loading `js/main.js`. The
+  value can be absolute (e.g., `https://ops-chatbot.example.workers.dev/api/chat`) or relative if the Worker is proxied through
+  the primary domain. Optional `headers` are merged into the request for authenticated deployments, and setting
+  `window.OPS_CHATBOT_CONFIG.disable = true` restores the static fallback copy.
+- If the Worker cannot be reached, the UI surfaces a polite fallback letting users know the OPS team will follow up manually.
+  This keeps the experience coherent while highlighting when the live assistant is offline.
+
 ## Getting Started
 
 ### Prerequisites
