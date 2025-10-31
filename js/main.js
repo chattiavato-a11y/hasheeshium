@@ -81,6 +81,10 @@
       fabCluster.dataset.expanded = expanded ? 'true' : 'false';
       if (fabMainButton) {
         fabMainButton.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+        fabMainButton.setAttribute(
+          'aria-label',
+          expanded ? 'Close quick actions' : 'Open quick actions'
+        );
       }
       if (fabActions) {
         fabActions.setAttribute('aria-hidden', expanded ? 'false' : 'true');
