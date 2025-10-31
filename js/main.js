@@ -142,12 +142,27 @@
   const chatBody = chatPanel ? chatPanel.querySelector('.chatbot-body') : null;
   const chatToggles = Array.from(document.querySelectorAll('[data-chat-toggle]'));
 
+  const resetChatPanelPosition = () => {
+    if (!chatPanel) {
+      return;
+    }
+
+    chatPanel.style.left = '';
+    chatPanel.style.top = '';
+    chatPanel.style.right = '';
+    chatPanel.style.bottom = '';
+    chatPanel.style.insetInlineEnd = '';
+    chatPanel.style.insetBlockEnd = '';
+    chatPanel.style.transform = '';
+  };
+
   const setChatOpen = (isOpen) => {
     if (!chatPanel) {
       return;
     }
 
     if (isOpen) {
+      resetChatPanelPosition();
       chatPanel.removeAttribute('hidden');
       chatPanel.setAttribute('aria-hidden', 'false');
       if (chatInput) {
@@ -157,6 +172,7 @@
     } else {
       chatPanel.setAttribute('hidden', '');
       chatPanel.setAttribute('aria-hidden', 'true');
+      resetChatPanelPosition();
     }
   };
 
@@ -175,6 +191,7 @@
   }
 
   if (chatPanel) {
+    const PANEL_MARGIN = 16;
     document.addEventListener('click', (event) => {
       const clickedToggle = chatToggles.some((toggle) => toggle.contains(event.target));
       if (clickedToggle) {
@@ -213,6 +230,7 @@
       chatPanel.style.bottom = 'auto';
       chatPanel.style.insetInlineEnd = 'auto';
       chatPanel.style.insetBlockEnd = 'auto';
+      chatPanel.style.transform = 'none';
     };
 
     const keepPanelInView = () => {
@@ -220,7 +238,7 @@
         return;
       }
 
-      const margin = 12;
+      const margin = PANEL_MARGIN;
       const panelWidth = chatPanel.offsetWidth;
       const panelHeight = chatPanel.offsetHeight;
       const viewportWidth = window.innerWidth;
@@ -240,8 +258,38 @@
       chatPanel.style.top = `${nextTop}px`;
     };
 
+    const centerChatPanel = () => {
+      const rect = chatPanel.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
+
+      const maxLeft = viewportWidth - rect.width - PANEL_MARGIN;
+      const maxTop = viewportHeight - rect.height - PANEL_MARGIN;
+      const horizontal = resolveBounds(maxLeft, PANEL_MARGIN);
+      const vertical = resolveBounds(maxTop, PANEL_MARGIN);
+
+      const desiredLeft = (viewportWidth - rect.width) / 2;
+      const desiredTop = (viewportHeight - rect.height) / 2;
+
+      const nextLeft = clampValue(desiredLeft, horizontal.min, horizontal.max);
+      const nextTop = clampValue(desiredTop, vertical.min, vertical.max);
+
+      chatPanel.style.left = `${nextLeft}px`;
+      chatPanel.style.top = `${nextTop}px`;
+      chatPanel.style.right = 'auto';
+      chatPanel.style.bottom = 'auto';
+      chatPanel.style.insetInlineEnd = 'auto';
+      chatPanel.style.insetBlockEnd = 'auto';
+      chatPanel.style.transform = 'none';
+    };
+
     window.addEventListener('resize', keepPanelInView);
-    chatPanel.addEventListener('chatpanelopen', keepPanelInView);
+    chatPanel.addEventListener('chatpanelopen', () => {
+      window.requestAnimationFrame(() => {
+        centerChatPanel();
+        keepPanelInView();
+      });
+    });
 
     if (chatHeader && 'PointerEvent' in window) {
       const dragState = {
@@ -276,7 +324,7 @@
 
         event.preventDefault();
 
-        const margin = 12;
+        const margin = PANEL_MARGIN;
         const panelWidth = chatPanel.offsetWidth;
         const panelHeight = chatPanel.offsetHeight;
         const viewportWidth = window.innerWidth;
