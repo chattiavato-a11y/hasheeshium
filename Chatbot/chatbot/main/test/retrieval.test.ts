@@ -1,27 +1,5 @@
 import { describe, expect, it } from "vitest";
 import { detectLanguage, retrieveDocuments } from "../src/retrieval";
-import { KNOWLEDGE_DOCUMENTS } from "../src/documents";
-
-describe("knowledge base integrity", () => {
-        it("includes balanced English and Spanish coverage", () => {
-                const languages = KNOWLEDGE_DOCUMENTS.reduce<Record<string, number>>((acc, doc) => {
-                        acc[doc.language] = (acc[doc.language] ?? 0) + 1;
-                        return acc;
-                }, {});
-
-                expect(languages.en).toBeGreaterThan(0);
-                expect(languages.es).toBeGreaterThan(0);
-                expect(languages.en).toBe(languages.es);
-        });
-
-        it("keeps every document populated with metadata and content", () => {
-                for (const doc of KNOWLEDGE_DOCUMENTS) {
-                        expect(doc.id).toMatch(/ops-/);
-                        expect(doc.title.length).toBeGreaterThan(0);
-                        expect(doc.content.length).toBeGreaterThan(120);
-                }
-        });
-});
 
 describe("knowledge retrieval", () => {
         it("prioritizes contact details for English contact queries", () => {

@@ -10,7 +10,6 @@ const userInput = document.getElementById("user-input");
 const sendButton = document.getElementById("send-button");
 const typingIndicator = document.getElementById("typing-indicator");
 const languageToggleButton = document.getElementById("language-toggle");
-const languageAnnouncement = document.getElementById("language-status");
 const capabilityDot = document.getElementById("capability-dot");
 const capabilityLabel = document.getElementById("capability-label");
 const samplePromptButtons = document.querySelectorAll(".sample-prompts__chip");
@@ -78,7 +77,6 @@ if (languageToggleButton) {
 }
 
 userInput.placeholder = LANGUAGE_CONFIG[activeLanguage].placeholder;
-userInput.setAttribute("lang", activeLanguage);
 updateSamplePromptsForLanguage(activeLanguage);
 updateLanguageToggleButton(activeLanguage);
 samplePromptButtons.forEach((button) => {
@@ -235,12 +233,9 @@ function setLanguage(language) {
         }
 
         activeLanguage = language;
-        document.documentElement.setAttribute("lang", language);
         userInput.placeholder = LANGUAGE_CONFIG[language].placeholder;
-        userInput.setAttribute("lang", language);
         updateSamplePromptsForLanguage(language);
         updateLanguageToggleButton(language);
-        storeLanguage(language);
 
         const notice = LANGUAGE_CONFIG[language].switchNotice;
         addMessageToChat("assistant", notice);
@@ -300,33 +295,4 @@ function updateLanguageToggleButton(language) {
                 "aria-label",
                 `Toggle language. Currently ${currentLabel}. Click to switch to ${isEnglish ? "Spanish" : "English"}.`,
         );
-        languageToggleButton.setAttribute("aria-pressed", String(isEnglish));
-}
-
-function announceLanguageChange(message, language) {
-        if (!languageAnnouncement) return;
-        languageAnnouncement.textContent = message;
-        languageAnnouncement.setAttribute("lang", language);
-}
-
-function storeLanguage(language) {
-        try {
-                window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
-        } catch (error) {
-                console.warn("Unable to persist preferred language", error);
-        }
-}
-
-function getStoredLanguage() {
-        if (typeof window === "undefined") {
-                return "en";
-        }
-
-        try {
-                const saved = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
-                return saved === "es" ? "es" : "en";
-        } catch (error) {
-                console.warn("Unable to read preferred language", error);
-                return "en";
-        }
 }
