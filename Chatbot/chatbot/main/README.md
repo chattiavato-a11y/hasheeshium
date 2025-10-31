@@ -28,6 +28,49 @@ This Worker application powers the production-ready OPS website assistant. It fe
 - 🔎 Built-in Observability logging
 <!-- dash-content-end -->
 
+## Retrieval and on-device acceleration quick reference
+
+### BM25 knowledge grounding
+
+- The bilingual corpora that drive retrieval-augmented answers live in [`src/documents.ts`](./src/documents.ts). Each entry pairs
+  a stable identifier with the language, OPS section, audience, and authoritative copy surfaced on the public site.
+- [`src/retrieval.ts`](./src/retrieval.ts) builds the BM25 index at Worker boot, applies stop-word filtering for English and
+  Spanish, and returns the highest-scoring snippets for every user turn.
+- Regression coverage in [`test/retrieval.test.ts`](./test/retrieval.test.ts) ensures new documents continue to score correctly.
+  Run `npm test` (or `npm run test`) after updating the corpus so the Worker keeps grounding every reply in approved text.
+- The voice demo under [`chatbot-voice-app/backend`](../../chatbot-voice-app/backend/) reuses the same approach with a Python
+  BM25 helper (`bm25_search.py`) so all surfaces answer from the identical OPS source of truth.
+
+### WebLLM, WebML, and WebAI capability detection
+
+- The frontend capability probe lives in [`public/chat.js`](./public/chat.js). It inspects the browser for WebGPU, WebNN/
+  WebML (`navigator.ml`), and a global `window.WebLLM` flag before passing the results to the Worker.
+- [`src/index.ts`](./src/index.ts) threads those capability signals into the system prompt via `buildCapabilityNotes`, letting
+  the model tailor its guidance (for example, suggesting lighter responses when an on-device WebLLM runtime is present).
+- No additional configuration is required to fall back to Workers AI—if none of the APIs are available the Worker simply
+  streams from the managed Llama 3.3 model.
+- To activate the on-device paths you must ship the corresponding runtime alongside the UI:
+  - **WebLLM** – load the WebLLM bundle so it defines `window.WebLLM` (see the
+    [WebLLM quickstart](https://mlc.ai/web-llm/docs/) for packaging guidance).
+  - **WebNN/WebML** – target browsers that expose `navigator.ml` (Chrome 120+, Edge 120+, or polyfills). No code changes are
+    required beyond serving the app over HTTPS so the experimental API can initialize.
+  - **WebGPU** – browsers mark support via `navigator.gpu`. Users must enable a compatible GPU backend; the chat UI only reads
+    the signal and adjusts messaging accordingly.
+- Once the runtime is available the Worker metadata already includes the capability flags, so downstream chains can branch or
+  fan out to local generation without further API updates.
+
+### Marketing site integration
+
+- The public marketing site (`index.html` with behavior in [`js/main.js`](../../../js/main.js)) now posts chat turns to this Worker
+  when the `/api/chat` endpoint is reachable. The front-end streams Server-Sent Event chunks the same way as the bundled
+  `public/chat.js` client, so visitors get live responses from the shared BM25 grounding pipeline.
+- To point the marketing site at a remote deployment, set `window.OPS_CHATBOT_CONFIG.endpoint` before loading `js/main.js`. The
+  value can be absolute (e.g., `https://ops-chatbot.example.workers.dev/api/chat`) or relative if the Worker is proxied through
+  the primary domain. Optional `headers` are merged into the request for authenticated deployments, and setting
+  `window.OPS_CHATBOT_CONFIG.disable = true` restores the static fallback copy.
+- If the Worker cannot be reached, the UI surfaces a polite fallback letting users know the OPS team will follow up manually.
+  This keeps the experience coherent while highlighting when the live assistant is offline.
+
 ## Getting Started
 
 ### Prerequisites

@@ -141,6 +141,27 @@
   const chatInput = document.getElementById('chatbot-input');
   const chatBody = chatPanel ? chatPanel.querySelector('.chatbot-body') : null;
   const chatToggles = Array.from(document.querySelectorAll('[data-chat-toggle]'));
+  const chatSendButton = chatForm ? chatForm.querySelector('.chatbot-send') : null;
+
+  const chatbotConfig = window.OPS_CHATBOT_CONFIG || {};
+  const configuredEndpoint =
+    typeof chatbotConfig.endpoint === 'string' ? chatbotConfig.endpoint.trim() : '';
+  const chatApiDisabled = chatbotConfig.disable === true;
+  const chatApiEndpoint = chatApiDisabled ? '' : configuredEndpoint || '/api/chat';
+  const chatApiHeaders =
+    chatApiEndpoint && chatbotConfig.headers && typeof chatbotConfig.headers === 'object'
+      ? { ...chatbotConfig.headers }
+      : {};
+  const preferredLanguage =
+    document.documentElement.getAttribute('lang') === 'es' ? 'es' : 'en';
+  const clientCapabilities = detectClientCapabilities();
+  const chatHistory = [];
+  let chatProcessing = false;
+
+  const defaultAssistantReply =
+    "Hey there! Appreciate the note—our OPS team will jump in shortly. In the meantime, feel free to book a discovery call or connect with remote pros using the quick actions.";
+  const errorAssistantReply =
+    "I can't reach the live OPS assistant right now. Leave your note and our team will follow up shortly, or use the quick actions to book time.";
 
   const resetChatPanelPosition = () => {
     if (!chatPanel) {
@@ -380,8 +401,9 @@
 
   const appendChatMessage = (text, role) => {
     if (!chatBody) {
-      return;
+      return null;
     }
+
     const bubble = document.createElement('div');
     bubble.className = `chatbot-message ${role}`;
     const paragraph = document.createElement('p');
@@ -389,25 +411,31 @@
     bubble.appendChild(paragraph);
     chatBody.appendChild(bubble);
     chatBody.scrollTop = chatBody.scrollHeight;
+    return bubble;
   };
 
   if (chatForm && chatInput) {
     chatForm.addEventListener('submit', (event) => {
       event.preventDefault();
       const message = chatInput.value.trim();
-      if (!message) {
+      if (!message || chatProcessing) {
         return;
       }
 
       appendChatMessage(message, 'user');
       chatInput.value = '';
+      chatInput.focus();
 
-      window.setTimeout(() => {
-        appendChatMessage(
-          'Thanks for your note! The OPS team will follow up shortly. You can also book a discovery call or hire remote professionals via the quick actions.',
-          'bot'
-        );
-      }, 400);
+      if (!chatApiEndpoint) {
+        chatHistory.push({ role: 'user', content: message });
+        window.setTimeout(() => {
+          appendChatMessage(defaultAssistantReply, 'bot');
+        }, 400);
+        chatHistory.push({ role: 'assistant', content: defaultAssistantReply });
+        return;
+      }
+
+      sendChatRequest(message);
     });
   }
 
@@ -416,4 +444,143 @@
       setChatOpen(false);
     }
   });
+
+  function setChatProcessing(processing) {
+    chatProcessing = processing;
+    if (chatInput) {
+      chatInput.disabled = processing;
+    }
+    if (chatSendButton) {
+      chatSendButton.disabled = processing;
+    }
+    if (chatForm) {
+      chatForm.classList.toggle('is-processing', processing);
+    }
+  }
+
+  async function sendChatRequest(message) {
+    if (!chatBody) {
+      return;
+    }
+
+    setChatProcessing(true);
+
+    const assistantBubble = appendChatMessage('…', 'bot');
+    if (!assistantBubble) {
+      setChatProcessing(false);
+      return;
+    }
+
+    assistantBubble.classList.add('is-streaming');
+    let assistantParagraph = assistantBubble.querySelector('p');
+    if (!assistantParagraph) {
+      assistantParagraph = document.createElement('p');
+      assistantBubble.appendChild(assistantParagraph);
+    }
+    assistantParagraph.textContent = '…';
+
+    let assistantContent = '';
+    let buffer = '';
+
+    const messages = [...chatHistory, { role: 'user', content: message }];
+
+    try {
+      const response = await fetch(chatApiEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...chatApiHeaders,
+        },
+        body: JSON.stringify({
+          messages,
+          metadata: {
+            preferredLanguage,
+            clientCapabilities,
+          },
+        }),
+      });
+
+      if (!response.ok || !response.body) {
+        throw new Error(`Chat request failed with status ${response.status}`);
+      }
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+
+      const processLine = (rawLine) => {
+        const trimmed = rawLine.trim();
+        if (!trimmed) {
+          return;
+        }
+
+        const payload = trimmed.startsWith('data:') ? trimmed.slice(5).trim() : trimmed;
+        if (!payload || payload === '[DONE]') {
+          return;
+        }
+
+        try {
+          const parsed = JSON.parse(payload);
+          if (typeof parsed.response === 'string') {
+            assistantContent += parsed.response;
+            assistantParagraph.textContent = assistantContent;
+            chatBody.scrollTop = chatBody.scrollHeight;
+          }
+        } catch (error) {
+          console.error('Failed to parse chatbot chunk', error);
+        }
+      };
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          break;
+        }
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split(/\r?\n/);
+        buffer = lines.pop() ?? '';
+        lines.forEach(processLine);
+      }
+
+      if (buffer) {
+        buffer.split(/\r?\n/).forEach(processLine);
+        buffer = '';
+      }
+    } catch (error) {
+      console.error('Chatbot request failed', error);
+      assistantContent = '';
+    }
+
+    if (!assistantContent) {
+      assistantContent = errorAssistantReply;
+      assistantParagraph.textContent = assistantContent;
+    }
+
+    assistantBubble.classList.remove('is-streaming');
+    chatHistory.push({ role: 'user', content: message });
+    chatHistory.push({ role: 'assistant', content: assistantContent });
+    setChatProcessing(false);
+    if (chatInput) {
+      chatInput.focus();
+    }
+  }
+
+  function detectClientCapabilities() {
+    if (typeof window === 'undefined' || typeof navigator === 'undefined') {
+      return {
+        webgpu: false,
+        webnn: false,
+        webml: false,
+        webllm: false,
+      };
+    }
+
+    const hasML = 'ml' in navigator;
+    return {
+      webgpu: 'gpu' in navigator,
+      webnn: hasML,
+      webml: hasML,
+      webllm: Boolean(window.WebLLM),
+    };
+  }
 })();
