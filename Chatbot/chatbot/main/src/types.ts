@@ -38,3 +38,12 @@ export interface ChatRequestPayload {
                 clientCapabilities?: ClientCapabilities;
         };
 }
+
+export interface KnowledgeDocument {
+        id: string;
+        language: SupportedLanguage;
+        title: string;
+        service: string;
+        audience: string;
+        content: string;
+}

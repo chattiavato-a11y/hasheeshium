@@ -1,13 +1,5 @@
-import type { SupportedLanguage } from "./types";
-
-export interface KnowledgeDocument {
-        id: string;
-        language: SupportedLanguage;
-        title: string;
-        service: string;
-        audience: string;
-        content: string;
-}
+import type { KnowledgeDocument, SupportedLanguage } from "./types";
+import { KNOWLEDGE_DOCUMENTS } from "./documents";
 
 export interface RetrievalOptions {
         language?: SupportedLanguage;

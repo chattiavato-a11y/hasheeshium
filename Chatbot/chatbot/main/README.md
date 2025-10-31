@@ -193,6 +193,20 @@ The suite exercises Spanish/English intent detection and knowledge routing so re
 └── README.md           # This documentation
 ```
 
+## Key application components
+
+- **Frontend UI (`public/index.html` + `public/chat.js`)** – Renders the OPS-branded chat surface, manages the floating EN/ES toggle (persisted in `localStorage`), and streams responses while keeping the page accessible with live region announcements and language-aware placeholders.
+- **Worker backend (`src/index.ts`)** – Hosts the Cloudflare Worker that proxies `/api/chat`, enriches prompts with persona guidance, and streams Workers AI completions back to the browser.
+- **Retrieval layer (`src/retrieval.ts` + `src/documents.ts`)** – Maintains the curated bilingual OPS knowledge base, builds the BM25 index, and returns the highest-scoring snippets for the active language.
+- **Type definitions (`src/types.ts`)** – Centralises shared types (chat payloads, knowledge documents, and supported languages) for both Worker logic and tests.
+- **Quality gates (`test/retrieval.test.ts`)** – Vitest coverage that validates language detection, bilingual retrieval, and knowledge base integrity so answers stay grounded in official OPS copy.
+
+## Additional items to address
+
+- **Curate the knowledge base** – Update `src/documents.ts` whenever OPS web content changes and extend the Vitest expectations if you add new locales or services.
+- **Monitor Workers AI usage** – `wrangler dev` executes against Cloudflare’s managed models, so ensure request volume aligns with your plan and governance requirements before deploying.
+- **Audit accessibility & localization** – Review toggle labels, announcements, and prompt translations when you introduce new UI variants. Confirm that `public/chat.js` continues to set `lang` attributes, aria labels, and live region messages appropriately for each locale.
+
 ## How It Works
 
 ### Backend
@@ -236,7 +250,7 @@ Learn more about [AI Gateway](https://developers.cloudflare.com/ai-gateway/).
 
 ### Modifying Retrieval or System Prompts
 
-- **Curated Knowledge Base**: Update or expand the `DOCUMENTS` array in `src/retrieval.ts` with additional OPS-aligned content. The helper automatically recalculates BM25 statistics on Worker boot.
+- **Curated Knowledge Base**: Update or expand the `KNOWLEDGE_DOCUMENTS` array in `src/documents.ts` with additional OPS-aligned content. The helper automatically recalculates BM25 statistics on Worker boot.
 - **Language Behaviour**: Adjust `LANGUAGE_TONES` in `src/index.ts` to fine-tune bilingual tone or add new locales (remember to extend the `SupportedLanguage` union in `src/types.ts`).
 - **System Voice**: The base prompt lives in `BASE_SYSTEM_PROMPT` inside `src/index.ts`. Update it to reflect branding, compliance, or persona changes.
 

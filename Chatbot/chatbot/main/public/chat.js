@@ -30,22 +30,27 @@ const LANGUAGE_CONFIG = {
         },
 };
 
+const LANGUAGE_STORAGE_KEY = "opsPreferredLanguage";
+
 const clientCapabilities = detectCapabilities();
 updateCapabilityBadge(clientCapabilities);
 
-let activeLanguage = "en";
+const storedLanguage = getStoredLanguage();
+let activeLanguage = storedLanguage;
+document.documentElement.setAttribute("lang", activeLanguage);
 
 // Chat state
 let chatHistory = [
         {
                 role: "assistant",
-                content: LANGUAGE_CONFIG.en.greeting,
+                content: LANGUAGE_CONFIG[activeLanguage].greeting,
         },
 ];
 let isProcessing = false;
 
 // Seed the UI with the initial greeting
-addMessageToChat("assistant", LANGUAGE_CONFIG.en.greeting);
+addMessageToChat("assistant", LANGUAGE_CONFIG[activeLanguage].greeting);
+announceLanguageChange(LANGUAGE_CONFIG[activeLanguage].greeting, activeLanguage);
 
 // Auto-resize textarea as user types
 userInput.addEventListener("input", function () {
@@ -235,6 +240,7 @@ function setLanguage(language) {
         const notice = LANGUAGE_CONFIG[language].switchNotice;
         addMessageToChat("assistant", notice);
         chatHistory.push({ role: "assistant", content: notice });
+        announceLanguageChange(notice, language);
 }
 
 function detectCapabilities() {
