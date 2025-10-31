@@ -404,7 +404,7 @@
 
       window.setTimeout(() => {
         appendChatMessage(
-          'Thanks for your note! The OPS team will follow up shortly. You can also book a discovery call or hire remote professionals via the quick actions.',
+          "Hey there! Appreciate the note—our OPS team will jump in shortly. In the meantime, feel free to book a discovery call or connect with remote pros using the quick actions.",
           'bot'
         );
       }, 400);
