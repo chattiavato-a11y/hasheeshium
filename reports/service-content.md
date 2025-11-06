@@ -19,7 +19,3 @@
 - **Contact Center (Beta)**: Best-in-class across multi-channels; relationship-driven with rapid-resolution support.
 - **IT Support (Beta)**: Seamless end-to-end IT Support service; Practical Help Desk, Tiers I and II, ticketing and incident handling, simple to complex fixes; specialized Support.
 - **Professionals On Demand**: Skilled assistants and specialists you can plug in quickly for temporary to long-term projects, consultants.
-
-## Engagement Links
-- **Join Us**: [apply.html](../apply.html)
-- **Contact Us**: [contact.html#contact-form](../contact.html#contact-form)
